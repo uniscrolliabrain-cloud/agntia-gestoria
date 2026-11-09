@@ -36,6 +36,6 @@ Python local: 3.12.14. Node local: 24.22.1. Entorno Linux, UID 1000.
 
 ## CI de esta PR
 
-Pendiente al crear la rama. La evidencia de GitHub se añadirá cuando termine: instalación dev, suite unittest sin workaround, build Node, comprobaciones JS y navegador original. No se hereda un PASS de ejecuciones históricas.
+PASS observado en el commit `f95a945449994deea8313d1c501c055522ea8dff` de esta PR: [CI](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42653348715) y [verificador de baseline](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42653348825). Instalación dev, suite unittest **sin workaround**, build Node, comprobaciones JS y navegador original aprobaron. El log de CI indica `Ran 23 tests in 1.088s`, seguido de `OK`, y `Desktop/mobile dashboard, report download and record creation passed`. Los pasos y tiempos están en `ci-evidence.json`. Esta evidencia corresponde a esa revisión; el commit que agrega este texto se verifica de nuevo mediante los mismos workflows.
 
-Se ejecutará también el nuevo verificador de baseline en CI; no se suma como una prueba unittest adicional.
+También se ejecutó el nuevo verificador de baseline en CI; no se suma como una prueba unittest adicional.

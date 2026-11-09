@@ -23,6 +23,6 @@ Se preservan: fórmulas 303/130 y su ámbito, reglas territoriales, validación 
 
 ## Resultado y límites
 
-Los resultados locales están en [TESTS](c01/TESTS.md) y sus logs. Instalación runtime, 23 tests con workaround de selector del sandbox, build Node, sintaxis y verificación de archivos: PASS. La suite estándar sin workaround se bloquea localmente; la instalación dev offline carece de pytest; navegador y Docker encuentran restricciones de sockets. No se contabilizan esos intentos como pruebas aprobadas. La suite estándar y el navegador se ejecutan de nuevo en CI sobre la rama C01, y su resultado se referencia en [EVIDENCE](c01/EVIDENCE.md).
+Los resultados locales están en [TESTS](c01/TESTS.md) y sus logs. Instalación runtime, 23 tests con workaround de selector del sandbox, build Node, sintaxis y verificación de archivos: PASS. La suite estándar sin workaround se bloquea localmente; la instalación dev offline carece de pytest; navegador y Docker encuentran restricciones de sockets. No se contabilizan esos intentos como pruebas aprobadas. La suite estándar (23/23) y el navegador se ejecutaron de nuevo en CI sobre la rama C01 y aprobaron; su resultado se referencia en [EVIDENCE](c01/EVIDENCE.md).
 
 Esta fase entrega reproducibilidad y evidencias, no un adaptador implementado. Las siguientes fases siguen condicionadas a sus gates y a la revisión/fusión secuencial autorizada por el propietario. No se modifica `agente`, upstream Odoo, producción ni secretos.

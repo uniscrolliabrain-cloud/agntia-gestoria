@@ -4,7 +4,7 @@ Fecha de actualización: 2026-11-09. Informe parcial de la primera fase; no acre
 
 | Campaña | Estado | Evidencia / siguiente condición |
 | --- | --- | --- |
-| C01 Baseline | NOT VERIFIED (CI pendiente) | Inventario y pruebas locales documentados; PR de baseline pendiente de validación y revisión. |
+| C01 Baseline | PASS (baseline remoto; snapshot ausente NOT VERIFIED) | PR [#1](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/1), revisión `f95a945449994deea8313d1c501c055522ea8dff`; CI y navegador PASS. Pendiente aprobación de fusión. |
 | C02 Upstream | BLOCKED | Espera cierre y revisión/fusión autorizada de C01. No hay SHA o imagen Odoo fijados todavía. |
 | C03 Laboratorio | NOT VERIFIED | Socket Docker local denegado; no se ha arrancado Odoo ni dos bases de test. |
 | C04 Contratos | NOT VERIFIED | No iniciado; depende de las fases anteriores. |
@@ -27,7 +27,7 @@ Fecha de actualización: 2026-11-09. Informe parcial de la primera fase; no acre
 
 ## Resultados observados
 
-23 tests aprobados localmente con workaround explícito del selector del sandbox; 0 fallidos en esa ejecución. Suite estándar local: timeout, no suite aprobada. Instalación dev offline: bloqueada por pytest ausente. Instalación runtime y build/sintaxis Node: PASS. Navegador local: bloqueado por sockets. CI estándar de esta PR: pendiente de primera publicación; se actualizará con enlace y SHA.
+23 tests aprobados localmente con workaround explícito del selector del sandbox; 0 fallidos en esa ejecución. Suite estándar local: timeout, no suite aprobada. Instalación dev offline: bloqueada por pytest ausente. Instalación runtime y build/sintaxis Node: PASS. Navegador local: bloqueado por sockets. CI estándar de esta PR: [PASS](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42653348715), 23 ejecutados, 23 aprobados, 0 fallidos, sin workaround; navegador desktop/mobile y descarga de presentación aprobados. Verificador de baseline: [PASS](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42653348825). Evidencia observada en `f95a945449994deea8313d1c501c055522ea8dff`; el último estado de la PR debe comprobarse antes de la fusión.
 
 No hay tests Odoo ejecutados, ni métricas de latencia/coste por tenant medidas, ni bases de datos de clientes utilizadas. Coste incremental Odoo en esta fase: no desplegado; no equivale a coste operativo cero del producto. Las hipótesis de infraestructura se fijarán tras C02/C03.
 

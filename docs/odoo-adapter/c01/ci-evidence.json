@@ -1,0 +1,176 @@
+{
+  "baseline_sha": "ae8db06bf548fa7c190a2ee5e5acf52075e343ba",
+  "baseline_tree": "572b06b1ea2bec2307d94136eb742bc5dcb61081",
+  "tested_head_sha": "f95a945449994deea8313d1c501c055522ea8dff",
+  "pull_request": "https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/1",
+  "runs": [
+    {
+      "id": 42653348825,
+      "name": "Odoo C01 baseline",
+      "event": "push",
+      "sha": "f95a945449994deea8313d1c501c055522ea8dff",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42653348825",
+      "jobs": [
+        {
+          "id": 129285231009,
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:05Z",
+              "completed_at": "2026-11-09T16:18:05Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:05Z",
+              "completed_at": "2026-11-09T16:18:06Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:06Z",
+              "completed_at": "2026-11-09T16:18:07Z"
+            },
+            {
+              "name": "Run python scripts/verify_baseline.py --output baseline-verified.json",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:07Z",
+              "completed_at": "2026-11-09T16:18:07Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:07Z",
+              "completed_at": "2026-11-09T16:18:08Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:08Z",
+              "completed_at": "2026-11-09T16:18:08Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:08Z",
+              "completed_at": "2026-11-09T16:18:09Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:09Z",
+              "completed_at": "2026-11-09T16:18:09Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 42653348715,
+      "name": "CI",
+      "event": "push",
+      "sha": "f95a945449994deea8313d1c501c055522ea8dff",
+      "url": "https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42653348715",
+      "jobs": [
+        {
+          "id": 129285230645,
+          "conclusion": "success",
+          "steps": [
+            {
+              "name": "Set up job",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:04Z",
+              "completed_at": "2026-11-09T16:18:05Z"
+            },
+            {
+              "name": "Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:05Z",
+              "completed_at": "2026-11-09T16:18:06Z"
+            },
+            {
+              "name": "Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:06Z",
+              "completed_at": "2026-11-09T16:18:06Z"
+            },
+            {
+              "name": "Run pip install -e '.[dev]'",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:06Z",
+              "completed_at": "2026-11-09T16:18:15Z"
+            },
+            {
+              "name": "Run python -m unittest discover -s tests -v",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:15Z",
+              "completed_at": "2026-11-09T16:18:17Z"
+            },
+            {
+              "name": "Run actions/setup-node@v4",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:17Z",
+              "completed_at": "2026-11-09T16:18:17Z"
+            },
+            {
+              "name": "Run node --check agntia_gestoria/static/app.js && node --check agntia_gestoria/static/dashboard.js",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:17Z",
+              "completed_at": "2026-11-09T16:18:18Z"
+            },
+            {
+              "name": "Run node typescript/scripts/build.mjs",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:18Z",
+              "completed_at": "2026-11-09T16:18:18Z"
+            },
+            {
+              "name": "Run python -m playwright install --with-deps chromium",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:18Z",
+              "completed_at": "2026-11-09T16:18:34Z"
+            },
+            {
+              "name": "Run python scripts/browser_check.py",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:34Z",
+              "completed_at": "2026-11-09T16:18:37Z"
+            },
+            {
+              "name": "Run actions/upload-artifact@v4",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:37Z",
+              "completed_at": "2026-11-09T16:18:38Z"
+            },
+            {
+              "name": "Post Run actions/setup-node@v4",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:38Z",
+              "completed_at": "2026-11-09T16:18:38Z"
+            },
+            {
+              "name": "Post Run actions/setup-python@v5",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:38Z",
+              "completed_at": "2026-11-09T16:18:39Z"
+            },
+            {
+              "name": "Post Run actions/checkout@v4",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:39Z",
+              "completed_at": "2026-11-09T16:18:39Z"
+            },
+            {
+              "name": "Complete job",
+              "conclusion": "success",
+              "started_at": "2026-11-09T16:18:39Z",
+              "completed_at": "2026-11-09T16:18:39Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
