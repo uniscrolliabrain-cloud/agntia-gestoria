@@ -1,0 +1,40 @@
+name: Odoo real synthetic lab (explicit opt-in)
+on:
+  workflow_dispatch:
+    inputs:
+      synthetic_confirmation:
+        description: 'Type SYNTHETIC to provision only a disposable isolated test lab'
+        required: true
+jobs:
+  live:
+    if: inputs.synthetic_confirmation == 'SYNTHETIC'
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -e '.[dev]'
+      - name: Prepare private fixture state
+        run: python scripts/odoo_bootstrap.py --state-dir "$RUNNER_TEMP/agntia-lab" --synthetic-lab --prepare
+      - name: Build pinned source and two DBs
+        run: python scripts/odoo_bootstrap.py --state-dir "$RUNNER_TEMP/agntia-lab" --synthetic-lab --bootstrap
+      - name: Provider smoke
+        run: python scripts/odoo_smoke.py --state-dir "$RUNNER_TEMP/agntia-lab"
+      - name: Real contracts and E2E
+        env:
+          AGNTIA_RUN_ODOO_TESTS: '1'
+        run: AGNTIA_LAB_STATE_DIR="$RUNNER_TEMP/agntia-lab" python -m unittest discover -s tests/integration -v -f
+      - name: Backup fixture A
+        run: python scripts/odoo_backup.py --state-dir "$RUNNER_TEMP/agntia-lab" --database agntia_test_a --backup
+      - name: Verify restore into separate named test DB
+        shell: python
+        run: |
+          import os,pathlib,subprocess,sys
+          state=pathlib.Path(os.environ['RUNNER_TEMP'])/'agntia-lab'
+          backup=sorted((state/'backups').iterdir())[-1]
+          subprocess.run([sys.executable,'scripts/odoo_backup.py','--state-dir',str(state),'--database','agntia_test_a','--restore-from',str(backup),'--confirm-synthetic-restore'],check=True)
+      - name: Remove synthetic containers and volumes
+        if: always()
+        run: python scripts/odoo_reset_test.py --state-dir "$RUNNER_TEMP/agntia-lab" --confirm-destroy-synthetic-lab

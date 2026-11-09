@@ -50,3 +50,8 @@ python -m unittest discover -s tests -v
 MIT. Proyecto inicial, sin conectores de presentación ante administraciones ni automatización bancaria. El dashboard y las exportaciones se explican en [datos e informes](docs/dashboard-and-reports.md).
 
 El [alcance de gestoría completa](docs/product-scope.md) recoge renta anual, IVA, pagos de IRPF, retenciones, sociedades, laboral, representación y conservación de datos, y distingue lo implementado de los motores y conectores pendientes para regímenes y modelos aún no admitidos. Registrar un modelo en un expediente no equivale a tener su liquidación implementada.
+
+
+## Adaptador Odoo Community 19 (laboratorio)
+
+Implementación opt-in de conexiones, importaciones no verificadas, evidencias, conflictos, contactos y facturas borrador con aprobación humana. Leer [handoff actual](ODOO-IMPLEMENTATION-HANDOFF.md), [operaciones](docs/odoo-adapter/operations.md) y [pruebas de aceptación pendientes](docs/odoo-adapter/pilot-acceptance.md). Docker/Odoo real deben validarse antes de piloto; no publica facturas ni presenta declaraciones.

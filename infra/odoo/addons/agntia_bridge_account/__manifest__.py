@@ -1,0 +1,1 @@
+{'name':'Agntia draft accounting guards','version':'19.0.1.0.0','license':'LGPL-3','depends':['agntia_bridge','account'],'data':['security/groups.xml','security/ir.model.access.csv'],'installable':True,'application':False}

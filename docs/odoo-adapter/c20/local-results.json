@@ -1,0 +1,27 @@
+{
+  "executed_at_utc": "2026-11-09T23:02:44.015020+00:00",
+  "python": "3.12.14",
+  "dependencies": {
+    "fastapi": "0.141.1",
+    "httpx": "0.28.1",
+    "pydantic": "2.13.4",
+    "cryptography": "50.0.0"
+  },
+  "python_tests": {
+    "run": 57,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 27.337,
+    "selector_workaround": true
+  },
+  "node_tests": {
+    "command": "node --test typescript/tests/odoo.test.mjs",
+    "reported_test_files": 1,
+    "pass": 1,
+    "fail": 0
+  },
+  "docker": "NOT VERIFIED",
+  "live_odoo": "NOT VERIFIED",
+  "browser_current_revision": "NOT VERIFIED"
+}

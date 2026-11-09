@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+instance_bot,instance_bot,model_agntia_bridge_instance,agntia_bridge.group_integration,1,0,0,0
+instance_admin,instance_admin,model_agntia_bridge_instance,base.group_system,1,1,1,0
+operation_bot,operation_bot,model_agntia_bridge_operation,agntia_bridge.group_integration,1,0,1,0
+module_bot,module_bot,base.model_ir_module_module,agntia_bridge.group_integration,1,0,0,0
+partner_bot,partner_bot,base.model_res_partner,agntia_bridge.group_integration,1,1,1,0

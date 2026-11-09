@@ -1,0 +1,76 @@
+name: agntia-gestoria-synthetic-lab
+services:
+  db:
+    image: postgres:17-bookworm@sha256:665dc7b37ac52a17e298511414c21d23ffa4e6a6ef6225b3e5d59c7afb35e994
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes: [postgres_data:/var/lib/postgresql/data]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U odoo -d postgres]
+      interval: 5s
+      timeout: 4s
+      retries: 30
+    mem_limit: 1g
+    cpus: 1.5
+  odoo:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD_FILE: /run/secrets/postgres_password
+      AGNTIA_BRIDGE_SIGNING_KEY_FILE: /run/secrets/agntia_bridge_signing_key
+    secrets: [postgres_password, agntia_bridge_signing_key]
+    volumes:
+      - odoo_data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons:ro
+      - ${AGNTIA_LAB_STATE_DIR:?set private synthetic lab directory}/odoo.conf:/etc/odoo/odoo.conf:ro
+    ports: ["127.0.0.1:${AGNTIA_ODOO_PORT:-8069}:8069"]
+    depends_on:
+      db: {condition: service_healthy}
+    healthcheck:
+      test: [CMD, python3, -c, "import socket; socket.create_connection(('127.0.0.1',8069),2).close()"]
+      interval: 5s
+      timeout: 4s
+      retries: 60
+    mem_limit: 3g
+    cpus: 2
+  gestoria:
+    profiles: [app]
+    build:
+      context: ../..
+      dockerfile: infra/odoo/Gestoria.Dockerfile
+    env_file: ["${AGNTIA_LAB_STATE_DIR:?}/gestoria.env.local"]
+    volumes: ["${AGNTIA_LAB_STATE_DIR:?}/gestoria-data:/data"]
+    ports: ["127.0.0.1:${AGNTIA_GESTORIA_PORT:-8010}:8010"]
+    depends_on:
+      odoo: {condition: service_healthy}
+    mem_limit: 1g
+  worker:
+    profiles: [app]
+    build:
+      context: ../..
+      dockerfile: infra/odoo/Gestoria.Dockerfile
+    env_file: ["${AGNTIA_LAB_STATE_DIR:?}/gestoria.env.local"]
+    volumes: ["${AGNTIA_LAB_STATE_DIR:?}/gestoria-data:/data"]
+    command: [agntia-gestoria-odoo-worker, --data-dir, /data]
+    depends_on:
+      odoo: {condition: service_healthy}
+    mem_limit: 1g
+secrets:
+  postgres_password:
+    file: ${AGNTIA_LAB_STATE_DIR:?}/secrets/postgres_password
+  agntia_bridge_signing_key:
+    file: ${AGNTIA_LAB_STATE_DIR:?}/secrets/bridge_signing_key
+volumes:
+  postgres_data:
+  odoo_data:
+networks:
+  default:
+    internal: true
+    ipam:
+      config: [{subnet: "${AGNTIA_LAB_SUBNET:-172.30.241.0/24}"}]

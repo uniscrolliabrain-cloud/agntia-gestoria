@@ -1,0 +1,39 @@
+{
+  "baseline_tree": "572b06b1ea2bec2307d94136eb742bc5dcb61081",
+  "authorization": "Owner instruction 2026-11-09: implement all Odoo phases now; Docker tests will run on laptop. No production or agente authorization.",
+  "adr": "docs/odoo-adapter/adr/0001-batch-implementation.md",
+  "changes": {
+    ".github/workflows/ci.yml": {
+      "old_sha256": "2b369e3557e21dc436c0d32617a754ca74144f55776858b5709a0b5d455ec63a",
+      "new_sha256": "0fb8852ce1fb2fa397bfb2d83bb7b4ed9c4cdb8aed3bc364f034d939832721d5"
+    },
+    "README.md": {
+      "old_sha256": "1e87156f7aabfb5d407fe31083612a2d8eac7bd96823336096e7cff6edbf6c5f",
+      "new_sha256": "06e9485035c1b7887887912ecfdda90b45debf44df2f02e8d2e16709ff4a4e51"
+    },
+    "agntia_gestoria/app.py": {
+      "old_sha256": "dfbbe7b7919166b5dc0e790fecb32d0f46b8c16f12d5773a6d88dd8086109492",
+      "new_sha256": "b7f46ee9978dee0b4769471d28090d704f2cc8fd1899343687af18dd055ecb79"
+    },
+    "pyproject.toml": {
+      "old_sha256": "2bfed2b3a704685510f25c0ade7f4750cca9fd2e115b94baba6b0aef8d22958a",
+      "new_sha256": "a07ac04e12a283b7dc7e4a05129d7737e5df2d770992efa2b60c17898b7cc059"
+    },
+    "typescript/dist/hono.js": {
+      "old_sha256": "651d7e8faa58e53d22e79443d5c48ca8c0135d21312676d73e4a66b7039d5bf9",
+      "new_sha256": "8333ecc6b7375cdea76daf4f0695e1cca0537e86f2969531835def1ca4613fc3"
+    },
+    "typescript/hono.ts": {
+      "old_sha256": "90bc993cae35849f5b6caa72c63c82eb9258d337de4d4f2534b9229fe0f79324",
+      "new_sha256": "53895b99166bf92765e82f3bef6d06182c9513ca4af88db68126129e8a848b7d"
+    },
+    "typescript/package.json": {
+      "old_sha256": "580a9180570694d8ea80e55dde4acbd1d487f36febe9dca3d6859695aef5b999",
+      "new_sha256": "544f635e4e7c7861f78ebfec1954ce49dac6e746b71f9fffd40d695bed5cc16b"
+    },
+    "typescript/scripts/build.mjs": {
+      "old_sha256": "b81a78bbf6cf84115e8854946e9a94be3afa2949040bfdabfbb4a87de8844244",
+      "new_sha256": "e459bafedd9d2579046090d6643313a80b163e1fbe1ddf5d02e5d1c6a751f3db"
+    }
+  }
+}

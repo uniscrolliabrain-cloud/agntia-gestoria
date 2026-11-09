@@ -19,6 +19,7 @@ from .rules import catalogue, evaluate
 from .storage import Database, canonical, digest, identifier, now, uid
 from .tax import register_tax_routes
 from .report_routes import register_report_routes
+from .integrations.odoo.routes import register_odoo_routes
 
 load_dotenv()
 WRITE = ('owner','reviewer','agent')
@@ -271,6 +272,10 @@ def create_app(data_dir=None):
     @app.get('/api/companies/{cid}/documents/{oid}/download')
     def download(cid:str,oid:str,actor:Actor=Depends(authenticate)):
         with db.connection() as connection:access(connection,cid,actor);doc=db.get(connection,cid,oid,'document')
+        if doc.get('encrypted'):
+            from .integrations.odoo.vault import read_blob
+            from urllib.parse import quote
+            return Response(read_blob(db.root/'documents'/cid/doc['stored_name'],doc['sha256']),media_type='application/octet-stream',headers={'Content-Disposition':"attachment; filename*=UTF-8''"+quote(doc['name'],safe='')})
         return FileResponse(db.root/'documents'/cid/doc['stored_name'],filename=doc['name'],media_type='application/octet-stream')
 
     @app.post('/api/companies/{cid}/invoice-drafts')
@@ -322,6 +327,7 @@ def create_app(data_dir=None):
                     'tax_calculations':db.list(connection,cid,'tax_calculation'),'reports':db.list(connection,cid,'report'),'tax_records':db.list(connection,cid,'tax_record'),'tax_preparations':db.list(connection,cid,'tax_preparation'),'invoice_drafts':db.list(connection,cid,'invoice_draft'),'journal_drafts':db.list(connection,cid,'journal_draft'),'audit':db.audit_log(connection,cid),'exported_at':now(),'external_submissions':False}
         return JSONResponse(result,headers={'Content-Disposition':'attachment; filename="expediente-empresa.json"'})
 
+    register_odoo_routes(app,db)
     register_tax_routes(app,db)
     register_report_routes(app,db)
     app.mount('/',StaticFiles(directory=Path(__file__).parent/'static',html=True),name='workspace')

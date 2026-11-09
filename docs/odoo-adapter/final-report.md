@@ -1,46 +1,50 @@
-# Informe al founder · estado de la campaña Odoo
+# Informe al founder · implementación Odoo completa para laboratorio
 
-Fecha de actualización: 2026-11-09. Informe parcial de C01 y auditoría estática C02; no acredita que el adaptador esté terminado o instalado.
+Fecha: 2026-11-09. Base main: `1fd25d932a26acab0d865aa4aa3d7ed83876282e`. Rama: `feat/odoo-complete-adapter`. El código de C03–C20 se entrega por lote por orden del propietario; esta entrega no certifica Odoo real, no aplica cambios en agente y no despliega producción.
 
-| Campaña | Estado | Evidencia / siguiente condición |
-| --- | --- | --- |
-| C01 Baseline | PASS (baseline remoto; snapshot ausente NOT VERIFIED) | PR [#1](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/1), revisión `f95a945449994deea8313d1c501c055522ea8dff`; CI y navegador PASS. Fusionada con aprobación del propietario en `0626ae218983337163c569bb9dc589e98775088a`. |
-| C02 Upstream | BLOCKED | SHA, digests y matriz fijados; 38 comprobaciones estáticas PASS. Gate integral BLOCKED: instancia, permisos y contratos reales NOT VERIFIED; PR [#2](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/2) fusionada para el handoff por orden explicita del propietario, sin cerrar el gate runtime; fuente y CI PASS en `09cc1cdb3994f6c978b5d0f777161d0717da8137`, sin integración real. |
-| C03 Laboratorio | NOT VERIFIED | Socket Docker local denegado; no se ha arrancado Odoo ni dos bases de test. |
-| C04 Contratos | NOT VERIFIED | No iniciado; depende de las fases anteriores. |
-| C05 Migraciones | NOT VERIFIED | No iniciado; SQLite y datos originales intactos. |
-| C06 Conexiones/secretos | NOT VERIFIED | No iniciado; no se han configurado credenciales. |
-| C07 Transporte JSON-2 | NOT VERIFIED | No iniciado; no hay HTTP de negocio a Odoo. |
-| C08 Discovery | NOT VERIFIED | No iniciado; capacidades de instancia desconocidas, ninguna habilitada. |
-| C09 Binding/tenancy | NOT VERIFIED | No iniciado; falta laboratorio de aislamiento. |
-| C10 Contactos | NOT VERIFIED | No iniciado. |
-| C11 Facturas | NOT VERIFIED | No iniciado; no hay mapeo fiscal implícito. |
-| C12 Staging/import | NOT VERIFIED | No iniciado. |
-| C13 Sync/reconciliación | NOT VERIFIED | No iniciado. |
-| C14 Adjuntos | NOT VERIFIED | No iniciado. |
-| C15 Write-back contactos | NOT VERIFIED | No iniciado; escritura remota deshabilitada. |
-| C16 Borradores Odoo | NOT VERIFIED | No iniciado; no se publica ni crea ninguna factura Odoo. |
-| C17 Bridge opcional | NOT VERIFIED | Necesidad no evaluada; no se crea un addon de relleno. |
-| C18 API/TS/Hono Odoo | NOT VERIFIED | No iniciado; API y exports originales conservados. |
-| C19 Agentes/SOP/eventos | NOT VERIFIED | No iniciado; repositorio `agente` sin modificar. |
-| C20 Hardening/E2E/entrega | NOT VERIFIED | No iniciado; A–E no ejecutados. |
+## Estado por campaña
 
-## Resultados observados
+| Campaña | Estado de gate | Implementación/evidencia |
+|---|---|---|
+| C01 | PASS | Baseline histórico PR1, 43 fuentes conservadas con política explícita de8 cambios autorizados por alcance; hashes antiguos/nuevos exactos |
+| C02 | BLOCKED | Auditoría estática PR2, upstream fijado; gate de instancia sigue sin ejecutar |
+| C03 | NOT VERIFIED | Laboratorio Docker/digests/fuente fijada y provisión de dos DB; no arrancado |
+| C04 | PASS | Contratos locales cerrados, esquema/round-trip/Decimal y validación; no acredita proveedor |
+| C05 | NOT VERIFIED | Migración fresh/upgrade/no-op/rollback/backup locales probados; restore WAL operativo pendiente |
+| C06 | NOT VERIFIED | Registro/scopes/SSRF/secretos implementados y simulados; rotación/TLS reales pendientes |
+| C07 | NOT VERIFIED | Transporte probado con MockTransport; JSON-2 real pendiente |
+| C08 | NOT VERIFIED | Discovery fail-closed simulado; módulos/ACL reales pendientes |
+| C09 | NOT VERIFIED | Binding/revocación/cross-company simulados; dos DB reales pendientes |
+| C10 | NOT VERIFIED | Contactos y 1101 elementos simulados; proveedor real pendiente |
+| C11 | NOT VERIFIED | Snapshots/reconciliación y bloqueos implementados; matriz fiscal real pendiente |
+| C12 | NOT VERIFIED | Staging/import unverified/replay/frescura probados localmente; lotes reales pendientes |
+| C13 | NOT VERIFIED | Cursos/leases/retries/conflictos/recovery implementados; crashes reales pendientes |
+| C14 | NOT VERIFIED | Originales cifrados/scanner/límites probados con fixture; scanner y custodia real pendientes |
+| C15 | NOT VERIFIED | Propuesta/aprobación/firma/idempotencia/contactos; write-back real pendiente |
+| C16 | NOT VERIFIED | Factura borrador/reconciliación/bloqueos; creación ORM real pendiente |
+| C17 | NOT VERIFIED | Dos addons propios necesarios; instalación/concurrencia/ACL real pendientes |
+| C18 | NOT VERIFIED | API/SDK/Hono y contratos locales; integración Hono/browser actual pendientes |
+| C19 | NOT VERIFIED | Tools/eventos/ACK/briefing implementados; wiring AgntiaPro no autorizado/aplicado |
+| C20 | NOT VERIFIED | Pruebas locales y recetas E2E/backup/CI entregadas; aceptación real pendiente |
 
-23 tests aprobados localmente con workaround explícito del selector del sandbox; 0 fallidos en esa ejecución. Suite estándar local: timeout, no suite aprobada. Instalación dev offline: bloqueada por pytest ausente. Instalación runtime y build/sintaxis Node: PASS. Navegador local: bloqueado por sockets. CI estándar de esta PR: [PASS](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42653348715), 23 ejecutados, 23 aprobados, 0 fallidos, sin workaround; navegador desktop/mobile y descarga de presentación aprobados. Verificador de baseline: [PASS](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42653348825). Evidencia observada en `f95a945449994deea8313d1c501c055522ea8dff`; el último estado de la PR debe comprobarse antes de la fusión.
+## Pruebas y entrega
 
-No hay tests Odoo ejecutados, ni métricas de latencia/coste por tenant medidas, ni bases de datos de clientes utilizadas. Coste incremental Odoo en esta fase: no desplegado; no equivale a coste operativo cero del producto. Las hipótesis de infraestructura se fijarán tras C02/C03.
+Ver [c20/local-results.json](c20/local-results.json) para número exacto ejecutado/pasado/fallido, duración y versiones. Tests Python locales usan un workaround del selector de este sandbox; CI estándar pendiente en la nueva revisión. Node build/sintaxis y un archivo de pruebas Node pasan. No afirmar Docker, navegador actual, backup real o E2E real como PASS. No se han usado datos de clientes.
 
-## Operaciones y permisos
+Historial remoto previo: PR1 merge `0626ae218983337163c569bb9dc589e98775088a`; PR2 merge `1f8b7542d859ede4ea8b624fd3a4371ea603190e`; handoff main `1fd25d932a26acab0d865aa4aa3d7ed83876282e`. Este lote tiene un único commit/PR de entrega, no20 SHA inventados. Consultar GitHub para el SHA inmutable final.
 
-C01 fusionada por autorización explícita del propietario. Permitido en C02: auditar fuentes públicas, fijar referencias, documentar, publicar PR borrador y verificar fuentes/CI. Ninguna operación Odoo habilitada. No se llama action_post, no se contabilizan asientos, no se envían impuestos, correos o pagos; no hay scheduler empresarial paralelo.
+## Capacidades reales y límites
 
-No se modifica `agente`, upstream Odoo, producción, secretos ni fórmulas fiscales. C01 y la auditoria parcial C02 estan en main. El propietario autorizo expresamente guardar todo en main para el relevo al laptop; C02 se fusiono en `1f8b7542d859ede4ea8b624fd3a4371ea603190e`. Esa instruccion no aprueba el gate runtime, futuras fusiones o produccion.
+El sistema puede configurar un binding, diagnosticar, previsualizar/importar, conservar origen/documentos, detectar conflictos, proponer/aprobar y proyectar contactos/borradores con bridge. La prueba local verifica estas rutas con proveedor sintético. Las capacidades de una instancia concreta solo se habilitan al validar discovery y caducan en1h. Leer [COMPATIBILITY.md](COMPATIBILITY.md), [contracts.md](contracts.md) y la matriz histórica de fuente. No instalar OCA indiscriminadamente ni asumir cobertura territorial por l10n_es.
 
-## Decisión del propietario
+Prohibido: publicar/postear, enviar facturas, borrar movimientos, pagos/conciliación bancaria, nóminas/presentación fiscal. Cero llamadas a action_post en el adaptador y en los tests; guardas del addon deben probarse en entorno real. Cero importados auto-reviewed en tests. No hay scheduler empresarial, coste inventado ni actividad simulada presentada como real.
 
-C01 fue aprobada con «Fusionala» y ya está fusionada. El propietario ordeno posteriormente incorporar el avance y un handoff detallado a main para continuar en su laptop. Se ejecuto esa instruccion de conservacion; C02 sigue requiriendo resolver los gates tecnicos de instalacion real. El acceso Docker quedó sin ejecutar y el entorno sufrió indisponibilidad temporal. Hacen falta un laboratorio aislado accesible y una correspondencia de imagen/código verificada. C03–C20 no se consideran aprobadas por la auditoría estática. Antes del piloto: gates completos y aceptación expresa.
+## Coste y riesgos
 
-## Relevo Windows
+Coste de proveedor por llamada Community: no se ha medido tarifa/infraestructura. Hipótesis de laboratorio: 6–8GB RAM host y almacenamiento suficiente para fuente/imágenes/Postgres/filestore/backups; medir CPU/RAM/IO y p50/p95 bajo carga real. No se fija coste mensual sin conocer hosting, región, retención y número de tenants. Métricas API reflejan solo llamadas observadas, no coste total.
 
-Leer [HANDOFF-CODEX-WINDOWS.md](../../HANDOFF-CODEX-WINDOWS.md) en la raiz: estado, autorizaciones, PowerShell, mapa tecnico, contratos, pruebas, C03–C20 y prompt para el siguiente Codex. Los comandos Windows son una receta de continuacion, no evidencia de ejecucion en el laptop.
+Pendientes materiales: build del SHA contra base, compatibilidad del addon ORM/ACL19, carreras de PostgreSQL, restauración/cifrados/claves, revisión humana/fiscal competente, scanner/TLS/RGPD y prueba del consumidor Hono. SQLite continúa limitado a despliegue inicial. La firma confía en el servidor aprobador y las credenciales humanas; no equivale a MFA ni presencia física certificada. Auditoría local no sustituye anclaje externo contra administrador comprometido.
+
+## Próximos pasos autorizados y aprobación
+
+La otra IA puede usar [RUNBOOK.md](RUNBOOK.md) para instalar/testear Docker sintético, corregir fallos y registrar resultados sin datos reales. Revisar [pilot-acceptance.md](pilot-acceptance.md). Producción, wiring en `agente` y ampliación fiscal requieren las aprobaciones expresas de la campaña original; no se solicitan como obstáculo para entregar el código de laboratorio. Rollback: flag off/reiniciar, conservar links/evidencias, conciliar sin borrar movimientos.

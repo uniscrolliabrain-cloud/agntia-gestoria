@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+move_bot,move_bot,account.model_account_move,agntia_bridge.group_integration,1,1,1,0
+line_bot,line_bot,account.model_account_move_line,agntia_bridge.group_integration,1,1,1,1
