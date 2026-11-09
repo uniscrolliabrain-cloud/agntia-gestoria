@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "upstream_commit": "60657b50d171ddf84ab58717fdee5ac26031065b",
+  "verification": "static_source_only",
+  "check_count": 38,
+  "checks": [
+    {
+      "name": "sha256:addons/rpc/controllers/json2.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/rpc/controllers/json2.py"
+    },
+    {
+      "name": "sha256:addons/account/__manifest__.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/__manifest__.py"
+    },
+    {
+      "name": "sha256:addons/contacts/__manifest__.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/contacts/__manifest__.py"
+    },
+    {
+      "name": "sha256:addons/l10n_es/__manifest__.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/l10n_es/__manifest__.py"
+    },
+    {
+      "name": "sha256:odoo/addons/base/__manifest__.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/odoo/addons/base/__manifest__.py"
+    },
+    {
+      "name": "sha256:LICENSE",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/LICENSE"
+    },
+    {
+      "name": "sha256:odoo/release.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/odoo/release.py"
+    },
+    {
+      "name": "sha256:addons/account/models/account_move.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/models/account_move.py"
+    },
+    {
+      "name": "sha256:addons/account/models/account_move_line.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/models/account_move_line.py"
+    },
+    {
+      "name": "sha256:addons/account/models/account_tax.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/models/account_tax.py"
+    },
+    {
+      "name": "sha256:addons/account/security/account_security.xml",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/security/account_security.xml"
+    },
+    {
+      "name": "sha256:addons/account/security/ir.model.access.csv",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/security/ir.model.access.csv"
+    },
+    {
+      "name": "sha256:addons/account/models/account_account.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/models/account_account.py"
+    },
+    {
+      "name": "sha256:addons/rpc/__manifest__.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/rpc/__manifest__.py"
+    },
+    {
+      "name": "sha256:odoo/addons/base/models/res_partner.py",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/odoo/addons/base/models/res_partner.py"
+    },
+    {
+      "name": "sha256:odoo/addons/base/security/base_security.xml",
+      "status": "PASS",
+      "reference": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/odoo/addons/base/security/base_security.xml"
+    },
+    {
+      "name": "JSON2 public handler exists",
+      "status": "PASS",
+      "reference": "addons/rpc/controllers/json2.py"
+    },
+    {
+      "name": "JSON2 bearer POST without session",
+      "status": "PASS",
+      "reference": "addons/rpc/controllers/json2.py:49"
+    },
+    {
+      "name": "JSON2 resolves public methods",
+      "status": "PASS",
+      "reference": "addons/rpc/controllers/json2.py"
+    },
+    {
+      "name": "JSON2 handler has no sudo call",
+      "status": "PASS",
+      "reference": "addons/rpc/controllers/json2.py"
+    },
+    {
+      "name": "Invoice fields exist",
+      "status": "PASS",
+      "reference": "addons/account/models/account_move.py"
+    },
+    {
+      "name": "Move states include draft and posted",
+      "status": "PASS",
+      "reference": "account.move.state"
+    },
+    {
+      "name": "Invoice and refund move types exist",
+      "status": "PASS",
+      "reference": "account.move.move_type"
+    },
+    {
+      "name": "Invoice lines include sections, not just products",
+      "status": "PASS",
+      "reference": "account.move.invoice_line_ids"
+    },
+    {
+      "name": "Technical line kinds must be excluded",
+      "status": "PASS",
+      "reference": "account.move.line.display_type"
+    },
+    {
+      "name": "Taxes are not only percentage",
+      "status": "PASS",
+      "reference": "account.tax.amount_type"
+    },
+    {
+      "name": "Tax company and price-included fields exist",
+      "status": "PASS",
+      "reference": "account.tax"
+    },
+    {
+      "name": "Odoo19 account uses plural company_ids",
+      "status": "PASS",
+      "reference": "account.account"
+    },
+    {
+      "name": "Partner identification fields exist",
+      "status": "PASS",
+      "reference": "res.partner"
+    },
+    {
+      "name": "Partner rule has shared and internal-user exceptions",
+      "status": "PASS",
+      "reference": "base_security.xml:res_partner_rule"
+    },
+    {
+      "name": "Read-only move ACL is read-only",
+      "status": "PASS",
+      "reference": "account/security/ir.model.access.csv"
+    },
+    {
+      "name": "account license declared LGPL-3",
+      "status": "PASS",
+      "reference": "addons/account/__manifest__.py"
+    },
+    {
+      "name": "contacts license declared LGPL-3",
+      "status": "PASS",
+      "reference": "addons/contacts/__manifest__.py"
+    },
+    {
+      "name": "l10n_es license declared LGPL-3",
+      "status": "PASS",
+      "reference": "addons/l10n_es/__manifest__.py"
+    },
+    {
+      "name": "Spanish addon depends on account",
+      "status": "PASS",
+      "reference": "addons/l10n_es/__manifest__.py"
+    },
+    {
+      "name": "Spanish addon lists mod420 data",
+      "status": "PASS",
+      "reference": "addons/l10n_es/__manifest__.py"
+    },
+    {
+      "name": "base license declared LGPL-3",
+      "status": "PASS",
+      "reference": "odoo/addons/base/__manifest__.py"
+    },
+    {
+      "name": "rpc license declared LGPL-3",
+      "status": "PASS",
+      "reference": "addons/rpc/__manifest__.py"
+    }
+  ],
+  "runtime_capabilities": "NOT VERIFIED",
+  "enabled_capabilities": []
+}

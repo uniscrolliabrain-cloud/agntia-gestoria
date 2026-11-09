@@ -1,11 +1,11 @@
 # Informe al founder · estado de la campaña Odoo
 
-Fecha de actualización: 2026-11-09. Informe parcial de la primera fase; no acredita que el adaptador esté terminado o instalado.
+Fecha de actualización: 2026-11-09. Informe parcial de C01 y auditoría estática C02; no acredita que el adaptador esté terminado o instalado.
 
 | Campaña | Estado | Evidencia / siguiente condición |
 | --- | --- | --- |
-| C01 Baseline | PASS (baseline remoto; snapshot ausente NOT VERIFIED) | PR [#1](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/1), revisión `f95a945449994deea8313d1c501c055522ea8dff`; CI y navegador PASS. Pendiente aprobación de fusión. |
-| C02 Upstream | BLOCKED | Espera cierre y revisión/fusión autorizada de C01. No hay SHA o imagen Odoo fijados todavía. |
+| C01 Baseline | PASS (baseline remoto; snapshot ausente NOT VERIFIED) | PR [#1](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/1), revisión `f95a945449994deea8313d1c501c055522ea8dff`; CI y navegador PASS. Fusionada con aprobación del propietario en `0626ae218983337163c569bb9dc589e98775088a`. |
+| C02 Upstream | BLOCKED | SHA, digests y matriz fijados; 38 comprobaciones estáticas PASS. Gate integral BLOCKED: instancia, permisos y contratos reales NOT VERIFIED; PR borrador pendiente de publicación. |
 | C03 Laboratorio | NOT VERIFIED | Socket Docker local denegado; no se ha arrancado Odoo ni dos bases de test. |
 | C04 Contratos | NOT VERIFIED | No iniciado; depende de las fases anteriores. |
 | C05 Migraciones | NOT VERIFIED | No iniciado; SQLite y datos originales intactos. |
@@ -33,10 +33,10 @@ No hay tests Odoo ejecutados, ni métricas de latencia/coste por tenant medidas,
 
 ## Operaciones y permisos
 
-Permitido en esta entrega: inventariar, verificar, documentar, publicar rama y PR de C01 y ejecutar su CI. Ninguna operación Odoo habilitada. No se llama action_post, no se contabilizan asientos, no se envían impuestos, correos o pagos; no hay scheduler empresarial paralelo.
+C01 fusionada por autorización explícita del propietario. Permitido en C02: auditar fuentes públicas, fijar referencias, documentar, publicar PR borrador y verificar fuentes/CI. Ninguna operación Odoo habilitada. No se llama action_post, no se contabilizan asientos, no se envían impuestos, correos o pagos; no hay scheduler empresarial paralelo.
 
-No se modifica `agente`, upstream Odoo, producción, secretos ni fórmulas fiscales. La rama principal no se actualiza con la campaña hasta aprobación de fusión.
+No se modifica `agente`, upstream Odoo, producción, secretos ni fórmulas fiscales. La fusión autorizada de C01 está en main. No se autoriza con ello fusionar C02 ni desplegar producción.
 
 ## Decisión del propietario
 
-Revisar la PR concreta de C01 cuando finalice su CI y autorizar su fusión para seguir la secuencia. No se solicita permiso para producción ni para `agente`. Antes de C03 hará falta un laboratorio Docker accesible y aislado o una alternativa autorizada, con evidencia de dos DB y bots separados. Antes del piloto: gates completos y aceptación expresa.
+C01 fue aprobada con «Fusionala» y ya está fusionada. C02 requiere primero resolver los gates técnicos de instalación real; no se pide fusionar un borrador bloqueado. El acceso Docker quedó sin ejecutar y el entorno sufrió indisponibilidad temporal. Hacen falta un laboratorio aislado accesible y una correspondencia de imagen/código verificada. C03–C20 no se consideran aprobadas por la auditoría estática. Antes del piloto: gates completos y aceptación expresa.

@@ -1,0 +1,40 @@
+name: Odoo C02 source contracts
+on: [push, pull_request]
+jobs:
+  pinned-community-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - uses: actions/checkout@v4
+        with:
+          repository: odoo/odoo
+          ref: 60657b50d171ddf84ab58717fdee5ac26031065b
+          path: .odoo-reference
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: |
+            /addons/rpc/controllers/json2.py
+            /addons/account/__manifest__.py
+            /addons/contacts/__manifest__.py
+            /addons/l10n_es/__manifest__.py
+            /odoo/addons/base/__manifest__.py
+            /LICENSE
+            /odoo/release.py
+            /addons/account/models/account_move.py
+            /addons/account/models/account_move_line.py
+            /addons/account/models/account_tax.py
+            /addons/account/security/account_security.xml
+            /addons/account/security/ir.model.access.csv
+            /addons/account/models/account_account.py
+            /addons/rpc/__manifest__.py
+            /odoo/addons/base/models/res_partner.py
+            /odoo/addons/base/security/base_security.xml
+      - run: python scripts/verify_odoo_source.py --source-root .odoo-reference --output odoo-source-checks.json
+      - run: python scripts/verify_baseline.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: odoo-c02-source-contracts
+          path: odoo-source-checks.json

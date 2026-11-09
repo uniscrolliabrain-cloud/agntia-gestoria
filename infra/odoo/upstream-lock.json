@@ -1,0 +1,200 @@
+{
+  "schema_version": 1,
+  "checked_on": "2026-11-09",
+  "upstream": {
+    "repository": "odoo/odoo",
+    "branch": "19.0",
+    "commit": "60657b50d171ddf84ab58717fdee5ac26031065b"
+  },
+  "documentation_commit": "67e8ded4a03d7c53be4e2c4d53471678e9e9352e",
+  "image": {
+    "repository": "docker.io/library/odoo",
+    "observed_tag": "19.0-20261102",
+    "index_digest": "sha256:5e755c725b3c43cf0be16d579904e1418300db3a2c44952f928eaddbcb0cc16d",
+    "amd64_digest": "sha256:08374de09bab5d80851c5709896aa49917e6c6a893b39025d6669db908e238b0",
+    "docker_recipe_commit": "f900094eb7492968332868d686caf22b966592ca",
+    "pulled": false,
+    "started": false,
+    "equivalence_to_upstream_commit": "NOT VERIFIED"
+  },
+  "sources": [
+    {
+      "path": "addons/rpc/controllers/json2.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/rpc/controllers/json2.py",
+      "sha256": "9f786320ef1c1dfdace4625897a1b43f12b18d2c28a1e035347af860fd5805a5",
+      "lines": 90,
+      "bytes": 2708,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/account/__manifest__.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/__manifest__.py",
+      "sha256": "592bfd9c197bfb25f0faf0e5c2cc261bc85a13565802a4e77d2a190c6a270d4a",
+      "lines": 146,
+      "bytes": 6218,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/contacts/__manifest__.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/contacts/__manifest__.py",
+      "sha256": "c980712064b9fffbc410e9dfcea09453c5a813264f541add45840cb621724bf1",
+      "lines": 29,
+      "bytes": 735,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/l10n_es/__manifest__.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/l10n_es/__manifest__.py",
+      "sha256": "766d90d2b41a2d4dd8f87e9f8e5ce0735a3a7d67e02bb345855121516abe6ba5",
+      "lines": 60,
+      "bytes": 2195,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "odoo/addons/base/__manifest__.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/odoo/addons/base/__manifest__.py",
+      "sha256": "0ad4109fd814b9212de92ec35c004669d915df04fb8c54e410be89656b524c36",
+      "lines": 99,
+      "bytes": 3474,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "LICENSE",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/LICENSE",
+      "sha256": "abc09dad5f84a76e1b0279237053cae16c03228ab27d8d467677054c2bd17eeb",
+      "lines": 859,
+      "bytes": 43529,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "odoo/release.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/odoo/release.py",
+      "sha256": "7c8cb8bed3ecf2bb3c2420d59c003b721998ad90d4c67cc30bb202163d5590c9",
+      "lines": 41,
+      "bytes": 1762,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/account/models/account_move.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/models/account_move.py",
+      "sha256": "9d15996abb2264ee3e7149e9934219caae63c35e75c93eb38dd1c62643ace298",
+      "lines": 7540,
+      "bytes": 369545,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/account/models/account_move_line.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/models/account_move_line.py",
+      "sha256": "238a5ff14874030dd66b692b7323aac2a19151d85fad83a8439eb783ef6c9b8c",
+      "lines": 3854,
+      "bytes": 191453,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/account/models/account_tax.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/models/account_tax.py",
+      "sha256": "5183f007b15dacf28ef2c257befe8ea358ee5ce7fadb7cdce359d26c9da0c98b",
+      "lines": 5414,
+      "bytes": 283281,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/account/security/account_security.xml",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/security/account_security.xml",
+      "sha256": "1cdc88906e0336bf48a084ddde1a01b4c8a07c9cc9cadffcd218b449b351ee93",
+      "lines": 331,
+      "bytes": 16646,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/account/security/ir.model.access.csv",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/security/ir.model.access.csv",
+      "sha256": "4d2520a2a7f76d370714bc7a2873614f727c85358428acb03932a75f3d6c2d47",
+      "lines": 146,
+      "bytes": 16144,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "documentation",
+      "url": "https://raw.githubusercontent.com/odoo/documentation/67e8ded4a03d7c53be4e2c4d53471678e9e9352e/content/developer/reference/external_api.rst",
+      "sha256": "570abb08bace21c99518ab97717dd9537d7f300d54caa6145a2e29c526d9992e",
+      "lines": 757,
+      "bytes": 27858,
+      "repository": "odoo/documentation"
+    },
+    {
+      "path": "official-images",
+      "url": "https://raw.githubusercontent.com/docker-library/official-images/f46f6995a0b94aef7d593071fca3b4af924ffe12/library/odoo",
+      "sha256": "02ebc0c03816465711d539320a85ebd55bed9e4f730bf77aa5716b93fb33bd5b",
+      "lines": 16,
+      "bytes": 418,
+      "repository": "docker-library/official-images"
+    },
+    {
+      "path": "image-inspection",
+      "url": "https://raw.githubusercontent.com/docker-library/repo-info/afb419bc04faac713edf97eda3d9b09c63ba3cd9/repos/odoo/remote/19.0.md",
+      "sha256": "7866e7d5947ecf048ea0037146baed0c4d288f2d3367da116ed7d4aa8041ea1c",
+      "lines": 422,
+      "bytes": 23329,
+      "repository": "docker-library/repo-info"
+    },
+    {
+      "path": "image-dockerfile",
+      "url": "https://raw.githubusercontent.com/odoo/docker/f900094eb7492968332868d686caf22b966592ca/19.0/Dockerfile",
+      "sha256": "1e9541902f171d6bacf60012df6bfa5bf5602ba05d44601983e802d906ec8ca4",
+      "lines": 106,
+      "bytes": 3759,
+      "repository": "odoo/docker"
+    },
+    {
+      "path": "image-config",
+      "url": "https://raw.githubusercontent.com/odoo/docker/f900094eb7492968332868d686caf22b966592ca/19.0/odoo.conf",
+      "sha256": "4d772957164d15f1c5c13d5b0e11be0b0ee54b1d1e9068487db403a5b51c7b32",
+      "lines": 37,
+      "bytes": 816,
+      "repository": "odoo/docker"
+    },
+    {
+      "path": "image-entrypoint",
+      "url": "https://raw.githubusercontent.com/odoo/docker/f900094eb7492968332868d686caf22b966592ca/19.0/entrypoint.sh",
+      "sha256": "18ea7deeebfb22ea625c72b45f84ff3356644443f89942f1a82cb73a8f10c205",
+      "lines": 52,
+      "bytes": 1340,
+      "repository": "odoo/docker"
+    },
+    {
+      "path": "addons/account/models/account_account.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/account/models/account_account.py",
+      "sha256": "2746f793ad3d1930e196a6bb656274117248dcc7778a0cdb7cdc974775baa1f6",
+      "lines": 1669,
+      "bytes": 82377,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "addons/rpc/__manifest__.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/addons/rpc/__manifest__.py",
+      "sha256": "0a2ffba442c6417baf52497c92106f09d91d4fe4a3df9aab90ac2a76e2dd847d",
+      "lines": 15,
+      "bytes": 369,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "odoo/addons/base/models/res_partner.py",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/odoo/addons/base/models/res_partner.py",
+      "sha256": "ea858ea87806958aaf184af258dee4618c5b13bf8a44d8f2ce05122b1c458b9d",
+      "lines": 1283,
+      "bytes": 63584,
+      "repository": "odoo/odoo"
+    },
+    {
+      "path": "odoo/addons/base/security/base_security.xml",
+      "url": "https://raw.githubusercontent.com/odoo/odoo/60657b50d171ddf84ab58717fdee5ac26031065b/odoo/addons/base/security/base_security.xml",
+      "sha256": "9d63f5ec1fbd084b036b8f94a3d7a258055f57a605a1d3135a42446d042363db",
+      "lines": 263,
+      "bytes": 14383,
+      "repository": "odoo/odoo"
+    }
+  ],
+  "runtime_capabilities": "NOT VERIFIED",
+  "enabled_capabilities": []
+}
