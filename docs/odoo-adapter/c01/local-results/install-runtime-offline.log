@@ -1,0 +1,39 @@
+WARNING: The directory '<USER_HOME>/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Obtaining file://<CHECKOUT>
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: fastapi<1,>=0.115 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (0.141.1)
+Requirement already satisfied: uvicorn<1,>=0.30 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (0.52.1)
+Requirement already satisfied: python-multipart<1,>=0.0.18 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (0.0.32)
+Requirement already satisfied: python-dotenv<2,>=1 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (1.2.2)
+Requirement already satisfied: python-pptx<2,>=1 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (1.0.2)
+Requirement already satisfied: reportlab<5,>=4 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (4.4.9)
+Requirement already satisfied: starlette>=0.46.0 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from fastapi<1,>=0.115->agntia-gestoria==0.1.0) (1.6.0)
+Requirement already satisfied: pydantic>=2.9.0 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from fastapi<1,>=0.115->agntia-gestoria==0.1.0) (2.13.4)
+Requirement already satisfied: typing-extensions>=4.8.0 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from fastapi<1,>=0.115->agntia-gestoria==0.1.0) (4.16.0)
+Requirement already satisfied: typing-inspection>=0.4.2 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from fastapi<1,>=0.115->agntia-gestoria==0.1.0) (0.4.3)
+Requirement already satisfied: annotated-doc>=0.0.2 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from fastapi<1,>=0.115->agntia-gestoria==0.1.0) (0.0.5)
+Requirement already satisfied: Pillow>=3.3.2 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from python-pptx<2,>=1->agntia-gestoria==0.1.0) (13.0.0)
+Requirement already satisfied: XlsxWriter>=0.5.7 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from python-pptx<2,>=1->agntia-gestoria==0.1.0) (3.2.9)
+Requirement already satisfied: lxml>=3.1.0 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from python-pptx<2,>=1->agntia-gestoria==0.1.0) (6.1.1)
+Requirement already satisfied: charset-normalizer in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from reportlab<5,>=4->agntia-gestoria==0.1.0) (3.5.2)
+Requirement already satisfied: click>=7.0 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from uvicorn<1,>=0.30->agntia-gestoria==0.1.0) (8.4.2)
+Requirement already satisfied: h11>=0.8 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from uvicorn<1,>=0.30->agntia-gestoria==0.1.0) (0.16.0)
+Requirement already satisfied: annotated-types>=0.6.0 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from pydantic>=2.9.0->fastapi<1,>=0.115->agntia-gestoria==0.1.0) (0.8.0)
+Requirement already satisfied: pydantic-core==2.46.4 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from pydantic>=2.9.0->fastapi<1,>=0.115->agntia-gestoria==0.1.0) (2.46.4)
+Requirement already satisfied: anyio<5,>=3.6.2 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from starlette>=0.46.0->fastapi<1,>=0.115->agntia-gestoria==0.1.0) (4.14.2)
+Requirement already satisfied: idna>=2.8 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from anyio<5,>=3.6.2->starlette>=0.46.0->fastapi<1,>=0.115->agntia-gestoria==0.1.0) (3.18)
+Building wheels for collected packages: agntia-gestoria
+  Building editable for agntia-gestoria (pyproject.toml): started
+  Building editable for agntia-gestoria (pyproject.toml): finished with status 'done'
+  Created wheel for agntia-gestoria: filename=agntia_gestoria-0.1.0-0.editable-py3-none-any.whl size=4134 sha256=8ed7d8b9a0c0b52c53c8bacf53b6677fa2e93492515ecc394bb479df2ef7632c
+  Stored in directory: /tmp/pip-ephem-wheel-cache-u5jfxt6_/wheels/c2/78/f5/777d2c2fc037c74fe73c417bcf5d0bee794d6898ec379d15d7
+Successfully built agntia-gestoria
+Installing collected packages: agntia-gestoria
+  Attempting uninstall: agntia-gestoria
+    Found existing installation: agntia-gestoria 0.1.0
+    Uninstalling agntia-gestoria-0.1.0:
+      Successfully uninstalled agntia-gestoria-0.1.0
+Successfully installed agntia-gestoria-0.1.0

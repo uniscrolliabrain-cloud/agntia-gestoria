@@ -1,0 +1,1155 @@
+{
+  "schema_version": 1,
+  "files": [
+    {
+      "path": ".env.example",
+      "bytes": 408,
+      "lines": 8,
+      "sha256": "65d25c5bb61ff29a844f4c15b15ffcb7ebb1de0da24d1dd9949f1f25618c1074"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "bytes": 783,
+      "lines": 24,
+      "sha256": "2b369e3557e21dc436c0d32617a754ca74144f55776858b5709a0b5d455ec63a"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 242,
+      "lines": 21,
+      "sha256": "23672b1661d5c7ce30b314707f2f989d5cae0f96434db9734be8ac6728e0b9f1"
+    },
+    {
+      "path": "LICENSE",
+      "bytes": 1076,
+      "lines": 9,
+      "sha256": "0038e133f1208fedcf2ad87934ecc353f8d3449de67a8a2cd59351ced8d27843"
+    },
+    {
+      "path": "README.md",
+      "bytes": 4251,
+      "lines": 52,
+      "sha256": "1e87156f7aabfb5d407fe31083612a2d8eac7bd96823336096e7cff6edbf6c5f"
+    },
+    {
+      "path": "agntia_gestoria/__init__.py",
+      "bytes": 100,
+      "lines": 2,
+      "sha256": "192368918b0ba1590a60e4af037e8a5c42d06bc10dab1751bc30053d1e825706"
+    },
+    {
+      "path": "agntia_gestoria/analytics.py",
+      "bytes": 13953,
+      "lines": 135,
+      "sha256": "a304bf8625e9c62d9909ecdb409112e6efd3260bf9705a448574c05e97b74f27"
+    },
+    {
+      "path": "agntia_gestoria/app.py",
+      "bytes": 20830,
+      "lines": 328,
+      "sha256": "dfbbe7b7919166b5dc0e790fecb32d0f46b8c16f12d5773a6d88dd8086109492"
+    },
+    {
+      "path": "agntia_gestoria/auth.py",
+      "bytes": 1977,
+      "lines": 54,
+      "sha256": "996a15e5abf8e3dac712c7d9da60fb250d4e2f0e1049e85e9c3c69eb4693de48"
+    },
+    {
+      "path": "agntia_gestoria/cli.py",
+      "bytes": 442,
+      "lines": 14,
+      "sha256": "6eb44fc4513c4d18118f834f10ee57228e9b4cc9cb77ff84cd8a37947c4f84ab"
+    },
+    {
+      "path": "agntia_gestoria/data/legal_sources.json",
+      "bytes": 12444,
+      "lines": 308,
+      "sha256": "b8a3ca5cc22ad7a3f68f911b4dd2d403028de2061f1a5168c260fa615798eb71"
+    },
+    {
+      "path": "agntia_gestoria/engines.py",
+      "bytes": 11640,
+      "lines": 125,
+      "sha256": "1f11e3d78249e9f5390e4f16f2b16e373bb4031314691fa34fd3c33a0f84aa7a"
+    },
+    {
+      "path": "agntia_gestoria/models.py",
+      "bytes": 6396,
+      "lines": 157,
+      "sha256": "1fdf64c7a598a46fa4b5ac57d65cc6466715143d8afd453f3e742f1a367023ff"
+    },
+    {
+      "path": "agntia_gestoria/report_routes.py",
+      "bytes": 2491,
+      "lines": 42,
+      "sha256": "9b5c11540e4863b7f011b7044266a7fa45b91e6ffe3ebf14bc5d31e95ad3bef0"
+    },
+    {
+      "path": "agntia_gestoria/rules.py",
+      "bytes": 10755,
+      "lines": 99,
+      "sha256": "1f8f56a4b7421b401c5801bcf1436e2947b94578aa9d31c5527cce6451cc1cad"
+    },
+    {
+      "path": "agntia_gestoria/static/app.js",
+      "bytes": 13817,
+      "lines": 29,
+      "sha256": "54245b6c29f407da043841a35cbf51c06ec35b915e69b77426b1d90afa6ea642"
+    },
+    {
+      "path": "agntia_gestoria/static/dashboard.js",
+      "bytes": 11105,
+      "lines": 21,
+      "sha256": "37ca0d4acec15b1b03d0ecb1dbc84a5dbc344ebe90cbe71d5f06fa59580e695e"
+    },
+    {
+      "path": "agntia_gestoria/static/index.html",
+      "bytes": 1544,
+      "lines": 1,
+      "sha256": "bb59f85fbc9724302a5a1e648f2cd4f48336a1cad559e1d76e4abcf95e889998"
+    },
+    {
+      "path": "agntia_gestoria/static/style.css",
+      "bytes": 5343,
+      "lines": 3,
+      "sha256": "a3f7a44b5ceb4f28928b30b2949098a4e9158635dc6f1ce41f20e050eb13b554"
+    },
+    {
+      "path": "agntia_gestoria/storage.py",
+      "bytes": 4020,
+      "lines": 99,
+      "sha256": "04233b7c33d140fb89ac30a0aef3f133f7adb381637fc7b512d247896184b3e8"
+    },
+    {
+      "path": "agntia_gestoria/tax.py",
+      "bytes": 14254,
+      "lines": 211,
+      "sha256": "3a152f4dec27d3e6c055e1ea6e5879e65b292a317695c530a962316e2a1e17d2"
+    },
+    {
+      "path": "agntia_gestoria/territories.py",
+      "bytes": 1449,
+      "lines": 27,
+      "sha256": "4628d5abab0d3d1fe1ab05e2d294e37e8163b4de8c868a684688faa6f37cce38"
+    },
+    {
+      "path": "docs/calculation-engines.md",
+      "bytes": 3983,
+      "lines": 25,
+      "sha256": "222a4b8a1b3a4a46882cd2278f34bd8523b4bf8dcae4d4057076a3932d1e0de9"
+    },
+    {
+      "path": "docs/dashboard-and-reports.md",
+      "bytes": 3564,
+      "lines": 35,
+      "sha256": "4afd47c5a389b89260c1ccc1de3545a2bced5731a4134aaf2fe2e866d94391b4"
+    },
+    {
+      "path": "docs/legal-research.md",
+      "bytes": 5629,
+      "lines": 39,
+      "sha256": "f097e42f99d4587c1856f3fed13cbf3ba554ebc767b34a8d60854842d28f00f9"
+    },
+    {
+      "path": "docs/product-scope.md",
+      "bytes": 6501,
+      "lines": 47,
+      "sha256": "e2c8f130766c5595a41f32300f663165402ad0a4263687d70e9cdb054d78c805"
+    },
+    {
+      "path": "docs/repositories.md",
+      "bytes": 1183,
+      "lines": 12,
+      "sha256": "ee8ee887d4002c6907a840e62d1215534cea89a3101ef629f55371cacdd24a20"
+    },
+    {
+      "path": "pyproject.toml",
+      "bytes": 753,
+      "lines": 25,
+      "sha256": "2bfed2b3a704685510f25c0ade7f4750cca9fd2e115b94baba6b0aef8d22958a"
+    },
+    {
+      "path": "scripts/browser_check.py",
+      "bytes": 4369,
+      "lines": 60,
+      "sha256": "aee260a5abe31631fcf7f109638b65264ad687497f4923ec964ddd550b0bf521"
+    },
+    {
+      "path": "tests/test_core.py",
+      "bytes": 14901,
+      "lines": 196,
+      "sha256": "204d79c4f1f254654b3c058291f7eb2993757e2cf6f174365273ff425880982b"
+    },
+    {
+      "path": "tests/test_engines_reports.py",
+      "bytes": 12840,
+      "lines": 166,
+      "sha256": "f6adf9eeb72ea8e362504d50232a922e20d394809100e3ee418855963318774f"
+    },
+    {
+      "path": "typescript/README.md",
+      "bytes": 1125,
+      "lines": 9,
+      "sha256": "dbb2f2d065f7de89b26425f4159c7cf2241ed911b9f08f3b33fbd86af4a4e372"
+    },
+    {
+      "path": "typescript/agents.ts",
+      "bytes": 2693,
+      "lines": 20,
+      "sha256": "c2adf6fc35509c86dd291465af0f705a3959a9366eeee49527aa9f8c593c195d"
+    },
+    {
+      "path": "typescript/dist/agents.js",
+      "bytes": 2693,
+      "lines": 20,
+      "sha256": "908eeb5bab85b907ed6848ff1007d90ff26aca459bbf9042e7f4bf0b3db8faa9"
+    },
+    {
+      "path": "typescript/dist/hono.js",
+      "bytes": 1503,
+      "lines": 22,
+      "sha256": "651d7e8faa58e53d22e79443d5c48ca8c0135d21312676d73e4a66b7039d5bf9"
+    },
+    {
+      "path": "typescript/dist/index.js",
+      "bytes": 2532,
+      "lines": 34,
+      "sha256": "11bbb4ddf7c426eae1e2fb1ca48ef822c3484af500e1a88d74168f91e970e0a4"
+    },
+    {
+      "path": "typescript/hono.ts",
+      "bytes": 1503,
+      "lines": 22,
+      "sha256": "90bc993cae35849f5b6caa72c63c82eb9258d337de4d4f2534b9229fe0f79324"
+    },
+    {
+      "path": "typescript/index.ts",
+      "bytes": 2532,
+      "lines": 34,
+      "sha256": "afd1a03275ed8968fd9efefaed436561cf72b6e3b05fa1fb926e9f7cd9c31edc"
+    },
+    {
+      "path": "typescript/package.json",
+      "bytes": 750,
+      "lines": 42,
+      "sha256": "580a9180570694d8ea80e55dde4acbd1d487f36febe9dca3d6859695aef5b999"
+    },
+    {
+      "path": "typescript/scripts/build.mjs",
+      "bytes": 489,
+      "lines": 8,
+      "sha256": "b81a78bbf6cf84115e8854946e9a94be3afa2949040bfdabfbb4a87de8844244"
+    },
+    {
+      "path": "typescript/types/agents.d.ts",
+      "bytes": 843,
+      "lines": 18,
+      "sha256": "a1720d100b77bfc99409fc843baae2a9e62fc3e3ada3b355433e29a23e0d841f"
+    },
+    {
+      "path": "typescript/types/hono.d.ts",
+      "bytes": 207,
+      "lines": 4,
+      "sha256": "8477681398d17bd657b59378eb87037d516c53e5fe8a494e4e9fc66bcb136102"
+    },
+    {
+      "path": "typescript/types/index.d.ts",
+      "bytes": 846,
+      "lines": 18,
+      "sha256": "3d23aeadfc698256b67420487e277b9f377d16d61b91a6fe288806bec2a6defd"
+    }
+  ],
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/companies",
+      "handler": "companies",
+      "signature": "actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 127,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies",
+      "handler": "create_company",
+      "signature": "body: CompanyCreate, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 132,
+      "explicit_role_arguments": [
+        "'owner'"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}",
+      "handler": "company",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 141,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "PUT",
+      "path": "/api/companies/{cid}",
+      "handler": "edit_company",
+      "signature": "cid: str, body: CompanyEdit, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 145,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/audit",
+      "handler": "audit",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 309,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/calendar.ics",
+      "handler": "calendar",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 313,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/cases",
+      "handler": "cases",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 159,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/cases",
+      "handler": "new_case",
+      "signature": "cid: str, body: CaseCreate, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 164,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/cases/{oid}",
+      "handler": "get_case",
+      "signature": "cid: str, oid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 191,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "PUT",
+      "path": "/api/companies/{cid}/cases/{oid}",
+      "handler": "edit_case",
+      "signature": "cid: str, oid: str, body: CaseEdit, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 195,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/cases/{oid}/close",
+      "handler": "close_case",
+      "signature": "cid: str, oid: str, body: Revision, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 227,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/cases/{oid}/review",
+      "handler": "review_case",
+      "signature": "cid: str, oid: str, body: Review, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 215,
+      "explicit_role_arguments": [
+        "*REVIEW"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/cases/{oid}/submit-review",
+      "handler": "submit_review",
+      "signature": "cid: str, oid: str, body: Revision, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 205,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/dashboard",
+      "handler": "dashboard",
+      "signature": "cid: str, year: int=Query(ge=2000, le=2100), actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/report_routes.py",
+      "line": 19,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/documents",
+      "handler": "documents",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 268,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/documents",
+      "handler": "upload",
+      "signature": "cid: str, file: UploadFile=File(...), actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 237,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/documents/{oid}/download",
+      "handler": "download",
+      "signature": "cid: str, oid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 272,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/export",
+      "handler": "export",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 318,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/generate-plan",
+      "handler": "generate_plan",
+      "signature": "cid: str, body: Revision, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 173,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/invoice-drafts",
+      "handler": "invoices",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 291,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/invoice-drafts",
+      "handler": "invoice",
+      "signature": "cid: str, body: InvoiceDraft, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 277,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/journal-drafts",
+      "handler": "journals",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 305,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/journal-drafts",
+      "handler": "journal",
+      "signature": "cid: str, body: JournalDraft, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 295,
+      "explicit_role_arguments": [
+        "*WRITE"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/obligations",
+      "handler": "obligations",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 155,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/reports",
+      "handler": "reports",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/report_routes.py",
+      "line": 31,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/reports",
+      "handler": "create_report",
+      "signature": "cid: str, body: ReportRequest, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/report_routes.py",
+      "line": 23,
+      "explicit_role_arguments": [
+        "'owner'",
+        "'reviewer'",
+        "'agent'"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/reports/{oid}/download/{format}",
+      "handler": "download_report",
+      "signature": "cid: str, oid: str, format: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/report_routes.py",
+      "line": 37,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/tax-calculations",
+      "handler": "calculations",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 110,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/tax-calculations",
+      "handler": "calculate_return",
+      "signature": "cid: str, body: Calculation, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 100,
+      "explicit_role_arguments": [
+        "'owner'",
+        "'reviewer'",
+        "'agent'"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/tax-preparations",
+      "handler": "preparations",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 208,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/tax-preparations",
+      "handler": "prepare",
+      "signature": "cid: str, body: Preparation, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 181,
+      "explicit_role_arguments": [
+        "'owner'",
+        "'reviewer'",
+        "'agent'"
+      ]
+    },
+    {
+      "method": "GET",
+      "path": "/api/companies/{cid}/tax-records",
+      "handler": "records",
+      "signature": "cid: str, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 116,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/tax-records",
+      "handler": "create_record",
+      "signature": "cid: str, body: TaxRecord, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 120,
+      "explicit_role_arguments": [
+        "'owner'",
+        "'reviewer'",
+        "'agent'"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/tax-records/import",
+      "handler": "import_records",
+      "signature": "cid: str, body: ImportBatch, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 136,
+      "explicit_role_arguments": [
+        "'owner'",
+        "'reviewer'",
+        "'agent'"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/tax-records/preview-csv",
+      "handler": "preview_csv",
+      "signature": "cid: str, file: UploadFile=File(...), actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 150,
+      "explicit_role_arguments": [
+        "'owner'",
+        "'reviewer'",
+        "'agent'"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/tax-records/{oid}/review",
+      "handler": "review_record",
+      "signature": "cid: str, oid: str, body: RecordReview, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 89,
+      "explicit_role_arguments": [
+        "'owner'",
+        "'reviewer'"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/companies/{cid}/tax-records/{oid}/void",
+      "handler": "void_record",
+      "signature": "cid: str, oid: str, body: Revision, actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 171,
+      "explicit_role_arguments": [
+        "'owner'",
+        "'reviewer'",
+        "'agent'"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/login",
+      "handler": "login",
+      "signature": "body: Login, request: Request",
+      "file": "agntia_gestoria/app.py",
+      "line": 108,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "POST",
+      "path": "/api/logout",
+      "handler": "logout",
+      "signature": "actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 117,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/openapi.json",
+      "handler": "openapi",
+      "signature": "actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 121,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/sources",
+      "handler": "sources",
+      "signature": "actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 124,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/status",
+      "handler": "status",
+      "signature": "actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/app.py",
+      "line": 101,
+      "explicit_role_arguments": []
+    },
+    {
+      "method": "GET",
+      "path": "/api/tax-capabilities",
+      "handler": "capabilities",
+      "signature": "actor: Actor=Depends(authenticate)",
+      "file": "agntia_gestoria/tax.py",
+      "line": 78,
+      "explicit_role_arguments": []
+    }
+  ],
+  "python_api": [
+    {
+      "file": "agntia_gestoria/analytics.py",
+      "name": "amount",
+      "signature": "value"
+    },
+    {
+      "file": "agntia_gestoria/analytics.py",
+      "name": "analyze",
+      "signature": "company, records, calculations, cases, year"
+    },
+    {
+      "file": "agntia_gestoria/analytics.py",
+      "name": "infographic",
+      "signature": "report"
+    },
+    {
+      "file": "agntia_gestoria/analytics.py",
+      "name": "report_html",
+      "signature": "report"
+    },
+    {
+      "file": "agntia_gestoria/analytics.py",
+      "name": "presentation",
+      "signature": "report"
+    },
+    {
+      "file": "agntia_gestoria/analytics.py",
+      "name": "report_pdf",
+      "signature": "report"
+    },
+    {
+      "file": "agntia_gestoria/app.py",
+      "name": "conflict",
+      "signature": "actual, expected"
+    },
+    {
+      "file": "agntia_gestoria/app.py",
+      "name": "case_content",
+      "signature": "case"
+    },
+    {
+      "file": "agntia_gestoria/app.py",
+      "name": "calendar_export",
+      "signature": "cases"
+    },
+    {
+      "file": "agntia_gestoria/app.py",
+      "name": "create_app",
+      "signature": "data_dir=None"
+    },
+    {
+      "file": "agntia_gestoria/auth.py",
+      "name": "Actor.can_access",
+      "signature": "self, cid"
+    },
+    {
+      "file": "agntia_gestoria/auth.py",
+      "name": "actors",
+      "signature": ""
+    },
+    {
+      "file": "agntia_gestoria/auth.py",
+      "name": "authenticate",
+      "signature": "request: Request"
+    },
+    {
+      "file": "agntia_gestoria/auth.py",
+      "name": "require_role",
+      "signature": "actor, *roles"
+    },
+    {
+      "file": "agntia_gestoria/auth.py",
+      "name": "company_access",
+      "signature": "actor, cid"
+    },
+    {
+      "file": "agntia_gestoria/cli.py",
+      "name": "main",
+      "signature": ""
+    },
+    {
+      "file": "agntia_gestoria/engines.py",
+      "name": "Calculation.scope",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/engines.py",
+      "name": "fail",
+      "signature": "message"
+    },
+    {
+      "file": "agntia_gestoria/engines.py",
+      "name": "calculate",
+      "signature": "company, all_records, request"
+    },
+    {
+      "file": "agntia_gestoria/models.py",
+      "name": "Facts.dates",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/models.py",
+      "name": "InvoiceDraft.taxes",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/models.py",
+      "name": "money",
+      "signature": "value: Decimal"
+    },
+    {
+      "file": "agntia_gestoria/models.py",
+      "name": "invoice_totals",
+      "signature": "draft: InvoiceDraft"
+    },
+    {
+      "file": "agntia_gestoria/models.py",
+      "name": "JournalLine.one_side",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/models.py",
+      "name": "JournalDraft.balanced",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/report_routes.py",
+      "name": "register_report_routes",
+      "signature": "app, db"
+    },
+    {
+      "file": "agntia_gestoria/rules.py",
+      "name": "catalogue",
+      "signature": ""
+    },
+    {
+      "file": "agntia_gestoria/rules.py",
+      "name": "add_months",
+      "signature": "day, months"
+    },
+    {
+      "file": "agntia_gestoria/rules.py",
+      "name": "evaluate",
+      "signature": "company, today=None"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "now",
+      "signature": ""
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "uid",
+      "signature": ""
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "identifier",
+      "signature": "value"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "canonical",
+      "signature": "value"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "digest",
+      "signature": "value"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.__init__",
+      "signature": "self, directory"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.connection",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.transaction",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.company",
+      "signature": "connection, cid"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.get",
+      "signature": "connection, cid, oid, kind"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.list",
+      "signature": "connection, cid, kind"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.put",
+      "signature": "connection, cid, kind, body, unique_key=None"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.audit",
+      "signature": "connection, cid, actor, action, object_id, body"
+    },
+    {
+      "file": "agntia_gestoria/storage.py",
+      "name": "Database.audit_log",
+      "signature": "connection, cid"
+    },
+    {
+      "file": "agntia_gestoria/tax.py",
+      "name": "TaxRecord.tax_consistency",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/tax.py",
+      "name": "Preparation.period_validity",
+      "signature": "self"
+    },
+    {
+      "file": "agntia_gestoria/tax.py",
+      "name": "bounds",
+      "signature": "year, period"
+    },
+    {
+      "file": "agntia_gestoria/tax.py",
+      "name": "register_tax_routes",
+      "signature": "app, db"
+    },
+    {
+      "file": "agntia_gestoria/territories.py",
+      "name": "territorial_profile",
+      "signature": "company"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Finance.test_rounding_and_explicit_rates",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Finance.test_calendar",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Finance.test_distinct_sif_b2b_and_real_approval_date",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Finance.test_all_territories_and_mixed_profile",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Finance.test_unknown_vat_and_territory",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.setUp",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.tearDown",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.test_auth_and_role",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.test_revision_and_review",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.test_reviewed_close_and_cross_company_document",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.test_national_profile_api_round_trip",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.test_tax_record_duplicate_period_summary_and_changes",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.test_tax_records_scoped_and_preparation_validation",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_core.py",
+      "name": "Service.test_plan_idempotent_upload_and_static",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "company",
+      "signature": ""
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "record",
+      "signature": "key, kind, base, tax, day='2026-04-01', retention='0', deductible=None"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "request",
+      "signature": "model='303', **kwargs"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "Engines.test_vat_credit_consumption_and_negative_period",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "Engines.test_non_vat_expense_is_explicitly_excluded_from_boxes",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "Engines.test_vat_rate_groups_and_quarter_boundary",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "Engines.test_irpf_ytd_previous_payments_and_minoracion",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "Engines.test_irpf_minoracion_boundaries_and_negative_signs",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "Engines.test_explicit_rejections_no_silent_omissions",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "Reports.test_metrics_alerts_and_exports",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "Reports.test_negative_adjustments_chart_has_valid_geometry",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "API.setUp",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "API.tearDown",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "API.create",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "API.test_calculation_review_and_saved_report",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "API.test_import_is_atomic_and_preview_does_not_save",
+      "signature": "self"
+    },
+    {
+      "file": "tests/test_engines_reports.py",
+      "name": "API.test_company_scope_on_reports_and_dashboard",
+      "signature": "self"
+    }
+  ],
+  "typescript_exports": [
+    {
+      "file": "typescript/agents.ts",
+      "line": 3,
+      "declaration": "export function agentTools(client: Gestoria, companyId: string)"
+    },
+    {
+      "file": "typescript/hono.ts",
+      "line": 5,
+      "declaration": "export function gestoriaRoutes(forActor: (context: Context) => Promise<Gestoria>)"
+    },
+    {
+      "file": "typescript/index.ts",
+      "line": 1,
+      "declaration": "export class GestoriaError extends Error"
+    },
+    {
+      "file": "typescript/index.ts",
+      "line": 7,
+      "declaration": "export class Gestoria"
+    },
+    {
+      "file": "typescript/index.ts",
+      "line": 34,
+      "declaration": "export function id(value: string)"
+    },
+    {
+      "file": "typescript/types/agents.d.ts",
+      "line": 4,
+      "declaration": "export declare function agentTools(client: Gestoria, companyId: string):"
+    },
+    {
+      "file": "typescript/types/hono.d.ts",
+      "line": 4,
+      "declaration": "export declare function gestoriaRoutes(forActor: (context: Context) => Promise<Gestoria>): Hono;"
+    },
+    {
+      "file": "typescript/types/index.d.ts",
+      "line": 1,
+      "declaration": "export declare class GestoriaError extends Error"
+    },
+    {
+      "file": "typescript/types/index.d.ts",
+      "line": 6,
+      "declaration": "export declare class Gestoria"
+    },
+    {
+      "file": "typescript/types/index.d.ts",
+      "line": 18,
+      "declaration": "export declare function id(value: string): string;"
+    }
+  ],
+  "baseline_tree": "572b06b1ea2bec2307d94136eb742bc5dcb61081"
+}

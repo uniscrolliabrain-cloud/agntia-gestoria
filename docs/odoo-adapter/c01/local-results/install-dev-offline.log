@@ -1,0 +1,16 @@
+WARNING: The directory '<USER_HOME>/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+Obtaining file://<CHECKOUT>
+  Checking if build backend supports build_editable: started
+  Checking if build backend supports build_editable: finished with status 'done'
+  Preparing editable metadata (pyproject.toml): started
+  Preparing editable metadata (pyproject.toml): finished with status 'done'
+Requirement already satisfied: fastapi<1,>=0.115 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (0.141.1)
+Requirement already satisfied: uvicorn<1,>=0.30 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (0.52.1)
+Requirement already satisfied: python-multipart<1,>=0.0.18 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (0.0.32)
+Requirement already satisfied: python-dotenv<2,>=1 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (1.2.2)
+Requirement already satisfied: python-pptx<2,>=1 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (1.0.2)
+Requirement already satisfied: reportlab<5,>=4 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (4.4.9)
+Requirement already satisfied: httpx<1,>=0.27 in /opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages (from agntia-gestoria==0.1.0) (0.28.1)
+INFO: pip is looking at multiple versions of agntia-gestoria[dev] to determine which version is compatible with other requirements. This could take a while.
+ERROR: Could not find a version that satisfies the requirement pytest<10,>=8; extra == "dev" (from agntia-gestoria[dev]) (from versions: none)
+ERROR: No matching distribution found for pytest<10,>=8; extra == "dev"
