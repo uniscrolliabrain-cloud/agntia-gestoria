@@ -5,7 +5,7 @@ Fecha de actualización: 2026-11-09. Informe parcial de C01 y auditoría estáti
 | Campaña | Estado | Evidencia / siguiente condición |
 | --- | --- | --- |
 | C01 Baseline | PASS (baseline remoto; snapshot ausente NOT VERIFIED) | PR [#1](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/1), revisión `f95a945449994deea8313d1c501c055522ea8dff`; CI y navegador PASS. Fusionada con aprobación del propietario en `0626ae218983337163c569bb9dc589e98775088a`. |
-| C02 Upstream | BLOCKED | SHA, digests y matriz fijados; 38 comprobaciones estáticas PASS. Gate integral BLOCKED: instancia, permisos y contratos reales NOT VERIFIED; PR borrador pendiente de publicación. |
+| C02 Upstream | BLOCKED | SHA, digests y matriz fijados; 38 comprobaciones estáticas PASS. Gate integral BLOCKED: instancia, permisos y contratos reales NOT VERIFIED; PR [#2](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/2) en borrador; fuente y CI PASS en `09cc1cdb3994f6c978b5d0f777161d0717da8137`, sin integración real. |
 | C03 Laboratorio | NOT VERIFIED | Socket Docker local denegado; no se ha arrancado Odoo ni dos bases de test. |
 | C04 Contratos | NOT VERIFIED | No iniciado; depende de las fases anteriores. |
 | C05 Migraciones | NOT VERIFIED | No iniciado; SQLite y datos originales intactos. |
