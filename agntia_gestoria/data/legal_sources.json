@@ -1,0 +1,308 @@
+{
+  "pack_id": "es-engines-2026-11-09",
+  "checked_on": "2026-11-09",
+  "next_review_on": "2026-12-09",
+  "scope": "Mapa inicial de preparación administrativa para SL y autónomos. No certifica cumplimiento ni sustituye revisión del caso.",
+  "sources": [
+    {
+      "id": "lsc",
+      "title": "Ley de Sociedades de Capital",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2010-10544",
+      "locators": [
+        "arts. 164, 253, 279"
+      ],
+      "summary": "Cuentas anuales: formulación, junta ordinaria y depósito; requiere el cierre y la aprobación reales."
+    },
+    {
+      "id": "commerce",
+      "title": "Código de Comercio",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1885-6627",
+      "locators": [
+        "arts. 25, 27, 30"
+      ],
+      "summary": "Libros y conservación mercantil. Seis años desde el último asiento, sin eliminar otras obligaciones especiales."
+    },
+    {
+      "id": "lgt",
+      "title": "Ley 58/2003, General Tributaria",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2003-23186",
+      "locators": [
+        "arts. 29, 66 a 70"
+      ],
+      "summary": "Obligaciones formales y prescripción. Cuatro años no es una política universal de borrado documental."
+    },
+    {
+      "id": "census",
+      "title": "RD 1065/2007, gestión e inspección tributaria",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-15984",
+      "locators": [
+        "obligaciones censales"
+      ],
+      "summary": "Alta, variaciones y situación censal: comprobar actividad, régimen y administración competente."
+    },
+    {
+      "id": "invoicing",
+      "title": "RD 1619/2012, obligaciones de facturación",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2012-14696",
+      "locators": [
+        "arts. 6, 7, 8 bis, 19"
+      ],
+      "summary": "Contenido y conservación de facturas. Este programa prepara borradores, no emite facturas fiscales."
+    },
+    {
+      "id": "vat",
+      "title": "Ley 37/1992, IVA",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1992-28740",
+      "locators": [
+        "ámbito territorial y obligaciones"
+      ],
+      "summary": "Determinar sujeción, exenciones y régimen por operación; no extrapolar IVA peninsular a Canarias o regímenes forales."
+    },
+    {
+      "id": "irpf",
+      "title": "Ley 35/2006, IRPF",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2006-20764",
+      "locators": [
+        "actividades económicas, pagos y retenciones"
+      ],
+      "summary": "Los pagos fraccionados y retenciones dependen del régimen y circunstancias. No todos los autónomos presentan el mismo modelo."
+    },
+    {
+      "id": "is",
+      "title": "Ley 27/2014, Impuesto sobre Sociedades",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2014-12328",
+      "locators": [
+        "art. 124"
+      ],
+      "summary": "Revisar sujeción y declaración respecto del período impositivo real."
+    },
+    {
+      "id": "pgc",
+      "title": "RD 1514/2007, Plan General de Contabilidad",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-19884",
+      "locators": [
+        "marco conceptual y normas de registro"
+      ],
+      "summary": "Referencia contable. Cuadrar debe/haber no valida por sí solo una contabilización."
+    },
+    {
+      "id": "pgc-pymes",
+      "title": "RD 1515/2007, PGC PYMES",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2007-19966",
+      "locators": [
+        "ámbito y criterios de aplicación"
+      ],
+      "summary": "Su aplicabilidad exige comprobar requisitos; no basta con ser una empresa pequeña."
+    },
+    {
+      "id": "lgss",
+      "title": "RDL 8/2015, Ley General de la Seguridad Social",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11724",
+      "locators": [
+        "afiliación, cotización y trabajo autónomo"
+      ],
+      "summary": "Encuadramiento, altas y cotización. No se calculan nóminas ni cuotas en este MVP."
+    },
+    {
+      "id": "employment",
+      "title": "RDL 2/2015, Estatuto de los Trabajadores",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2015-11430",
+      "locators": [
+        "contratación y relación laboral"
+      ],
+      "summary": "Preparación de expedientes laborales; revisar además el convenio y los datos de cada relación."
+    },
+    {
+      "id": "prl",
+      "title": "Ley 31/1995, prevención de riesgos laborales",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1995-24292",
+      "locators": [
+        "obligaciones empresariales"
+      ],
+      "summary": "Revisión de organización preventiva cuando corresponda, sin sustituir evaluación técnica de riesgos."
+    },
+    {
+      "id": "privacy",
+      "title": "LO 3/2018, protección de datos",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2018-16673",
+      "locators": [
+        "complemento nacional al RGPD"
+      ],
+      "summary": "Acceso por empresas, minimización y organización de documentación personal."
+    },
+    {
+      "id": "gdpr",
+      "title": "Reglamento (UE) 2016/679, RGPD",
+      "issuer": "EUR-Lex",
+      "url": "https://eur-lex.europa.eu/eli/reg/2016/679/oj?locale=es",
+      "locators": [
+        "arts. 5, 6, 28, 30 y 32"
+      ],
+      "summary": "Revisar base jurídica, encargado, registros cuando procedan y medidas de seguridad."
+    },
+    {
+      "id": "aepd-pymes",
+      "title": "Orientación para PYMES",
+      "issuer": "AEPD",
+      "url": "https://www.aepd.es/derechos-y-deberes/cumple-tus-deberes/directrices-de-aplicacion/pymes",
+      "locators": [
+        "FACILITA_RGPD"
+      ],
+      "summary": "Guía de ayuda para tratamientos de bajo riesgo; no implica que toda empresa reúna esas condiciones."
+    },
+    {
+      "id": "sif",
+      "title": "RD 1007/2023, sistemas informáticos de facturación",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2023-24840",
+      "locators": [
+        "ámbito de aplicación y requisitos del SIF"
+      ],
+      "summary": "SIF/VERI*FACTU es distinto de factura electrónica B2B. El MVP no implementa emisión fiscal ni envío de registros."
+    },
+    {
+      "id": "sif-dates",
+      "title": "Nota AEAT: plazos de adaptación del SIF",
+      "issuer": "AEAT",
+      "url": "https://sede.agenciatributaria.gob.es/Sede/iva/sistemas-informaticos-facturacion-verifactu/nota-informativa-ampliacion-plazo-adaptacion-facturacion.html",
+      "locators": [
+        "RDL 15/2025; fechas consultadas 09/11/2026"
+      ],
+      "summary": "La nota consultada indica 01/01/2027 para contribuyentes del IS y 01/07/2027 para los restantes obligados. Verificar ámbito y novedades antes de aplicar."
+    },
+    {
+      "id": "b2b-rd",
+      "title": "RD 238/2026, factura electrónica B2B",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2026-7295",
+      "locators": [
+        "art. 3; disposiciones transitorias y final cuarta"
+      ],
+      "summary": "Facturación electrónica estructurada entre empresarios y profesionales; verificar operaciones incluidas y exclusiones."
+    },
+    {
+      "id": "b2b-order",
+      "title": "Orden HAC/1028/2026, solución pública de factura electrónica",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2026-20587",
+      "locators": [
+        "entrada en vigor 06/10/2026"
+      ],
+      "summary": "La entrada en vigor inicia el cómputo previsto para la implantación B2B."
+    },
+    {
+      "id": "b2b-dates",
+      "title": "AEAT: Solución Pública de Facturación Electrónica",
+      "issuer": "AEAT",
+      "url": "https://sede.agenciatributaria.gob.es/Sede/todas-noticias/2026/octubre/7/solucion-publica-facturacion-electronica.html",
+      "locators": [
+        "nota del 07/10/2026"
+      ],
+      "summary": "Calendario consultado: 06/10/2027 (>8 M€), 06/10/2028 (resto, expedición/remisión/recepción) y 06/10/2029 (estados/pagos para personas físicas y atribución de rentas del tramo restante)."
+    },
+    {
+      "id": "aeat-calendar",
+      "title": "Calendario del contribuyente 2026",
+      "issuer": "AEAT",
+      "url": "https://sede.agenciatributaria.gob.es/Sede/ayuda/calendario-contribuyente/calendario-contribuyente-2026.html",
+      "locators": [
+        "modelo, período, forma de pago y días inhábiles"
+      ],
+      "summary": "Consultar la fecha concreta y la domiciliación. No se generan fechas trimestrales universales."
+    },
+    {
+      "id": "aml",
+      "title": "Ley 10/2010, prevención del blanqueo",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2010-6737",
+      "locators": [
+        "art. 2.1.m y actividades por cuenta de terceros"
+      ],
+      "summary": "Antes de prestar asesoramiento externo como negocio, analizar la condición de sujeto obligado y sus obligaciones."
+    },
+    {
+      "id": "basque-concert",
+      "title": "Ley 12/2002, Concierto Económico con el País Vasco",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-2002-9969",
+      "locators": [
+        "ámbito territorial, puntos de conexión y gestión"
+      ],
+      "summary": "Puntos de conexión por impuesto, normativa y competencia de las diputaciones forales; revisar modificaciones y efectos por ejercicio."
+    },
+    {
+      "id": "navarra-agreement",
+      "title": "Ley 28/1990, Convenio Económico con Navarra",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1990-31117",
+      "locators": [
+        "ámbito territorial, puntos de conexión y gestión"
+      ],
+      "summary": "Administración y normativa aplicables por impuesto, volumen de operaciones y puntos de conexión; posible tributación conjunta."
+    },
+    {
+      "id": "canarias-ref",
+      "title": "Ley 20/1991, Régimen Económico Fiscal de Canarias",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1991-14463",
+      "locators": [
+        "ámbito territorial, puntos de conexión y gestión"
+      ],
+      "summary": "IGIC, localización y obligaciones específicas; revisar también normativa canaria de desarrollo y obligaciones estatales coexistentes."
+    },
+    {
+      "id": "ipsi",
+      "title": "Ley 8/1991, impuesto de Ceuta y Melilla",
+      "issuer": "BOE",
+      "url": "https://www.boe.es/buscar/act.php?id=BOE-A-1991-7645",
+      "locators": [
+        "ámbito territorial, puntos de conexión y gestión"
+      ],
+      "summary": "IPSI y competencias locales; complementar con ordenanzas y calendario de cada ciudad."
+    },
+    {
+      "id": "instructions-303-2026",
+      "title": "Instrucciones AEAT 303 (2026)",
+      "issuer": "AEAT",
+      "url": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/iva/modelo-303-iva-autoliquidacion_/instrucciones-2026/instrucciones-02-12-2t-4t-2026.html",
+      "locators": [
+        "casillas y ámbito del motor acotado"
+      ],
+      "summary": "Fuente del cálculo determinista para supuestos admitidos; revisar ámbito y cambios del ejercicio."
+    },
+    {
+      "id": "instructions-130-2026",
+      "title": "Instrucciones AEAT 130 (2026)",
+      "issuer": "AEAT",
+      "url": "https://sede.agenciatributaria.gob.es/Sede/impuestos-tasas/impuesto-sobre-renta-personas-fisicas/modelo-130-irpf______esionales-estimacion-directa-fraccionado_/instrucciones.html",
+      "locators": [
+        "casillas y ámbito del motor acotado"
+      ],
+      "summary": "Fuente del cálculo determinista para supuestos admitidos; revisar ámbito y cambios del ejercicio."
+    },
+    {
+      "id": "instructions-303-2026-1t",
+      "title": "Instrucciones AEAT 303 (2026, 1T)",
+      "issuer": "AEAT",
+      "url": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/iva/modelo-303-iva-autoliquidacion_/instrucciones-2026.html",
+      "locators": [
+        "régimen general y compensación"
+      ],
+      "summary": "Versión aplicable al primer trimestre de 2026; no sustituir por instrucciones de períodos posteriores."
+    }
+  ]
+}

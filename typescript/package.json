@@ -1,0 +1,42 @@
+{
+  "name": "@agntia/gestoria",
+  "version": "0.1.0",
+  "type": "module",
+  "engines": {
+    "node": ">=22.13"
+  },
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./hono": {
+      "types": "./types/hono.d.ts",
+      "default": "./dist/hono.js"
+    },
+    "./agents": {
+      "types": "./types/agents.d.ts",
+      "default": "./dist/agents.js"
+    }
+  },
+  "files": [
+    "*.ts",
+    "dist",
+    "scripts",
+    "README.md",
+    "types"
+  ],
+  "peerDependencies": {
+    "hono": "^4.10.0"
+  },
+  "peerDependenciesMeta": {
+    "hono": {
+      "optional": true
+    }
+  },
+  "license": "MIT",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "prepare": "node scripts/build.mjs"
+  }
+}
