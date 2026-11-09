@@ -49,7 +49,8 @@ with tempfile.TemporaryDirectory() as directory:
             page.get_by_role('button',name='Guardar',exact=True).click();page.get_by_role('heading',name='Ingreso manual',exact=True).wait_for()
             page.locator('[data-tab="dashboard"]').click();page.locator('.kpi').first.wait_for()
             page.set_viewport_size({'width':390,'height':844});page.screenshot(path='test-results/dashboard-mobile.png',full_page=True)
-            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), 'Horizontal mobile overflow'
+            overflow=page.evaluate('''() => [...document.querySelectorAll('body *')].filter(e => { const r=e.getBoundingClientRect(); return r.width && (r.right>innerWidth+1 || r.left< -1) && getComputedStyle(e).position !== 'fixed'; }).map(e=>({tag:e.tagName,cls:e.className,width:e.getBoundingClientRect().width,right:e.getBoundingClientRect().right})).slice(0,20)''')
+            assert page.evaluate('document.documentElement.scrollWidth <= innerWidth'), 'Horizontal mobile overflow: '+json.dumps(overflow)
             assert not failures, failures
             browser.close()
         print('Desktop/mobile dashboard, report download and record creation passed')
