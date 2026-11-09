@@ -29,9 +29,9 @@ Fecha: 2026-11-09. Base main: `1fd25d932a26acab0d865aa4aa3d7ed83876282e`. Rama: 
 
 ## Pruebas y entrega
 
-Ver [c20/local-results.json](c20/local-results.json) para número exacto ejecutado/pasado/fallido, duración y versiones. Tests Python locales usan un workaround del selector de este sandbox; CI estándar pendiente en la nueva revisión. Node build/sintaxis y un archivo de pruebas Node pasan. No afirmar Docker, navegador actual, backup real o E2E real como PASS. No se han usado datos de clientes.
+Ver [c20/local-results.json](c20/local-results.json) para número exacto ejecutado/pasado/fallido, duración y versiones. Tests Python locales usan un workaround del selector de este sandbox; CI estándar PASS sobre el código `84504053d71c966db58d8de0fdf44b9817ebef82`: 57/57 sin workaround, 4/4 Node y navegador desktop/móvil, descarga de informe y creación de registro. Evidencia: [c20/ci-results.json](c20/ci-results.json). Node build/sintaxis y un archivo de pruebas Node pasan. Docker, backup real y E2E Odoo real siguen NOT VERIFIED. El navegador de la UI existente sí aprobó en CI; no es un test de una nueva UI ERP. No se han usado datos de clientes.
 
-Historial remoto previo: PR1 merge `0626ae218983337163c569bb9dc589e98775088a`; PR2 merge `1f8b7542d859ede4ea8b624fd3a4371ea603190e`; handoff main `1fd25d932a26acab0d865aa4aa3d7ed83876282e`. Este lote tiene un único commit/PR de entrega, no20 SHA inventados. Consultar GitHub para el SHA inmutable final.
+Historial remoto previo: PR1 merge `0626ae218983337163c569bb9dc589e98775088a`; PR2 merge `1f8b7542d859ede4ea8b624fd3a4371ea603190e`; handoff main `1fd25d932a26acab0d865aa4aa3d7ed83876282e`. Código entregado en `84504053d71c966db58d8de0fdf44b9817ebef82`, PR [#4](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/4); actualización documental posterior con resultados CI. No se inventan20 PR independientes.
 
 ## Capacidades reales y límites
 

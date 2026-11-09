@@ -45,3 +45,8 @@ La suite local usa un ajuste del selector del sandbox para TestClient; en laptop
 No publicar facturas ni asientos, no llamar action_post, no enviar correos, pagos ni impuestos. No borrar historial ni movimientos para resolver replays. No ampliar deducibilidad por LLM. Ante mezcla tenant/DB, firma omitida, publicación posible, secreto, pérdida de auditoría o duplicado: parar, resolver y volver a probar. No tocar repo agente o producción sin aprobación. No interpretar nombre de avatar como privilegio. No afirmar cumplimiento fiscal universal.
 
 Entrega código y evidencias por PR; no fusionar automáticamente por el hecho de ejecutar este handoff. Mantener el feature flag off en producción. Toda limitación se reporta con FAIL/BLOCKED/NOT VERIFIED, nunca se maquilla como terminada.
+
+
+## Código publicado y CI verificada
+
+PR https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/4; SHA de código `84504053d71c966db58d8de0fdf44b9817ebef82`. CI estándar confirma57/57 Python sin workaround,4/4 Node y navegador desktop/móvil, descarga y creación de registro. Ver docs/odoo-adapter/c20/ci-results.json. Docker/contratos reales Odoo siguen pendientes; no confundir navegador de la UI existente con pruebas de ERP.

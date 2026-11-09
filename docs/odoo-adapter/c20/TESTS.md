@@ -17,3 +17,8 @@ Este ajuste solo pertenece al proceso de prueba local; no altera código de prod
 Las pruebas live solo se descubren con `python -m unittest discover -s tests/integration -v -f`, requieren opt-in y marker privado. No fueron ejecutadas aquí. E2E A usa PDF y clasificación sintéticos; no acredita emisión fiscal real. D usa un snapshot de cálculo de prueba; se debe ampliar a revisión/cálculo completo en el piloto. E simula pérdida del ACK local después de una operación real y concilia por ledger; el timeout real de red y la carrera concurrente remota aún deben ensayarse.
 
 La ejecución manual Docker tiene pasos de backup/restore, no resultados aprobados. Navegador de revisiones anteriores no acredita navegador de este commit. Registrar PASS/FAIL/NOT VERIFIED sin heredar aprobaciones.
+
+
+## Confirmación remota posterior
+
+CI sobre código84504053d71c966db58d8de0fdf44b9817ebef82: 57 tests Python aprobados sin workaround (7.079s), cuatro escenarios Node aprobados, instalación dev y navegador desktop/móvil/descarga/creación PASS. Fuente y baseline PASS. Ver [ci-results.json](ci-results.json), con URLs verificadas. Esta evidencia supersede solo los pendientes de CI/navegador de la evidencia local; Docker/Odoo real siguen NOT VERIFIED. Instalación editable runtime en .venv y ayuda del entrypoint worker también comprobadas; la instalación global se rechazó por home de solo lectura, sin cambiar permisos.
