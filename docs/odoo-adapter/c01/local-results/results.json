@@ -1,0 +1,176 @@
+[
+  {
+    "name": "install-dev-offline",
+    "exit_code": 1,
+    "timed_out": false,
+    "elapsed_seconds": 0.615,
+    "command": [
+      "<CHECKOUT>/.venv/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-index",
+      "--no-build-isolation",
+      "-e",
+      ".[dev]"
+    ],
+    "log": "install-dev-offline.log"
+  },
+  {
+    "name": "install-runtime-offline",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 1.006,
+    "command": [
+      "<CHECKOUT>/.venv/bin/python",
+      "-m",
+      "pip",
+      "install",
+      "--no-index",
+      "--no-build-isolation",
+      "-e",
+      "."
+    ],
+    "log": "install-runtime-offline.log"
+  },
+  {
+    "name": "unit-standard",
+    "exit_code": 124,
+    "timed_out": true,
+    "elapsed_seconds": 15.02,
+    "command": [
+      "<CHECKOUT>/.venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-v"
+    ],
+    "log": "unit-standard.log"
+  },
+  {
+    "name": "unit-selector-workaround",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 10.222,
+    "command": [
+      "<CHECKOUT>/.venv/bin/python",
+      "-c",
+      "import selectors,unittest; original=selectors.DefaultSelector.select; selectors.DefaultSelector.select=lambda self,timeout=None:original(self,min(.02,timeout) if timeout is not None else .02); r=unittest.TextTestRunner(verbosity=2).run(unittest.defaultTestLoader.discover('tests')); raise SystemExit(not r.wasSuccessful())"
+    ],
+    "log": "unit-selector-workaround.log"
+  },
+  {
+    "name": "node-build",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.082,
+    "command": [
+      "node",
+      "typescript/scripts/build.mjs"
+    ],
+    "log": "node-build.log"
+  },
+  {
+    "name": "node-app-syntax",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.027,
+    "command": [
+      "node",
+      "--check",
+      "agntia_gestoria/static/app.js"
+    ],
+    "log": "node-app-syntax.log"
+  },
+  {
+    "name": "node-dashboard-syntax",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.024,
+    "command": [
+      "node",
+      "--check",
+      "agntia_gestoria/static/dashboard.js"
+    ],
+    "log": "node-dashboard-syntax.log"
+  },
+  {
+    "name": "node-dist-unchanged",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.003,
+    "command": [
+      "git",
+      "diff",
+      "--exit-code",
+      "--",
+      "typescript/dist"
+    ],
+    "log": "node-dist-unchanged.log"
+  },
+  {
+    "name": "python-compile",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.034,
+    "command": [
+      "<CHECKOUT>/.venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "agntia_gestoria",
+      "tests",
+      "scripts"
+    ],
+    "log": "python-compile.log"
+  },
+  {
+    "name": "baseline-inventory",
+    "exit_code": 0,
+    "timed_out": false,
+    "elapsed_seconds": 0.084,
+    "command": [
+      "<CHECKOUT>/.venv/bin/python",
+      "scripts/verify_baseline.py"
+    ],
+    "log": "baseline-inventory.log"
+  },
+  {
+    "name": "browser-local",
+    "exit_code": 1,
+    "timed_out": false,
+    "elapsed_seconds": 0.1,
+    "command": [
+      "<CHECKOUT>/.venv/bin/python",
+      "scripts/browser_check.py"
+    ],
+    "log": "browser-local.log"
+  },
+  {
+    "name": "docker-local-socket",
+    "exit_code": 1,
+    "timed_out": false,
+    "elapsed_seconds": 0.048,
+    "command": [
+      "env",
+      "-u",
+      "DOCKER_HOST",
+      "-u",
+      "DOCKER_CONTEXT",
+      "-u",
+      "DOCKER_TLS",
+      "-u",
+      "DOCKER_TLS_VERIFY",
+      "-u",
+      "DOCKER_CERT_PATH",
+      "docker",
+      "--host=unix:///var/run/docker.sock",
+      "info",
+      "--format",
+      "{{.ServerVersion}}"
+    ],
+    "log": "docker-local-socket.log"
+  }
+]
