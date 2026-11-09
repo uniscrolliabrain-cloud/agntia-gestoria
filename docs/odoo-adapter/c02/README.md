@@ -14,3 +14,7 @@ python scripts/verify_baseline.py
 El primer comando requiere las fuentes exactas listadas en el lock y no importa ni ejecuta Odoo. El nuevo workflow descarga esas rutas mediante checkout sparse. Un PASS estático no equivale a fields_get, search_read, permisos bot, instalación limpia, creación de draft o pruebas multiempresa.
 
 Siguiente condición: disponer de laboratorio aislado autorizado, verificar la relación de la imagen con el SHA objetivo y ejecutar los contratos reales que exige C02. No se ha iniciado C03 como si ese gate estuviera aprobado.
+
+## Actualizacion de relevo
+
+El propietario solicito despues guardar todo el avance y un handoff largo en main para continuar con Codex en Windows. La PR #2 se fusiono por esa autorizacion de conservacion, en `1f8b7542d859ede4ea8b624fd3a4371ea603190e`, manteniendo BLOCKED el gate integral. Ver el handoff de la raiz; no interpretar la fusion como validacion de runtime ni permiso para futuras fusiones.
