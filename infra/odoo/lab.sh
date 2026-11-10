@@ -114,6 +114,9 @@ case "${1:-}" in
         verify
         ;;
     verify) verify ;;
+    provenance)
+        "${compose[@]}" exec -T odoo python3 -c "$(cat provenance.py)" < upstream-lock.json
+        ;;
     smoke)
         for database in agntia_test_a agntia_test_b; do
             "${compose[@]}" exec -T odoo bash -ec '
@@ -126,7 +129,7 @@ case "${1:-}" in
     logs) "${compose[@]}" logs --no-color ;;
     stop) "${compose[@]}" down ;;
     *)
-        printf 'Uso: bash lab.sh {up|verify|smoke|recovery|logs|stop}\n' >&2
+        printf 'Uso: bash lab.sh {up|verify|provenance|smoke|recovery|logs|stop}\n' >&2
         exit 2
         ;;
 esac

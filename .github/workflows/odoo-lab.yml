@@ -8,6 +8,7 @@ on:
       - 'infra/odoo/init-role.sh'
       - 'infra/odoo/lab.sh'
       - 'infra/odoo/smoke.py'
+      - 'infra/odoo/provenance.py'
       - '.github/workflows/odoo-lab.yml'
 
 permissions:
@@ -38,6 +39,8 @@ jobs:
         run: bash lab.sh up
       - name: Verify repeated bootstrap
         run: bash lab.sh up
+      - name: Compare installed files with the audited source subset
+        run: bash lab.sh provenance
       - name: Probe real JSON-2 with scoped synthetic users
         run: bash lab.sh smoke
       - name: Restore a database and verify a filestore attachment
