@@ -15,6 +15,5 @@ export function agentTools(client: Gestoria, companyId: string) {
     create_case: { description: 'Prepare a draft, never a governmental filing.', execute: (draft: Record<string, unknown>) => client.createCase(companyId, draft) },
     propose_plan: { description: 'Generate non-overwriting draft cases from current company facts.', execute: ({ revision }: { revision: number }) => client.propose(companyId, revision) },
     submit_review: { description: 'Ask for human review of a specific revision.', execute: ({ caseId, revision }: { caseId: string; revision: number }) => client.request(`${root}/cases/${id(caseId)}/submit-review`, { revision }) },
-    close_reviewed_case: { description: 'Close an internally reviewed case. This never files a return.', execute: ({ caseId, revision }: { caseId: string; revision: number }) => client.request(`${root}/cases/${id(caseId)}/close`, { revision }) },
   };
 }
