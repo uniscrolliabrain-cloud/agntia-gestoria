@@ -16,4 +16,4 @@ Odoo usa el manifest amd64 de [UPSTREAM.md](UPSTREAM.md). PostgreSQL usa el índ
 
 ## Alcance de la evidencia
 
-El workflow registra el arranque, la matriz de módulos, una segunda ejecución del bootstrap, las consultas JSON-2 y el ensayo de restauración. Las comprobaciones se ejecutan en un proyecto dedicado `agntia-odoo-lab`. El ensayo de permisos insuficientes por modelo y el aislamiento entre compañías dentro de una misma base se verifican por separado. La PR y sus checks son la evidencia del resultado observado. [Estado de la campaña](../../docs/odoo-adapter/final-report.md)
+El workflow registra el arranque, la matriz de módulos, una segunda ejecución del bootstrap, las consultas JSON-2 y el ensayo de restauración. Las comprobaciones se ejecutan en un proyecto dedicado `agntia-odoo-lab`. Los resultados y las comprobaciones pendientes se detallan en la [evidencia de C03](../../docs/odoo-adapter/c03/EVIDENCE.md).
