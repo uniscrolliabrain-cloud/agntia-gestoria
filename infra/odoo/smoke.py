@@ -9,10 +9,10 @@ from uuid import uuid4
 from odoo import Command, fields
 
 
-def search_read(database, key, model, domain, field_names, context=None):
+def json2(database, key, model, method, payload):
     request = Request(
-        f"http://127.0.0.1:8069/json/2/{model}/search_read",
-        data=json.dumps({"domain": domain, "fields": field_names, "limit": 1, "context": context or {}}).encode(),
+        f"http://127.0.0.1:8069/json/2/{model}/{method}",
+        data=json.dumps(payload).encode(),
         headers={
             "Authorization": f"Bearer {key}",
             "Content-Type": "application/json",
@@ -21,6 +21,21 @@ def search_read(database, key, model, domain, field_names, context=None):
     )
     with urlopen(request, timeout=20) as response:
         return json.load(response)
+
+
+def search_read(database, key, model, domain, field_names, context=None):
+    return json2(database, key, model, "search_read", {
+        "domain": domain, "fields": field_names, "limit": 1, "context": context or {},
+    })
+
+
+def require_fields(database, key, model, expected):
+    result = json2(database, key, model, "fields_get", {
+        "allfields": sorted(expected), "attributes": ["type"],
+    })
+    observed = {name: value["type"] for name, value in result.items()}
+    if observed != expected:
+        raise RuntimeError(f"{database}: {model} fields differ: {observed!r}")
 
 
 def require_rejection(database, key, model, domain, field_names, *, statuses, context=None):
@@ -88,6 +103,9 @@ def run_smoke(env):
         )
         if search_read(database, key, "res.partner", [["id", "=", shared.id]], ["name"]) != [{"id": shared.id, "name": shared.name}]:
             raise RuntimeError(f"{database}: expected native Odoo to return the shared contact")
+        require_fields(database, key, "res.partner", {"company_id": "many2one", "write_date": "datetime"})
+        if search_read(database, key, "res.company", [["id", "=", company.id]], ["name"]) != [{"id": company.id, "name": company.name}]:
+            raise RuntimeError(f"{database}: bot cannot read its bound company")
         print(f"{database}: own and shared contacts visible; peer company contact and forced context rejected")
         if accounting:
             invoice_filter = [["id", "=", invoice.id]]
@@ -95,7 +113,24 @@ def run_smoke(env):
             expected = [{"id": invoice.id, "state": "draft", "move_type": "out_invoice"}]
             if search_read(database, reader_key, "account.move", invoice_filter, ["state", "move_type"]) != expected:
                 raise RuntimeError(f"{database}: accounting reader did not receive the expected draft")
+            require_fields(database, reader_key, "account.move", {
+                "company_id": "many2one", "currency_id": "many2one", "invoice_line_ids": "one2many",
+                "move_type": "selection", "state": "selection", "write_date": "datetime",
+            })
+            require_fields(database, reader_key, "account.move.line", {
+                "display_type": "selection", "move_id": "many2one", "tax_ids": "many2many",
+            })
+            require_fields(database, reader_key, "account.tax", {
+                "amount_type": "selection", "children_tax_ids": "many2many", "company_id": "many2one",
+            })
+            require_fields(database, reader_key, "account.account", {"company_ids": "many2many"})
+            if search_read(database, reader_key, "account.journal", [["id", "=", journal.id]], ["type"]) != [{"id": journal.id, "type": "sale"}]:
+                raise RuntimeError(f"{database}: accounting reader cannot read the draft journal")
+            currency = invoice.currency_id
+            if search_read(database, reader_key, "res.currency", [["id", "=", currency.id]], ["name"]) != [{"id": currency.id, "name": currency.name}]:
+                raise RuntimeError(f"{database}: accounting reader cannot read the invoice currency")
             print(f"{database}: read-only accounting user read draft; standard internal user denied")
+            print(f"{database}: accounting fields, journal and currency probes PASS")
         else:
             require_rejection(database, key, "account.move", [], ["state"], statuses=(404,))
             print(f"{database}: account.move unavailable without account")
