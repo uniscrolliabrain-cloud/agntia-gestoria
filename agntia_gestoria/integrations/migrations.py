@@ -1,4 +1,5 @@
 """Additive integration schema. No executescript implicit commits or destructive downgrade."""
+from contextlib import closing
 import hashlib
 import sqlite3
 from pathlib import Path
@@ -31,7 +32,8 @@ def migrate(db):
         if exists and c.execute('SELECT 1 FROM integration_migrations WHERE version=1').fetchone():return None
     backups=db.root/'migration-backups';backups.mkdir(exist_ok=True)
     target=backups/('before-odoo-v1-'+uid()+'.sqlite3')
-    with sqlite3.connect(db.path) as source,sqlite3.connect(target) as destination:source.backup(destination)
+    with closing(sqlite3.connect(db.path)) as source,closing(sqlite3.connect(target)) as destination:
+        source.backup(destination)
     with db.transaction() as c:
         c.execute(DDL[0])
         if c.execute('SELECT 1 FROM integration_migrations WHERE version=1').fetchone():return target

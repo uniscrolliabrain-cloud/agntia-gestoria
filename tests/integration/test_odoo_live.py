@@ -1,6 +1,7 @@
 """Real Odoo suite. Explicit opt-in and private synthetic marker required.
 These tests are NOT executed by the default unit suite or mocked as a live PASS.
 """
+from contextlib import closing
 import json
 import os
 from pathlib import Path
@@ -32,7 +33,7 @@ class LiveOdoo(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         from agntia_gestoria.storage import Database
         local=Database(self.root)
-        with sqlite3.connect(self.state/'gestoria-data/gestoria.sqlite3') as source,local.transaction() as destination:
+        with closing(sqlite3.connect(self.state/'gestoria-data/gestoria.sqlite3')) as source,local.transaction() as destination:
             for row in source.execute('SELECT id,body FROM companies'):destination.execute('INSERT INTO companies VALUES(?,?)',row)
         self.env=patch.dict(os.environ,{**self.settings,'GESTORIA_DATA_DIR':str(self.root)});self.env.start()
         self.app=create_app(self.root);self.client=TestClient(self.app);self.adapter=Adapter(self.app.state.db);self.owner=Actor('owner','owner',('*',));self.headers={'Authorization':'Bearer '+self.fixtures['owner_token']}
