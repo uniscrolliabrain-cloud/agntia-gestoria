@@ -14,5 +14,4 @@ export declare function agentTools(client: Gestoria, companyId: string): {
  create_case: Tool<Record<string, unknown>>;
  propose_plan: Tool<{ revision: number }>;
  submit_review: Tool<{ caseId: string; revision: number }>;
- close_reviewed_case: Tool<{ caseId: string; revision: number }>;
 };
