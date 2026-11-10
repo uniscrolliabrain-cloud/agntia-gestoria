@@ -2,6 +2,8 @@
 set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
 compose=(docker compose -p agntia-odoo-lab -f compose.yaml)
+# Git Bash must pass container paths to the native Docker CLI unchanged.
+export MSYS_NO_PATHCONV=1
 
 sql() {
     local database=$1
@@ -58,6 +60,18 @@ recovery() (
     }
     trap cleanup EXIT
 
+    "${compose[@]}" exec -T odoo bash -ec '
+        exec odoo shell --no-http --database=agntia_test_b --db_host="$HOST" \
+            --db_user="$USER" --db_password="$PASSWORD"
+    ' <<'PY'
+name = "agntia-c03-recovery-fixture"
+attachments = env["ir.attachment"]
+existing = attachments.search([("name", "=", name)], limit=1)
+if not existing:
+    attachments.create({"name": name, "raw": b"agntia-c03-synthetic-attachment\n"})
+env.cr.commit()
+PY
+
     # Only the dedicated lab uses this command. The fixture DB is quiescent.
     "${compose[@]}" stop odoo
     "${compose[@]}" exec -T db pg_dump -U postgres -Fc "$local_source" > "$scratch/db.dump"
@@ -72,14 +86,14 @@ recovery() (
     require_module "$target" l10n_es
 
     # Verify that an attachment in restored SQL resolves to bytes in the restored archive.
-    attachment=$(sql "$target" -c "SELECT store_fname FROM ir_attachment WHERE store_fname ~ '^[0-9a-f]{2}/[0-9a-f]{40}$' ORDER BY id LIMIT 1")
+    attachment=$(sql "$target" -c "SELECT store_fname FROM ir_attachment WHERE name = 'agntia-c03-recovery-fixture' AND store_fname ~ '^[0-9a-f]{2}/[0-9a-f]{40}$'")
     [[ -n $attachment ]]
     "${compose[@]}" run --rm -T --no-deps --entrypoint bash odoo -ec '
         scratch=$(mktemp -d)
         tar -xf - -C "$scratch"
         test -s "$scratch/$1"
-        cmp "$scratch/$1" "/var/lib/odoo/filestore/$2/$1"
-    ' _ "$attachment" "$local_source" < "$scratch/files.tar"
+        printf "agntia-c03-synthetic-attachment\n" | cmp - "$scratch/$1"
+    ' _ "$attachment" < "$scratch/files.tar"
     "${compose[@]}" up -d --wait --wait-timeout 150 odoo
     printf 'Restored database and filestore attachment verified\n'
 )

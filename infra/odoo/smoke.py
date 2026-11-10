@@ -9,10 +9,10 @@ from uuid import uuid4
 from odoo import Command, fields
 
 
-def query_partner(database, key, partner_id):
+def search_read(database, key, model, domain, field_names):
     request = Request(
-        "http://127.0.0.1:8069/json/2/res.partner/search_read",
-        data=json.dumps({"domain": [["id", "=", partner_id]], "fields": ["name"]}).encode(),
+        f"http://127.0.0.1:8069/json/2/{model}/search_read",
+        data=json.dumps({"domain": domain, "fields": field_names, "limit": 1}).encode(),
         headers={
             "Authorization": f"Bearer {key}",
             "Content-Type": "application/json",
@@ -21,6 +21,16 @@ def query_partner(database, key, partner_id):
     )
     with urlopen(request, timeout=20) as response:
         return json.load(response)
+
+
+def require_rejection(database, key, model, domain, field_names):
+    try:
+        search_read(database, key, model, domain, field_names)
+    except HTTPError as error:
+        if error.code in (401, 403):
+            return
+        raise
+    raise RuntimeError(f"{database}: expected {model} to reject the request")
 
 
 def run_smoke(env):
@@ -43,16 +53,12 @@ def run_smoke(env):
     )
     env.cr.commit()
     try:
-        if query_partner(database, key, partner.id) != [{"id": partner.id, "name": name}]:
+        partner_filter = [["id", "=", partner.id]]
+        if search_read(database, key, "res.partner", partner_filter, ["name"]) != [{"id": partner.id, "name": name}]:
             raise RuntimeError(f"{database}: JSON-2 returned an unexpected partner")
-        try:
-            query_partner(other_database, key, partner.id)
-        except HTTPError as error:
-            if error.code not in (401, 403):
-                raise
-        else:
-            raise RuntimeError(f"{other_database}: accepted the other database's API key")
-        print(f"{database}: contacts JSON-2 PASS; cross-database key rejected")
+        require_rejection(other_database, key, "res.partner", partner_filter, ["name"])
+        require_rejection(database, key, "ir.config_parameter", [], ["key"])
+        print(f"{database}: contacts JSON-2 PASS; cross-database and admin-model requests rejected")
     finally:
         bot.unlink()
         partner.unlink()
