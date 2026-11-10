@@ -361,3 +361,8 @@ Documentación propia para continuar:
 Leer este documento como especificación de producto y el handoff como estado técnico. Verificar primero el SHA y el estado real del checkout. Completar P0 con el propietario en su PC y conservar los resultados sanitizados. Desarrollar los siguientes recorridos reutilizando los módulos existentes y el patrón de capacidades cerradas; no reconstruir el ERP ni ocultar Odoo detrás de un proxy ORM libre.
 
 No modificar fórmulas, territorios o revisión fiscal sin justificar el cambio y sus pruebas. No presentar una función upstream como integrada ni una prueba omitida como aprobada. Mantener separados el trabajo de laboratorio autorizado y cualquier activación sensible o despliegue que requiera aprobación. Registrar entregas pequeñas con resultado observable para un cliente, fallos recuperables y evidencia.
+
+
+## Relevo detallado para otras IAs
+
+Consultar el [paquete de documentación del 10 de noviembre de2026](docs/handoff/2026-11-10/README.md): seis partes extensas que reconstruyen contexto, código, pruebas, decisiones y trabajo futuro de esta conversación.

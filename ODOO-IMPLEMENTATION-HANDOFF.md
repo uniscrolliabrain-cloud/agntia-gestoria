@@ -55,3 +55,8 @@ PR https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/4; SHA de cód
 ## Visión de producto acordada · 2026-11-10
 
 Leer [VISION-Y-PLAN-AGNTIA-GESTORIA.md](VISION-Y-PLAN-AGNTIA-GESTORIA.md) para la especificación detallada: middleware sobre Odoo Community autoalojado, experiencia AgntiaPro, matriz de capacidades, recorridos, VERI*FACTU, fiscalidad, bancos, contabilidad, operaciones, laboral y fases P0–P8. Es una hoja de ruta; no modifica las guardas ni acredita funciones todavía no integradas.
+
+
+## Paquete de relevo del 10 de noviembre
+
+[docs/handoff/2026-11-10/README.md](docs/handoff/2026-11-10/README.md) reúne seis documentos de más de mil palabras cada uno: historia del chat, base Python/fiscalidad, adaptador Odoo, API/agentes, pruebas/operación y futuro del producto. Incluye manifiesto de conteos y hashes, evidencia histórica y pendientes explícitos.
