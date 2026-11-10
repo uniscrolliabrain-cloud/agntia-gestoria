@@ -41,4 +41,4 @@ Usar el Python del venv para los últimos comandos también (o activarlo). `scri
 - Conflicto: preservar original, revisar documentos, elegir keep_local o supersede_local con motivo. Nunca unlink remoto.
 - Error de arranque/addon/ACL: guardar logs privados localmente y redactar secretos antes de reportar. Corregir contra el SHA fijado y volver a probar aislamiento/borrador antes de seguir.
 
-Backup: `python scripts/odoo_backup.py --state-dir RUTA --database agntia_test_a --backup`. Restore: mismo script con --restore-from RUTA_BACKUP --confirm-synthetic-restore; destino fijo agntia_test_restore, nunca producción. Registrar hashes y conteos reales. No se considera probado por existir el script.
+Backup: `python scripts/odoo_backup.py --state-dir RUTA --database agntia_test_a --backup`. Restore: mismo script con `--restore-from RUTA_BACKUP --confirm-synthetic-restore`. Cada ensayo usa una base nueva `agntia_test_restore_<id>` y valida el adjunto por ORM. El reset sintético elimina esas copias junto con el resto del laboratorio. Registrar hashes y conteos observados.

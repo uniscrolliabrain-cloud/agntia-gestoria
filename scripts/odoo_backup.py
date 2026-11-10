@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import subprocess
 import tarfile
+from uuid import uuid4
 from odoo_bootstrap import ROOT,state_dir,compose
 
 
@@ -44,15 +45,26 @@ def main():
         if manifest.get('synthetic') is not True or manifest['database']!=database or hashlib.sha256(dump).hexdigest()!=manifest['db_sha256'] or hashlib.sha256(archive).hexdigest()!=manifest['filestore_sha256']:raise SystemExit('Backup identity/checksum mismatch')
         with tarfile.open(fileobj=io.BytesIO(archive),mode='r:gz') as tar:
             for member in tar.getmembers():
-                if member.name.startswith('/') or '..' in Path(member.name).parts or member.issym() or member.islnk() or not (member.name=='filestore/'+database or member.name.startswith('filestore/'+database+'/')):raise SystemExit('Unsafe filestore archive')
-        target='agntia_test_restore'
-        binary(state,['exec','-T','db','dropdb','--if-exists','-U','odoo',target])
+                if member.name.startswith('/') or '..' in Path(member.name).parts or not (member.isfile() or member.isdir()) or not (member.name=='filestore/'+database or member.name.startswith('filestore/'+database+'/')):raise SystemExit('Unsafe filestore archive')
+        target='agntia_test_restore_'+uuid4().hex[:16]
         binary(state,['exec','-T','db','createdb','-U','odoo',target])
-        binary(state,['exec','-T','db','pg_restore','-U','odoo','--no-owner','-d',target],dump)
+        binary(state,['exec','-T','db','pg_restore','-U','odoo','--exit-on-error','--single-transaction','--no-owner','-d',target],dump)
         binary(state,['run','--rm','--no-deps','--entrypoint','tar','odoo','-xzf','-','-C','/var/lib/odoo','--transform=s|^filestore/'+database+'|filestore/'+target+'|'],archive)
         count=binary(state,['exec','-T','db','psql','-U','odoo','-d',target,'-Atc','SELECT count(*) FROM account_move']).decode().strip()
         if not count.isdigit() or int(count)<1:raise SystemExit('Restored invoice fixture missing')
-        print(json.dumps({'status':'synthetic_restore_verified','target':target,'account_move_count':int(count),'checksums_verified':True}))
+        fixtures=json.loads((state/'fixtures.private.json').read_text())
+        ids=[row['attachment_id'] for row in fixtures['companies'] if row['database']==database]
+        if len(ids)!=1 or type(ids[0]) is not int or ids[0]<1:raise SystemExit('Synthetic attachment fixture missing')
+        expected=b'%PDF-1.7\nSYNTHETIC FIXTURE ONLY\n'
+        probe=f"""
+attachment=env['ir.attachment'].browse({ids[0]}).exists()
+if not attachment or not attachment.store_fname or attachment.raw!={expected!r}:
+    raise RuntimeError('Restored attachment differs from synthetic fixture')
+print('AGNTIA_RESTORED_ATTACHMENT_OK')
+"""
+        output=compose(state,'exec','-T','odoo','odoo','shell','-d',target,'--no-http','--shell-interface','python',input=probe,capture=True)
+        if 'AGNTIA_RESTORED_ATTACHMENT_OK' not in output.splitlines():raise SystemExit('Restored attachment not verified')
+        print(json.dumps({'status':'synthetic_restore_verified','target':target,'account_move_count':int(count),'checksums_verified':True,'orm_attachment_verified':True}))
 
 
 if __name__=='__main__':main()
