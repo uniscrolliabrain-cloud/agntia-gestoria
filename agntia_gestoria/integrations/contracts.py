@@ -3,7 +3,7 @@
 from datetime import datetime
 from typing import Annotated, Literal
 
-from pydantic import AwareDatetime, BeforeValidator, ConfigDict, Field, TypeAdapter
+from pydantic import AwareDatetime, BeforeValidator, ConfigDict, Field, StringConstraints, TypeAdapter
 
 from agntia_gestoria.models import Model
 
@@ -142,15 +142,48 @@ class InvoiceRead(ReadRequest):
 ReadCommand = Annotated[ContactRead | InvoiceRead, Field(discriminator="capability")]
 
 
-class OperationEnvelope(Contract):
-    """Trusted server envelope assembled after authenticating the caller."""
-
+class OperationContext(Contract):
+    """Trusted server context assembled after authenticating the caller."""
     schema_version: SchemaVersion = 1
     scope: Scope
     actor_id: OpaqueId
     correlation_id: OpaqueId
     causation_id: OpaqueId | None = None
+
+
+class OperationEnvelope(OperationContext):
     command: ReadCommand
+
+
+class ContactCandidate(Contract):
+    name: Annotated[str, StringConstraints(strict=True, strip_whitespace=True, min_length=1, max_length=160)]
+
+
+class ContactPreviewRequest(Contract):
+    """Candidate data only. Scope and connection come from the trusted server."""
+
+    contact: ContactCandidate
+
+
+class ContactPreview(OperationContext):
+    capability: Literal["contacts.create"] = "contacts.create"
+    connection_id: LocalId
+    connection_revision: Revision
+    preview_id: LocalId
+    preview_hash: Digest
+    contact: ContactCandidate
+    expires_at: Timestamp
+
+
+class ApprovedContactWrite(OperationContext):
+    """Execution reference assembled from a stored preview and approval."""
+
+    capability: Literal["contacts.create"] = "contacts.create"
+    preview_id: LocalId
+    preview_hash: Digest
+    approval_id: LocalId
+    connection_revision: Revision
+    idempotency_key: OpaqueId
 
 
 class ResultBase(Contract):
@@ -177,3 +210,26 @@ class ReadFailed(ResultBase):
 
 ReadResult = Annotated[ReadSucceeded | ReadUnavailable | ReadFailed, Field(discriminator="status")]
 READ_RESULT = TypeAdapter(ReadResult)
+
+
+class ContactWritten(ResultBase):
+    status: Literal["succeeded"]
+    operation_id: LocalId
+    remote_id: RemoteId
+
+
+class ContactWriteRejected(ResultBase):
+    status: Literal["rejected"]
+    reason: Literal["denied", "approval_required", "stale_preview", "idempotency_conflict", "unsupported"]
+
+
+class ContactWriteUncertain(ResultBase):
+    status: Literal["reconciliation_required"]
+    operation_id: LocalId
+
+
+ContactWriteResult = Annotated[
+    ContactWritten | ContactWriteRejected | ContactWriteUncertain,
+    Field(discriminator="status"),
+]
+CONTACT_WRITE_RESULT = TypeAdapter(ContactWriteResult)

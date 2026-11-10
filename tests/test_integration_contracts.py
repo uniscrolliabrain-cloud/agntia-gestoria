@@ -4,6 +4,9 @@ import unittest
 from pydantic import ValidationError
 
 from agntia_gestoria.integrations.contracts import (
+    ApprovedContactWrite,
+    CONTACT_WRITE_RESULT,
+    ContactPreviewRequest,
     ImportedEconomicFact,
     Money,
     OdooBinding,
@@ -116,3 +119,32 @@ class IntegrationContractsTests(unittest.TestCase):
             READ_RESULT.validate_python({
                 "correlation_id": "req-1", "status": "unavailable", "reason": "denied", "detail": "raw traceback",
             })
+
+    def test_contact_preview_and_approved_write_have_distinct_boundaries(self):
+        self.assertEqual(ContactPreviewRequest(contact={"name": "  Acme sintética  "}).contact.name, "Acme sintética")
+        for extra in ({"scope": SCOPE}, {"approval_id": LOCAL}, {"connection_id": LOCAL}):
+            with self.subTest(extra=extra), self.assertRaises(ValidationError):
+                ContactPreviewRequest.model_validate({"contact": {"name": "Acme"}, **extra})
+        with self.assertRaises(ValidationError):
+            ContactPreviewRequest(contact={"name": " "})
+        approved = {
+            "scope": SCOPE, "actor_id": "owner-a", "correlation_id": "req-1",
+            "preview_id": LOCAL, "preview_hash": SOURCE["content_hash"],
+            "approval_id": LOCAL, "connection_revision": 0, "idempotency_key": "request-a",
+        }
+        self.assertEqual(ApprovedContactWrite.model_validate(approved).idempotency_key, "request-a")
+        for field in ("approval_id", "preview_hash", "idempotency_key"):
+            with self.subTest(field=field), self.assertRaises(ValidationError):
+                ApprovedContactWrite.model_validate({k: v for k, v in approved.items() if k != field})
+        with self.assertRaises(ValidationError):
+            ApprovedContactWrite.model_validate({**approved, "contact": {"name": "Changed payload"}})
+
+    def test_uncertain_contact_write_cannot_signal_retry_or_success(self):
+        response = {"correlation_id": "req-1", "status": "reconciliation_required", "operation_id": LOCAL}
+        result = CONTACT_WRITE_RESULT.validate_python(response)
+        self.assertEqual(CONTACT_WRITE_RESULT.validate_json(CONTACT_WRITE_RESULT.dump_json(result)), result)
+        for extra in ({"retryable": True}, {"remote_id": 10}):
+            with self.subTest(extra=extra), self.assertRaises(ValidationError):
+                CONTACT_WRITE_RESULT.validate_python({**response, **extra})
+        with self.assertRaises(ValidationError):
+            CONTACT_WRITE_RESULT.validate_python({**response, "status": "succeeded"})
