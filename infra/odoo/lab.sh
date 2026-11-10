@@ -85,15 +85,22 @@ PY
     require_module "$target" account
     require_module "$target" l10n_es
 
-    # Verify that an attachment in restored SQL resolves to bytes in the restored archive.
-    attachment=$(sql "$target" -c "SELECT store_fname FROM ir_attachment WHERE name = 'agntia-c03-recovery-fixture' AND store_fname ~ '^[0-9a-f]{2}/[0-9a-f]{40}$'")
-    [[ -n $attachment ]]
+    # The temporary data dir belongs to this one-off container only.
     "${compose[@]}" run --rm -T --no-deps --entrypoint bash odoo -ec '
         scratch=$(mktemp -d)
-        tar -xf - -C "$scratch"
-        test -s "$scratch/$1"
-        printf "agntia-c03-synthetic-attachment\n" | cmp - "$scratch/$1"
-    ' _ "$attachment" < "$scratch/files.tar"
+        store="$scratch/filestore/$1"
+        mkdir -p "$store"
+        tar -xf - -C "$store"
+        odoo shell --no-http --database="$1" --data-dir="$scratch" --db_host="$HOST" \
+            --db_user="$USER" --db_password="$PASSWORD" <<PY
+attachment = env["ir.attachment"].search([("name", "=", "agntia-c03-recovery-fixture")])
+if len(attachment) != 1 or not attachment.store_fname:
+    raise RuntimeError("Restored filestore fixture missing or ambiguous")
+if attachment.raw != b"agntia-c03-synthetic-attachment\n":
+    raise RuntimeError("Restored ORM attachment bytes differ from fixture")
+print("Restored attachment verified through Odoo ORM")
+PY
+    ' _ "$target" < "$scratch/files.tar"
     "${compose[@]}" up -d --wait --wait-timeout 150 odoo
     printf 'Restored database and filestore attachment verified\n'
 )
