@@ -42,6 +42,8 @@ Fuentes revisadas el 9 de noviembre de 2026, con siguiente revisión prevista el
 
 ## Desarrollo
 
+La [campaña de integración con Agente y Odoo Community](docs/agente-integration.md) define las etapas, la simulación previa y los criterios de aceptación antes de incorporar el SDK al runtime de Agente.
+
 ```sh
 pip install -e '.[dev]'
 python -m unittest discover -s tests -v
