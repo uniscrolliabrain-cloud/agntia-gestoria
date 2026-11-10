@@ -26,6 +26,8 @@ jobs:
         run: python scripts/odoo_bootstrap.py --state-dir "$RUNNER_TEMP/agntia-lab" --synthetic-lab --prepare
       - name: Build pinned source and two DBs
         run: python scripts/odoo_bootstrap.py --state-dir "$RUNNER_TEMP/agntia-lab" --synthetic-lab --bootstrap
+      - name: Check the published Odoo loopback route
+        run: curl --noproxy '*' --fail --retry 10 --retry-connrefused --retry-delay 1 --max-time 4 "http://127.0.0.1:8069/web/health?db_server_status=1"
       - name: Provider smoke
         run: python scripts/odoo_smoke.py --state-dir "$RUNNER_TEMP/agntia-lab"
       - name: Real contracts and E2E
