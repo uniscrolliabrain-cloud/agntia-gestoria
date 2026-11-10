@@ -1,0 +1,48 @@
+name: Odoo C03 lab
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'infra/odoo/compose.yaml'
+      - 'infra/odoo/init-role.sh'
+      - 'infra/odoo/lab.sh'
+      - 'infra/odoo/smoke.py'
+      - '.github/workflows/odoo-lab.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    defaults:
+      run:
+        working-directory: infra/odoo
+    steps:
+      - uses: actions/checkout@v4
+      - name: Configure ephemeral database credentials
+        run: |
+          umask 077
+          for name in ODOO_LAB_POSTGRES_PASSWORD ODOO_LAB_DB_PASSWORD; do
+            value=$(openssl rand -hex 24)
+            printf '::add-mask::%s\n' "$value"
+            printf '%s=%s\n' "$name" "$value" >> .env
+          done
+      - name: Validate configuration
+        run: |
+          bash -n init-role.sh lab.sh
+          docker compose config --quiet
+      - name: Bootstrap and verify module variants
+        run: bash lab.sh up
+      - name: Verify repeated bootstrap
+        run: bash lab.sh up
+      - name: Probe real JSON-2 with scoped synthetic users
+        run: bash lab.sh smoke
+      - name: Show service logs on failure
+        if: failure()
+        run: bash lab.sh logs
+      - name: Stop laboratory
+        if: always()
+        run: bash lab.sh stop
