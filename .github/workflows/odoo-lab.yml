@@ -1,5 +1,7 @@
 name: Odoo real synthetic lab (explicit opt-in)
 on:
+  pull_request:
+    branches: [feat/odoo-complete-adapter]
   workflow_dispatch:
     inputs:
       synthetic_confirmation:
@@ -7,7 +9,11 @@ on:
         required: true
 jobs:
   live:
-    if: inputs.synthetic_confirmation == 'SYNTHETIC'
+    if: >-
+      inputs.synthetic_confirmation == 'SYNTHETIC' ||
+      (github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'verify/odoo-complete-adapter')
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
