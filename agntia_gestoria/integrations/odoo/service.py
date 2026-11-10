@@ -143,7 +143,17 @@ class Service:
     def metrics(self,actor,cid):
         connection,_=self.scope(actor,cid,'metrics.read',ready=False)
         with self.db.connection() as c:
-            rows=c.execute('SELECT duration_ms,success,code FROM integration_metrics WHERE connection_id=? ORDER BY id DESC LIMIT 10000',(connection['id'],)).fetchall()
+            rows=c.execute('SELECT operation,duration_ms,success,code FROM integration_metrics WHERE connection_id=? ORDER BY id DESC LIMIT 10000',(connection['id'],)).fetchall()
             pending=c.execute("SELECT count(*) FROM integration_conflicts WHERE connection_id=? AND state='open'",(connection['id'],)).fetchone()[0]
         times=sorted(r['duration_ms'] for r in rows);count=len(rows)
-        return {'sample_size':count,'latency_p50_ms':times[int((count-1)*.5)] if count else None,'latency_p95_ms':times[int((count-1)*.95)] if count else None,'failures':sum(not r['success'] for r in rows),'open_conflicts':pending,'cost_measured':False,'notice':'Muestra de últimas 10000 llamadas; no es una estimación de coste ni SLA.'}
+        groups={}
+        for row in rows:
+            group=groups.setdefault(row['operation'],{'durations':[],'failures':0})
+            group['durations'].append(row['duration_ms']);group['failures']+=int(not row['success'])
+        ranked=sorted(groups.items(),key=lambda item:(-len(item[1]['durations']),item[0]))[:25]
+        return {'sample_size':count,'latency_p50_ms':times[int((count-1)*.5)] if count else None,'latency_p95_ms':times[int((count-1)*.95)] if count else None,'failures':sum(not r['success'] for r in rows),'open_conflicts':pending,'by_operation':{name:self._summary(values) for name,values in ranked},'cost_measured':False,'notice':'Muestra de últimas 10000 llamadas; no es una estimación de coste ni SLA.'}
+
+    @staticmethod
+    def _summary(values):
+        times=sorted(values['durations']);count=len(times)
+        return {'sample_size':count,'latency_p50_ms':times[int((count-1)*.5)] if count else None,'latency_p95_ms':times[int((count-1)*.95)] if count else None,'failures':values['failures']}
