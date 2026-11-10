@@ -89,7 +89,7 @@ class Imports:
         client=self.client(actor,cid,'imports.run',connection)
         for stage in to_check:
             if stage['model']=='account.move':
-                remote=client.call('agntia.bridge','invoice_snapshots',{'company_id':server.odoo_company_id,'ids':[int(stage['external_id'])]})
+                remote=client.call('agntia.bridge','invoice_snapshots',{'company_id':server.odoo_company_id,'invoice_ids':[int(stage['external_id'])]})
                 current=remote[0] if isinstance(remote,list) and len(remote)==1 else None
             else:
                 remote=client.call('res.partner','search_read',{'domain':[['id','=',int(stage['external_id'])],['company_id','=',server.odoo_company_id]],'fields':['id','name','vat','email','is_company','country_id','company_id','write_date'],'limit':1})

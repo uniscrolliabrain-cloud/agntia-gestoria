@@ -48,7 +48,7 @@ class LiveOdoo(unittest.TestCase):
         # No action_post is called, even in a negative test. Test a harmless fixture rename.
         client=Client(load_server(self.a['server_ref']))
         with self.assertRaises(IntegrationError):client._once('res.partner','write',{'ids':[self.a['partner_id']],'vals':{'name':'UNAUTHORIZED FIXTURE CHANGE'}})
-        snapshots=client.call('agntia.bridge','invoice_snapshots',{'company_id':self.a['company_id'],'ids':[self.a['invoice_id']]})
+        snapshots=client.call('agntia.bridge','invoice_snapshots',{'company_id':self.a['company_id'],'invoice_ids':[self.a['invoice_id']]})
         self.assertEqual(snapshots[0]['move']['state'],'draft')
     def test_A_import_evidence_review_calculation_report(self):
         preview=self.adapter.preview(self.owner,self.cid,'invoices',True,'live-A');result=self.adapter.import_stages(self.owner,self.cid,preview['staging_ids'],'live-A-'+uuid.uuid4().hex,'live-A')

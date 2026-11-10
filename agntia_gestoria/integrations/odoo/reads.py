@@ -31,7 +31,7 @@ def read_invoices(client,server,connection_id,watermark=None):
     for rows in pages(client,'account.move',server.odoo_company_id,fields,watermark):
         selected=[r for r in rows if r.get('move_type') in ('out_invoice','in_invoice','out_refund','in_refund')]
         if not selected:continue
-        snapshots=client.call('agntia.bridge','invoice_snapshots',{'company_id':server.odoo_company_id,'ids':[r['id'] for r in selected]})
+        snapshots=client.call('agntia.bridge','invoice_snapshots',{'company_id':server.odoo_company_id,'invoice_ids':[r['id'] for r in selected]})
         if not isinstance(snapshots,list) or len(snapshots)!=len(selected) or any(not isinstance(s,dict) or not isinstance(s.get('move'),dict) for s in snapshots) or {s['move'].get('id') for s in snapshots}!={r['id'] for r in selected}:reject('invalid_response','Snapshot de facturas incompleto',502)
         output=[]
         for snapshot in snapshots:
