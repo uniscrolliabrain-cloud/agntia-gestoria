@@ -225,7 +225,7 @@ def create_app(data_dir=None):
 
     @app.post('/api/companies/{cid}/cases/{oid}/close')
     def close_case(cid:str,oid:str,body:Revision,actor:Actor=Depends(authenticate)):
-        require_role(actor,*WRITE)
+        require_role(actor,*REVIEW)
         with db.transaction() as connection:
             access(connection,cid,actor);case=db.get(connection,cid,oid,'case');conflict(case['revision'],body.revision)
             if case['status']!='reviewed' or not case.get('review') or case['review']['content_hash']!=digest(case_content(case)):raise HTTPException(409,'Requiere revisión vigente del contenido actual')
