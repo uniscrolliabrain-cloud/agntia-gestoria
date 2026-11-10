@@ -42,6 +42,48 @@ verify() {
     "${compose[@]}" exec -T odoo odoo --version
 }
 
+recovery() (
+    local_source=agntia_test_b
+    scratch=$(mktemp -d)
+    target="agntia_test_restore_$(python3 -c 'import secrets; print(secrets.token_hex(8))')"
+    created=false
+    cleanup() {
+        status=$?
+        if [[ $created == true ]]; then
+            "${compose[@]}" exec -T db dropdb -U postgres "$target" || status=1
+        fi
+        rm -f -- "$scratch/db.dump" "$scratch/files.tar"
+        rmdir -- "$scratch"
+        exit "$status"
+    }
+    trap cleanup EXIT
+
+    # Only the dedicated lab uses this command. The fixture DB is quiescent.
+    "${compose[@]}" stop odoo
+    "${compose[@]}" exec -T db pg_dump -U postgres -Fc "$local_source" > "$scratch/db.dump"
+    "${compose[@]}" run --rm -T --no-deps --entrypoint tar odoo \
+        -C "/var/lib/odoo/filestore/$local_source" -cf - . > "$scratch/files.tar"
+    (cd "$scratch" && sha256sum db.dump files.tar)
+    "${compose[@]}" exec -T db createdb -U postgres -O agntia_lab "$target"
+    created=true
+    "${compose[@]}" exec -T db pg_restore --exit-on-error --single-transaction \
+        --no-owner --no-privileges --role=agntia_lab -U postgres -d "$target" < "$scratch/db.dump"
+    require_module "$target" account
+    require_module "$target" l10n_es
+
+    # Verify that an attachment in restored SQL resolves to bytes in the restored archive.
+    attachment=$(sql "$target" -c "SELECT store_fname FROM ir_attachment WHERE store_fname ~ '^[0-9a-f]{2}/[0-9a-f]{40}$' ORDER BY id LIMIT 1")
+    [[ -n $attachment ]]
+    "${compose[@]}" run --rm -T --no-deps --entrypoint bash odoo -ec '
+        scratch=$(mktemp -d)
+        tar -xf - -C "$scratch"
+        test -s "$scratch/$1"
+        cmp "$scratch/$1" "/var/lib/odoo/filestore/$2/$1"
+    ' _ "$attachment" "$local_source" < "$scratch/files.tar"
+    "${compose[@]}" up -d --wait --wait-timeout 150 odoo
+    printf 'Restored database and filestore attachment verified\n'
+)
+
 case "${1:-}" in
     up)
         "${compose[@]}" up -d --wait --wait-timeout 90 db
@@ -59,10 +101,11 @@ case "${1:-}" in
             ' _ "$database" < smoke.py
         done
         ;;
+    recovery) recovery ;;
     logs) "${compose[@]}" logs --no-color ;;
     stop) "${compose[@]}" down ;;
     *)
-        printf 'Uso: bash lab.sh {up|verify|smoke|logs|stop}\n' >&2
+        printf 'Uso: bash lab.sh {up|verify|smoke|recovery|logs|stop}\n' >&2
         exit 2
         ;;
 esac

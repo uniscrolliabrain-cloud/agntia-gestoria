@@ -40,6 +40,8 @@ jobs:
         run: bash lab.sh up
       - name: Probe real JSON-2 with scoped synthetic users
         run: bash lab.sh smoke
+      - name: Restore a database and verify a filestore attachment
+        run: bash lab.sh recovery
       - name: Show service logs on failure
         if: failure()
         run: bash lab.sh logs
