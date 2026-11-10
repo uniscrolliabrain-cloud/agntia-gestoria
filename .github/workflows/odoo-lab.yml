@@ -41,6 +41,18 @@ jobs:
           state=pathlib.Path(os.environ['RUNNER_TEMP'])/'agntia-lab'
           backup=sorted((state/'backups').iterdir())[-1]
           subprocess.run([sys.executable,'scripts/odoo_backup.py','--state-dir',str(state),'--database','agntia_test_a','--restore-from',str(backup),'--confirm-synthetic-restore'],check=True)
+      - name: Summarize private bootstrap failure without message contents
+        if: failure()
+        shell: python
+        run: |
+          import os,pathlib,re
+          log=pathlib.Path(os.environ['RUNNER_TEMP'])/'agntia-lab'/'private-bootstrap-failure.log'
+          if log.is_file():
+              text=log.read_text(errors='replace')
+              for path,line in re.findall(r'File "([A-Za-z0-9_./-]+)", line (\d+)',text)[-12:]:
+                  print(f'{pathlib.PurePosixPath(path).name}:{line}')
+              for error in re.findall(r'^([A-Za-z_][A-Za-z0-9_.]*(?:Error|Exception)):',text,re.M)[-4:]:
+                  print(error)
       - name: Remove synthetic containers and volumes
         if: always()
         run: python scripts/odoo_reset_test.py --state-dir "$RUNNER_TEMP/agntia-lab" --confirm-destroy-synthetic-lab

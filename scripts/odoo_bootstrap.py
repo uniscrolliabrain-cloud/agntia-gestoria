@@ -53,7 +53,7 @@ def bootstrap(state):
     compose(state,'up','-d','--build','db','odoo')
     fixtures=[]
     for database in ('agntia_test_a','agntia_test_b'):
-        compose(state,'exec','-T','odoo','odoo','-d',database,'-i','base,contacts,account,l10n_es,agntia_bridge,agntia_bridge_account','--without-demo=all','--stop-after-init','--no-http')
+        compose(state,'exec','-T','odoo','odoo','-d',database,'-i','base,contacts,account,l10n_es,agntia_bridge,agntia_bridge_account','--without-demo=true','--stop-after-init','--no-http')
         script=(ROOT/'scripts/odoo_fixture.py').read_text()
         output=compose(state,'exec','-T','odoo','odoo','shell','-d',database,'--no-http','--shell-interface','python',input=script,capture=True)
         lines=[line.split('AGNTIA_FIXTURE_RESULT:',1)[1] for line in output.splitlines() if 'AGNTIA_FIXTURE_RESULT:' in line]
