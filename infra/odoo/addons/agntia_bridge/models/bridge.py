@@ -69,7 +69,8 @@ class Bridge(models.AbstractModel):
         return {'source_revision':source_revision,'enterprise_installed':any(r['name']=='web_enterprise' for r in modules),'version':release.series,'bridge_version':'1.0','instance_id':instance.token,'uid':self.env.user.id,'superuser':bool(self.env.su),'settings_admin':self.env.user.has_group('base.group_system'),'company_id':company.id,'company_vat':company.vat or '', 'allowed_company_ids':self.env.user.company_ids.ids,'read_access':readable,'write_access':writable,'modules':{r['name']:r.get(version) for r in modules},'server_now':fields.Datetime.to_string(fields.Datetime.now())}
 
     @api.model
-    def invoice_snapshots(self,company_id,ids):
+    def invoice_snapshots(self,company_id,invoice_ids):
+        ids=invoice_ids
         self._scope(company_id)
         if not isinstance(ids,list) or len(ids)>100 or len(set(ids))!=len(ids) or any(type(i)!=int or i<=0 for i in ids):raise ValidationError('Invalid invoice ids')
         if 'account.move' not in self.env:raise ValidationError('Accounting is not installed')

@@ -1,5 +1,7 @@
 name: Odoo real synthetic lab (explicit opt-in)
 on:
+  pull_request:
+    branches: [feat/odoo-complete-adapter]
   workflow_dispatch:
     inputs:
       synthetic_confirmation:
@@ -7,7 +9,11 @@ on:
         required: true
 jobs:
   live:
-    if: inputs.synthetic_confirmation == 'SYNTHETIC'
+    if: >-
+      inputs.synthetic_confirmation == 'SYNTHETIC' ||
+      (github.event_name == 'pull_request' &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.head_ref == 'verify/odoo-complete-adapter')
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
@@ -20,6 +26,8 @@ jobs:
         run: python scripts/odoo_bootstrap.py --state-dir "$RUNNER_TEMP/agntia-lab" --synthetic-lab --prepare
       - name: Build pinned source and two DBs
         run: python scripts/odoo_bootstrap.py --state-dir "$RUNNER_TEMP/agntia-lab" --synthetic-lab --bootstrap
+      - name: Check the published Odoo loopback route
+        run: curl --noproxy '*' --fail --retry 10 --retry-connrefused --retry-delay 1 --max-time 4 "http://127.0.0.1:8069/web/health?db_server_status=1"
       - name: Provider smoke
         run: python scripts/odoo_smoke.py --state-dir "$RUNNER_TEMP/agntia-lab"
       - name: Real contracts and E2E
@@ -35,6 +43,18 @@ jobs:
           state=pathlib.Path(os.environ['RUNNER_TEMP'])/'agntia-lab'
           backup=sorted((state/'backups').iterdir())[-1]
           subprocess.run([sys.executable,'scripts/odoo_backup.py','--state-dir',str(state),'--database','agntia_test_a','--restore-from',str(backup),'--confirm-synthetic-restore'],check=True)
+      - name: Summarize private bootstrap failure without message contents
+        if: failure()
+        shell: python
+        run: |
+          import os,pathlib,re
+          log=pathlib.Path(os.environ['RUNNER_TEMP'])/'agntia-lab'/'private-bootstrap-failure.log'
+          if log.is_file():
+              text=log.read_text(errors='replace')
+              for path,line in re.findall(r'File "([A-Za-z0-9_./-]+)", line (\d+)',text)[-12:]:
+                  print(f'{pathlib.PurePosixPath(path).name}:{line}')
+              for error in re.findall(r'^([A-Za-z_][A-Za-z0-9_.]*(?:Error|Exception)):',text,re.M)[-4:]:
+                  print(error)
       - name: Remove synthetic containers and volumes
         if: always()
         run: python scripts/odoo_reset_test.py --state-dir "$RUNNER_TEMP/agntia-lab" --confirm-destroy-synthetic-lab

@@ -1,6 +1,7 @@
 """Real Odoo suite. Explicit opt-in and private synthetic marker required.
 These tests are NOT executed by the default unit suite or mocked as a live PASS.
 """
+from contextlib import closing
 import json
 import os
 from pathlib import Path
@@ -32,7 +33,7 @@ class LiveOdoo(unittest.TestCase):
         self.tmp=tempfile.TemporaryDirectory();self.root=Path(self.tmp.name)
         from agntia_gestoria.storage import Database
         local=Database(self.root)
-        with sqlite3.connect(self.state/'gestoria-data/gestoria.sqlite3') as source,local.transaction() as destination:
+        with closing(sqlite3.connect(self.state/'gestoria-data/gestoria.sqlite3')) as source,local.transaction() as destination:
             for row in source.execute('SELECT id,body FROM companies'):destination.execute('INSERT INTO companies VALUES(?,?)',row)
         self.env=patch.dict(os.environ,{**self.settings,'GESTORIA_DATA_DIR':str(self.root)});self.env.start()
         self.app=create_app(self.root);self.client=TestClient(self.app);self.adapter=Adapter(self.app.state.db);self.owner=Actor('owner','owner',('*',));self.headers={'Authorization':'Bearer '+self.fixtures['owner_token']}
@@ -47,7 +48,7 @@ class LiveOdoo(unittest.TestCase):
         # No action_post is called, even in a negative test. Test a harmless fixture rename.
         client=Client(load_server(self.a['server_ref']))
         with self.assertRaises(IntegrationError):client._once('res.partner','write',{'ids':[self.a['partner_id']],'vals':{'name':'UNAUTHORIZED FIXTURE CHANGE'}})
-        snapshots=client.call('agntia.bridge','invoice_snapshots',{'company_id':self.a['company_id'],'ids':[self.a['invoice_id']]})
+        snapshots=client.call('agntia.bridge','invoice_snapshots',{'company_id':self.a['company_id'],'invoice_ids':[self.a['invoice_id']]})
         self.assertEqual(snapshots[0]['move']['state'],'draft')
     def test_A_import_evidence_review_calculation_report(self):
         preview=self.adapter.preview(self.owner,self.cid,'invoices',True,'live-A');result=self.adapter.import_stages(self.owner,self.cid,preview['staging_ids'],'live-A-'+uuid.uuid4().hex,'live-A')
