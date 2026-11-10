@@ -50,3 +50,8 @@ Entrega código y evidencias por PR; no fusionar automáticamente por el hecho d
 ## Código publicado y CI verificada
 
 PR https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/4; SHA de código `84504053d71c966db58d8de0fdf44b9817ebef82`. CI estándar confirma57/57 Python sin workaround,4/4 Node y navegador desktop/móvil, descarga y creación de registro. Ver docs/odoo-adapter/c20/ci-results.json. Docker/contratos reales Odoo siguen pendientes; no confundir navegador de la UI existente con pruebas de ERP.
+
+
+## Visión de producto acordada · 2026-11-10
+
+Leer [VISION-Y-PLAN-AGNTIA-GESTORIA.md](VISION-Y-PLAN-AGNTIA-GESTORIA.md) para la especificación detallada: middleware sobre Odoo Community autoalojado, experiencia AgntiaPro, matriz de capacidades, recorridos, VERI*FACTU, fiscalidad, bancos, contabilidad, operaciones, laboral y fases P0–P8. Es una hoja de ruta; no modifica las guardas ni acredita funciones todavía no integradas.
