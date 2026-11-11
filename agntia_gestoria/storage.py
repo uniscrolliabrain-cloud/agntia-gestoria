@@ -84,7 +84,14 @@ class Database:
 
     @staticmethod
     def put(connection, cid, kind, body, unique_key=None):
-        connection.execute("INSERT INTO objects(id,company_id,kind,body,unique_key) VALUES(?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body", (body["id"], cid, kind, canonical(body), unique_key))
+        """Escribe sin duplicar: el id manda y la clave lógica se actualiza con él."""
+        cid = identifier(cid)
+        if body.get("company_id", cid) != cid:
+            raise ValueError("El objeto no pertenece a la empresa indicada")
+        row = connection.execute("SELECT company_id,kind FROM objects WHERE id=?", (body["id"],)).fetchone()
+        if row and (row["company_id"] != cid or row["kind"] != kind):
+            raise PermissionError("El identificador ya pertenece a otro registro")
+        connection.execute("INSERT INTO objects(id,company_id,kind,body,unique_key) VALUES(?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body, unique_key=excluded.unique_key", (body["id"], cid, kind, canonical(body), unique_key))
 
     @staticmethod
     def audit(connection, cid, actor, action, object_id, body):
