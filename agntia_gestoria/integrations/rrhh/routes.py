@@ -20,6 +20,10 @@ CAPABILITIES = (
     'rrhh.policy.read',
     'rrhh.capabilities.read',
     'rrhh.health.read',
+    'rrhh.closure.prepare',
+    'rrhh.closure.read',
+    'rrhh.closure.approve',
+    'rrhh.closure.export',
 )
 
 
