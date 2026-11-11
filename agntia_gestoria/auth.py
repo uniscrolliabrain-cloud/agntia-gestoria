@@ -31,10 +31,22 @@ def actors():
     return result
 
 
+def local_owner_allowed(request: Request):
+    """Propietario local solo para el cliente de pruebas o con permiso explícito.
+
+    Un proxy inverso en la misma máquina hace que todo el tráfico remoto llegue
+    desde 127.0.0.1, así que el socket no acredita nada por sí solo (SEC-01).
+    """
+    client = request.client.host if request.client else ""
+    if client == "testclient":
+        return True
+    return os.getenv("GESTORIA_ALLOW_LOCAL_OWNER", "").strip().lower() == "true" and client in ("127.0.0.1", "::1")
+
+
 def authenticate(request: Request):
     configured = actors()
     if not configured:
-        if request.client and request.client.host in ("127.0.0.1", "::1", "testclient"):
+        if local_owner_allowed(request):
             return Actor("local-owner", "owner", ("*",))
         raise HTTPException(403, "Configura credenciales antes del acceso remoto")
     token = request.headers.get("Authorization", "").removeprefix("Bearer ") or request.cookies.get("gestoria_session", "")
