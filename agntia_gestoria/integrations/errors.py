@@ -74,7 +74,7 @@ class IntegrationError(Exception):
             action='reconcile_write'
         elif self.code=='timeout':
             action='retry_later'
-        return {'code':self.code,'message':self.message,'correlation_id':correlation_id or str(uuid.uuid4()),'retryable':self.retryable,'reconciliation_required':self.uncertain,'category':category,'next_action':action}
+        return {'code':self.code,'message':self.message,'correlation_id':correlation_id or str(uuid.uuid4()),'retryable':self.retryable and not self.uncertain,'reconciliation_required':self.uncertain,'category':category,'next_action':action}
 
 
 def reject(code,message,status=400):raise IntegrationError(code,message,status)

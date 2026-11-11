@@ -112,5 +112,7 @@ class DeliveryHardeningTests(unittest.TestCase):
         self.assertIs(failure.exception, service.failure)
 
     def test_error_action_respects_uncertainty(self):
-        self.assertEqual(IntegrationError("network", "safe", 503, True, True).public()["next_action"], "reconcile_write")
+        uncertain = IntegrationError("network", "safe", 503, True, True).public()
+        self.assertEqual(uncertain["next_action"], "reconcile_write")
+        self.assertFalse(uncertain["retryable"])
         self.assertEqual(IntegrationError("timeout", "safe", 504, True, False).public()["next_action"], "retry_later")
