@@ -4,7 +4,27 @@ Documento de trabajo para agentes implementadores. Corte de investigación del 1
 
 ## Decisión de arquitectura
 
-Agente conserva conversación, sesión autenticada, selección de herramientas y presentación. Gestoría gobierna procesos de negocio, permisos, reglas, trabajos persistentes, evidencia, aprobaciones y reconciliación. Odoo conserva los registros operativos elegidos. Anam es la interfaz de conversación audiovisual. Un proveedor laboral puede ser autoridad sobre el cálculo y la emisión de nómina. El avatar identifica su naturaleza de IA. La sesión de vídeo puede terminar mientras el trabajo continúa en Gestoría.
+Corrección de alcance del 11 de noviembre de 2026. El agente de RR. HH. es un agente del repositorio `agente`. Su runtime organizativo, planificación, SOPs, entrenamiento, memoria, conversación, scheduler, identidad de sesión, avatar Anam y portal pertenecen a ese repositorio. El encargo completo y su seguimiento los dirige el runtime de `agente`.
+
+`agntia-gestoria` implementa exclusivamente el middleware de dominio que consumen el runtime y los agentes de `agente`. Expone capacidades deterministas por API y SDK, valida permisos y datos, ejecuta reglas versionadas, conecta con Odoo, conserva evidencia y aplica aprobaciones e idempotencia. Sus jobs técnicos sirven a operaciones del middleware y notifican su resultado al runtime consumidor. La continuidad del encargo, la decisión sobre la siguiente herramienta y la comunicación con personas pertenecen a `agente`.
+
+Odoo conserva los registros operativos elegidos. Un proveedor laboral puede ser autoridad sobre cálculo y emisión de nómina. Anam presenta por voz y vídeo al agente existente de `agente`. Cada llamada al middleware lleva contexto autenticado por el host y una correlación de encargo. La política de Gestoría comprueba ese contexto y devuelve un resultado estructurado que el agente puede utilizar.
+
+```text
+Humano → Anam o chat en agente → runtime y agentes de agente
+       → SDK/API de agntia-gestoria → reglas y adaptadores → Odoo/proveedor
+       ← resultado, evidencia o validación pendiente ← middleware
+```
+
+| Trabajo | Repositorio de implementación |
+| --- | --- |
+| Agente de RR. HH., SOPs, entrenamiento, evaluaciones del agente y seguimiento del encargo | agente |
+| Anam, chat, portal, sesión, pantallas de revisión y presentación | agente |
+| Contratos y SDK de dominio, validación, reglas deterministas y permisos de operaciones | agntia-gestoria |
+| Adaptadores, snapshots, expedientes, evidencia, aprobación de dominio y reconciliación | agntia-gestoria |
+| Jobs técnicos persistentes para las operaciones de dominio | agntia-gestoria |
+| Scheduler de encargos, recordatorios conversacionales y elección de siguientes pasos | agente |
+| Addons laborales, bridge y registros ERP | Instalación Odoo, mantenidos por la integración de agntia-gestoria |
 
 El mismo snapshot y versión de política deben reproducir la misma decisión de dominio. Fija además el periodo, zona horaria, calendario, unidad de tiempo y versión del normalizador. Separa en pruebas la decisión pura y los efectos externos. En producción, una repetición devuelve el trabajo existente o abre una revisión explícita si cambió el origen.
 
@@ -19,17 +39,19 @@ El mismo snapshot y versión de política deben reproducir la misma decisión de
 | Anam SDK y Cookbook | Instalar @anam-ai/js-sdk en el paquete web de agente para la prueba de vídeo. Usar el Cookbook como referencia de integración y autenticación. | Verificar API soportada, versión fijada, accesibilidad, recuperación, límites, coste por sesión y condiciones de tratamiento. Elegir integración con modelo propio o pasarela autenticada según la prueba, manteniendo Agente como orquestador. [SDK](https://github.com/anam-org/javascript-sdk) · [Cookbook](https://anam.ai/cookbook) · [Herramientas autenticadas](https://github.com/anam-org/anam-cookbook/blob/main/content/recipes/ephemeral-webhook-tools.mdx) |
 | Factorial | Referencia de experiencia y cobertura de producto. Implementar flujos y experiencia propios. | Comparar jornadas, ausencias, turnos, selección, onboarding, desempeño, documentos, gastos e incidencias de nómina por resultado observable. [Catálogo](https://factorial.es/funcionalidades) · [Guía](https://factorial.es/ebooks/guia-uso-funcionalidades-factorial) |
 
-La investigación verifica la existencia pública y la disponibilidad declarada de los candidatos señalados. La instalación y los permisos reales de cada addon de RR. HH. quedan como evidencia de la campaña. Para cada dependencia crea una ficha con origen, versión y SHA, licencia de su manifiesto, dependencias transitivas, mantenedor, motivo, casos cubiertos, upgrade, rollback y prueba real. La primera entrega requiere el SDK de Anam y los tres addons Community citados. Las extensiones OCA se incorporan cuando un caso concreto las justifica.
+La investigación verifica la existencia pública y la disponibilidad declarada de los candidatos señalados. La instalación y los permisos reales de cada addon de RR. HH. quedan como evidencia de la campaña. Para cada dependencia crea una ficha con origen, versión y SHA, licencia de su manifiesto, dependencias transitivas, mantenedor, motivo, casos cubiertos, upgrade, rollback y prueba real. La primera entrega del middleware requiere los tres addons Community citados y sus contratos de consumo. La prueba audiovisual instala el SDK de Anam en agente. Las extensiones OCA se incorporan cuando un caso concreto las justifica.
 
 ## Organización de la ejecución
 
 - Parte de main actual en Gestoría y Agente. Consulta el [handoff Freebuff](handoff-freebuff-2026-11-10.md), comprueba los estados de las [PR #4](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/4), [#11](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/11) y [#12](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/12) y registra los SHA realmente usados. Aprovecha el laboratorio, SDK, worker y simulador cuando su estado y contratos lo permitan. La revisión local de Agente en el checkout disponible no encontró coincidencias de Anam en apps ni packages. Vuelve a buscar en la revisión que se ejecute.
-- Crea una rama y un worktree por frente. Usa rrhh/01-laboratorio, rrhh/02-runtime, rrhh/03-portal-anam y rrhh/04-evaluaciones como nombres orientativos. Desde cada clon ejecuta git fetch origin y git worktree add -b NOMBRE RUTA SHA_BASE. Verifica estado limpio y registra base y dependencia en cada PR. Si dos PR cambian un contrato, publica primero su esquema y fixtures, y fija la revisión consumida en la segunda.
+- Crea una rama y un worktree por frente. En Gestoría usa rrhh/01-laboratorio y rrhh/02-middleware. En Agente usa rrhh/03-consumo-middleware, rrhh/04-portal-anam y rrhh/05-evaluaciones. Desde cada clon ejecuta git fetch origin y git worktree add -b NOMBRE RUTA SHA_BASE. Verifica estado limpio y registra base y dependencia en cada PR. Si dos PR cambian un contrato, publica primero su esquema y fixtures, y fija la revisión consumida en la segunda.
 - Los agentes pueden trabajar en paralelo en investigación de addons, núcleo de Gestoría, integración audiovisual y evaluaciones. Asigna a cada tarea un repositorio y dueño. Evita editar el mismo contrato desde dos frentes. Un agente de integración reúne cambios en una rama temporal y ejecuta la matriz conjunta.
 - Cada tarea entrega diff, comandos, fixtures, resultado esperado y observado, SHA, enlace de CI y estado PASS, FAIL, BLOCKED o NOT VERIFIED. Distingue mocks, Odoo real, Anam real y pruebas con personas. Un fallo de aislamiento, aprobación o duplicación bloquea el flujo afectado hasta reproducirlo y corregirlo.
 - Alcance de datos inicial sintético. Las pruebas con personas y proveedores reales requieren un entorno designado, configuración de acceso y tratamiento de datos aprobados por el responsable correspondiente.
 
 ## Etapa 0 · Descubrimiento y alcance
+
+Responsables de ambos repositorios. El entregable define contratos y recorridos del agente de agente sobre el middleware.
 
 1. Dibuja los recorridos de dueño, responsable, empleado, operador laboral y asesoría. Para cada uno identifica entrada, fuente, decisión, evidencia, entrega y quién puede confirmar. Selecciona una pyme piloto con un calendario y una política revisada.
 2. Define el primer encargo con una demo concreta. «Prepara el cierre de octubre». El asistente devuelve horas, incidencias accionables y un paquete de exportación tras la revisión aplicable. Usa un calendario sintético que incluya jornada parcial, turno nocturno, fichaje incompleto y ausencia.
@@ -41,6 +63,8 @@ La investigación verifica la existencia pública y la disponibilidad declarada 
 
 ## Etapa 1 · Scaffolding y laboratorio
 
+Implementación principal en agntia-gestoria para API, SDK, datos y adaptadores. CapabilityRunner y el harness de consumo se verifican en un worktree de agente.
+
 1. Identifica puntos de entrada del adaptador, migraciones, SDK, worker y CapabilityRunner en los SHA fijados. Anota qué componentes reutilizas y qué interfaces necesitan extensión. Ejecuta sus pruebas base antes de introducir módulos laborales.
 2. Extiende el laboratorio sintético con dos tenants, compañías separadas, roles diferenciados y un bot Odoo por alcance. Incluye un fixture de compañías hermanas en la misma base. Si un addon falta, registra capacidad no disponible y verifica la degradación del resto.
 3. Añade configuración versionada y flag de RR. HH. por tenant. Fija el catálogo de herramientas del backend y prepara scripts de arranque, carga y limpieza de fixtures sintéticos. Guarda credenciales en configuración privada y publica únicamente resultados sanitizados.
@@ -51,6 +75,8 @@ La investigación verifica la existencia pública y la disponibilidad declarada 
 **Salida:** dos empresas sintéticas reproducibles, API y SDK arrancables, modelos validados y comprobación negativa entre tenants.
 
 ## Etapa 2 · Motor determinista de cierre
+
+Implementación en agntia-gestoria. El motor recibe una operación de dominio autorizada y devuelve su resultado. El runtime de agente dirige la secuencia del encargo.
 
 1. Implementa lectura acotada de calendarios, empleados, fichajes y ausencias. Resuelve empresa y periodo desde el contexto de servidor. Pagina de forma estable y detecta resultados fuera de ámbito antes de normalizarlos.
 2. Persiste snapshot inmutable con IDs fuente, hash, timestamps, zona horaria, revisión de política y fecha de corte. Conserva el dato original autorizado y los campos necesarios para explicar cada incidencia.
@@ -65,6 +91,8 @@ La investigación verifica la existencia pública y la disponibilidad declarada 
 
 ## Etapa 3 · Herramientas, entrenamiento y evaluaciones
 
+Implementación en agente sobre el SDK de agntia-gestoria. Los ejemplos, SOPs, decisiones del modelo y evaluaciones del agente se mantienen en agente.
+
 1. Define herramientas de intención laboral con entradas limitadas a periodo, identificador autorizado y filtros admitidos. Inyecta identidad y alcance desde el host. Incluye descripciones de cuándo llamarlas, estados esperados y ejemplos de uso correcto.
 2. Prepara SOPs para cierre, seguimiento de incidencias y entrega a asesoría. Para cada uno define objetivo, precondiciones, secuencia, bloqueos, cuándo pedir un dato y cuándo entregar una revisión.
 3. Registra ejemplos de conversaciones en español y trazas esperadas con datos sintéticos. Incluye peticiones incompletas, correcciones, dueño con dos empresas, empleado pidiendo la nómina de otra persona y gerente con acceso parcial.
@@ -76,6 +104,8 @@ La investigación verifica la existencia pública y la disponibilidad declarada 
 
 ## Etapa 4 · Anam y portal
 
+Implementación en agente. La sesión audiovisual, el servidor de tokens Anam, el portal y la selección de herramientas pertenecen al host. Gestoría aporta contratos y resultados.
+
 1. Haz una prueba audiovisual con una sesión autenticada de Agente. Emite token efímero del lado servidor ligado a sesión y usuario. Guarda la clave del proveedor en servidor. Verifica expiración, reconexión y cierre de sesión.
 2. Compara dos integraciones soportadas. Modelo propio en Agente con avatar como presentación, o herramienta de Anam que llama a una pasarela autenticada. Mide tiempo hasta primera respuesta, interrupción, fidelidad del contexto, coste y facilidad para volver a texto. Documenta la elegida con una traza real.
 3. En cada llamada valida sesión y alcance en servidor. Reutiliza IDs de trabajo y claves de deduplicación. Los resultados de Anam o del navegador nunca conceden permisos. Las aprobaciones con efectos se confirman en una pantalla autenticada que muestra la revisión exacta.
@@ -86,6 +116,8 @@ La investigación verifica la existencia pública y la disponibilidad declarada 
 **Salida:** dueño autenticado inicia el cierre por vídeo, puede continuar por texto y recibe el mismo resultado verificable sin repetir la operación.
 
 ## Etapa 5 · Ampliación por módulos
+
+Cada módulo entrega capacidades de middleware en agntia-gestoria y herramientas, SOPs y vistas consumidoras en agente. Cada PR indica el lado del contrato que implementa.
 
 1. Ausencias y vacaciones. Solicitud, saldo, sustitución y aprobación. Prueba calendario, solapamiento, revocación y privacidad del motivo. Entrega historial accesible al empleado y vista acotada al responsable.
 2. Turnos. Empieza con plantillas, cobertura y cambios publicados con revisión. Modela restricciones duras y preferencias. Evalúa OR-Tools solo si la matriz lo justifica. Prueba cuadrante imposible, sustitución y cambios después de publicación.
@@ -101,6 +133,8 @@ La investigación verifica la existencia pública y la disponibilidad declarada 
 
 ## Etapa 6 · Hardening, refactoring y operación
 
+Pruebas de dominio y adaptadores en agntia-gestoria. Pruebas de runtime, agentes, identidad del host y Anam en agente. La prueba conjunta fija los dos SHA.
+
 1. Ejecuta matriz de permisos por API, SDK, voz y worker. Cruza actor, empresa, sesión, referencia y credencial. Prueba una baja de permisos mientras la tarea está en curso y comprueba alcance antes del efecto.
 2. Revisa secretos y datos en navegador, prompts, transcripciones, audio, trazas, exportaciones y backups. Usa centinelas sintéticos. Ensaya rotación, expiración, revocación y borrado donde aplique.
 3. Ejecuta pruebas de concurrencia, reentrega, replay, pérdida de ACK, interrupción de worker y degradación del proveedor. Observa estado de cola y correlación entre Agente, Gestoría y Odoo.
@@ -110,7 +144,7 @@ La investigación verifica la existencia pública y la disponibilidad declarada 
 7. Revisa dependencias y licencias con inventario de componentes y actualización reproducible. Prueba migraciones forward, recuperación con backup y desactivación por tenant. Evita un fork de Odoo cuando un addon aislado satisface el caso.
 8. Redacta runbooks para corte de proveedor, identidad errónea, credencial revocada, expediente incoherente, fallo de Anam y efecto incierto. Valídalos con una persona que no haya escrito el código.
 9. Ejecuta piloto de lectura, después de preparación y finalmente de una operación aprobada con efecto acotado. Compara entrega del agente con el trabajo revisado por el operador. Detén el flujo afectado si una prueba crítica falla y conserva capacidad de recuperar operaciones pendientes.
-10. Publica matriz de entrega con flujo, repos y SHA, pruebas reales, limitaciones, responsables y criterios de ampliación. La experiencia de vídeo, la corrección del expediente y la seguridad de los efectos se aceptan por separado.
+10. Publica matriz de entrega con flujo, repos y SHA, pruebas reales, limitaciones, responsables y criterios de ampliación. La evidencia de aceptación identifica la experiencia en agente y la ejecución y seguridad del middleware en agntia-gestoria.
 
 ## Primera entrega para revisión
 
