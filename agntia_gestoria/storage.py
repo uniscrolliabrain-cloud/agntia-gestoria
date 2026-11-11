@@ -84,7 +84,19 @@ class Database:
 
     @staticmethod
     def put(connection, cid, kind, body, unique_key=None):
-        connection.execute("INSERT INTO objects(id,company_id,kind,body,unique_key) VALUES(?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body", (body["id"], cid, kind, canonical(body), unique_key))
+        identifier(cid)
+        identifier(body["id"])
+        if body.get("company_id", cid) != cid:
+            raise ValueError("Empresa del objeto incompatible")
+        result = connection.execute(
+            "INSERT INTO objects(id,company_id,kind,body,unique_key) VALUES(?,?,?,?,?) "
+            "ON CONFLICT(id) DO UPDATE SET body=excluded.body, "
+            "unique_key=COALESCE(excluded.unique_key,objects.unique_key) "
+            "WHERE objects.company_id=excluded.company_id AND objects.kind=excluded.kind",
+            (body["id"], cid, kind, canonical(body), unique_key),
+        )
+        if result.rowcount != 1:
+            raise FileNotFoundError()
 
     @staticmethod
     def audit(connection, cid, actor, action, object_id, body):

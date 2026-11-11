@@ -19,6 +19,7 @@ from .rules import catalogue, evaluate
 from .storage import Database, canonical, digest, identifier, now, uid
 from .tax import register_tax_routes
 from .report_routes import register_report_routes
+from .integrations.odoo.routes import register_odoo_routes
 
 load_dotenv()
 WRITE = ('owner','reviewer','agent')
@@ -63,14 +64,27 @@ def create_app(data_dir=None):
     app = FastAPI(title='Agntia-gestoria', version=__version__, docs_url=None, redoc_url=None, openapi_url=None)
     db = Database(data_dir or os.getenv('GESTORIA_DATA_DIR','./data'))
     app.state.db = db
+    from .sessions import initialize, issue, revoke, LoginLimiter
+    initialize(db)
+    login_limiter = LoginLimiter()
     # Fail early on malformed permission configuration; never fall back to anonymous access.
     actors()
 
     @app.middleware('http')
     async def same_origin(request, call_next):
         origin = request.headers.get('origin')
-        if request.method not in ('GET','HEAD','OPTIONS') and origin and origin != str(request.base_url).rstrip('/'):
-            return JSONResponse({'detail':'Origen no permitido'}, status_code=403)
+        if request.method not in ('GET','HEAD','OPTIONS') and origin:
+            public_origin = os.getenv('GESTORIA_PUBLIC_ORIGIN', '').rstrip('/')
+            if public_origin:
+                allowed = origin == public_origin
+            else:
+                from urllib.parse import urlsplit
+                allowed = (
+                    request.url.hostname in ('127.0.0.1', '::1', 'localhost', 'testserver')
+                    and origin == str(request.base_url).rstrip('/')
+                )
+            if not allowed:
+                return JSONResponse({'detail':'Origen no permitido'}, status_code=403)
         response = await call_next(request)
         response.headers['X-Content-Type-Options']='nosniff'
         response.headers['X-Frame-Options']='DENY'
@@ -97,6 +111,16 @@ def create_app(data_dir=None):
         for doc in data.document_ids:
             db.get(connection,cid,doc,'document')
 
+    @app.get('/health/live')
+    def live():
+        return {'status': 'ok'}
+
+    @app.get('/health/ready')
+    def ready():
+        with db.connection() as connection:
+            connection.execute('SELECT 1').fetchone()
+        return {'status': 'ok'}
+
     @app.get('/api/status')
     def status(actor:Actor=Depends(authenticate)):
         return {'version':__version__,'actor':{'id':actor.id,'role':actor.role,'companies':list(actor.companies)},'external_submissions':False,'invoice_issuance':False,'pack_id':catalogue()['pack_id']}
@@ -107,14 +131,18 @@ def create_app(data_dir=None):
     @app.post('/api/login')
     def login(body:Login,request:Request):
         import hmac
+        login_limiter.check(request.client.host if request.client else 'unknown')
         actor=next((a for secret,a in actors() if hmac.compare_digest(secret.encode(),body.token.encode())),None)
         if not actor: raise HTTPException(401,'Credencial incorrecta')
         response=JSONResponse({'actor_id':actor.id,'role':actor.role})
-        response.set_cookie('gestoria_session',body.token,httponly=True,secure=request.url.scheme=='https',samesite='strict',max_age=28800)
+        cookie = issue(db, body.token)
+        secure = request.url.scheme == 'https' or os.getenv('GESTORIA_PUBLIC_ORIGIN', '').startswith('https://') or request.url.hostname not in ('127.0.0.1', '::1', 'localhost', 'testserver')
+        response.set_cookie('gestoria_session',cookie,httponly=True,secure=secure,samesite='strict',max_age=28800)
         return response
 
     @app.post('/api/logout')
-    def logout(actor:Actor=Depends(authenticate)):
+    def logout(request:Request,actor:Actor=Depends(authenticate)):
+        revoke(db, request.cookies.get('gestoria_session', ''))
         response=JSONResponse({'ok':True});response.delete_cookie('gestoria_session');return response
 
     @app.get('/api/openapi.json')
@@ -225,7 +253,7 @@ def create_app(data_dir=None):
 
     @app.post('/api/companies/{cid}/cases/{oid}/close')
     def close_case(cid:str,oid:str,body:Revision,actor:Actor=Depends(authenticate)):
-        require_role(actor,*WRITE)
+        require_role(actor,*REVIEW)
         with db.transaction() as connection:
             access(connection,cid,actor);case=db.get(connection,cid,oid,'case');conflict(case['revision'],body.revision)
             if case['status']!='reviewed' or not case.get('review') or case['review']['content_hash']!=digest(case_content(case)):raise HTTPException(409,'Requiere revisión vigente del contenido actual')
@@ -271,6 +299,10 @@ def create_app(data_dir=None):
     @app.get('/api/companies/{cid}/documents/{oid}/download')
     def download(cid:str,oid:str,actor:Actor=Depends(authenticate)):
         with db.connection() as connection:access(connection,cid,actor);doc=db.get(connection,cid,oid,'document')
+        if doc.get('encrypted'):
+            from .integrations.odoo.vault import read_blob
+            from urllib.parse import quote
+            return Response(read_blob(db.root/'documents'/cid/doc['stored_name'],doc['sha256']),media_type='application/octet-stream',headers={'Content-Disposition':"attachment; filename*=UTF-8''"+quote(doc['name'],safe='')})
         return FileResponse(db.root/'documents'/cid/doc['stored_name'],filename=doc['name'],media_type='application/octet-stream')
 
     @app.post('/api/companies/{cid}/invoice-drafts')
@@ -322,6 +354,7 @@ def create_app(data_dir=None):
                     'tax_calculations':db.list(connection,cid,'tax_calculation'),'reports':db.list(connection,cid,'report'),'tax_records':db.list(connection,cid,'tax_record'),'tax_preparations':db.list(connection,cid,'tax_preparation'),'invoice_drafts':db.list(connection,cid,'invoice_draft'),'journal_drafts':db.list(connection,cid,'journal_draft'),'audit':db.audit_log(connection,cid),'exported_at':now(),'external_submissions':False}
         return JSONResponse(result,headers={'Content-Disposition':'attachment; filename="expediente-empresa.json"'})
 
+    register_odoo_routes(app,db)
     register_tax_routes(app,db)
     register_report_routes(app,db)
     app.mount('/',StaticFiles(directory=Path(__file__).parent/'static',html=True),name='workspace')

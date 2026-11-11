@@ -15,6 +15,22 @@ import sys
 
 ROOT=Path(__file__).resolve().parents[1]
 MANIFEST=ROOT/'docs/odoo-adapter/c01/baseline-inventory.json'
+POLICY=ROOT/'docs/odoo-adapter/approved-source-changes.json'
+
+
+def validate_changes(previous,current,policy):
+    """Only accept exact, documented changes; the original manifest stays intact."""
+    protected={'agntia_gestoria/engines.py','agntia_gestoria/rules.py','agntia_gestoria/territories.py','agntia_gestoria/tax.py','agntia_gestoria/data/legal_sources.json'}
+    approved=policy.get('changes',{})
+    if protected.intersection(approved):raise ValueError('Fiscal baseline cannot be exempted by this adapter policy')
+    if not policy.get('authorization') or not policy.get('adr'):raise ValueError('Missing change authorization and ADR')
+    if not (ROOT/policy['adr']).is_file():raise ValueError('Missing ADR file')
+    for path,item in approved.items():
+        if path not in previous or item.get('old_sha256')!=previous[path]:raise ValueError('Policy does not match frozen source: '+path)
+        if current.get(path)!=item.get('new_sha256'):raise ValueError('Approved source changed again: '+path)
+    unexpected=[path for path,value in current.items() if value!=previous[path] and path not in approved]
+    if unexpected:raise ValueError('Frozen baseline files changed without explicit policy: '+', '.join(unexpected))
+    return sorted(approved)
 
 
 def inventory(paths):
@@ -68,8 +84,12 @@ def main():
         expected=json.loads(MANIFEST.read_text())
         result=inventory([f['path'] for f in expected['files']]);result['baseline_tree']=expected['baseline_tree']
         previous={f['path']:f['sha256'] for f in expected['files']}
+        policy=json.loads(POLICY.read_text()) if POLICY.exists() else {}
         changed=[f['path'] for f in result['files'] if f['sha256']!=previous[f['path']]]
-        if changed:raise SystemExit('Frozen baseline files changed: '+', '.join(changed))
+        if changed or policy:
+            if policy.get('baseline_tree')!=expected['baseline_tree']:raise SystemExit('Change policy targets another baseline')
+            try:validate_changes(previous,{f['path']:f['sha256'] for f in result['files']},policy)
+            except ValueError as exc:raise SystemExit(str(exc))
     if args.output:args.output.write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
     print(json.dumps({'baseline_tree':result['baseline_tree'],'verified_files':len(result['files']),'inventoried_routes':len(result['routes']),'status':'PASS'}))
 

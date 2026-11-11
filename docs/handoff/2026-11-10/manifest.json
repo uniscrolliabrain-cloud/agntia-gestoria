@@ -1,0 +1,48 @@
+{
+  "date": "2026-11-10",
+  "language": "es",
+  "purpose": "Handoff del contexto de chat, implementación y plan futuro",
+  "source_branch": "feat/odoo-complete-adapter",
+  "source_head_before_this_documentation": "e69bd7facfd54ef37539e34dbac130527bd098e2",
+  "count_method": "Recuento de palabras por separación de espacios Unicode (str.split); mínimo 1000 por documento principal, excluyendo índice y manifiesto.",
+  "principal_documents": [
+    {
+      "file": "01-historia-decisiones-y-vision.md",
+      "words_whitespace": 1260,
+      "sha256": "f81cead4b1a8828b72fd81e0d6c1db380ff1427c03b4967b757269d46565fd28"
+    },
+    {
+      "file": "02-base-python-datos-fiscalidad-y-reportes.md",
+      "words_whitespace": 1398,
+      "sha256": "d7b433a089cf3aeefcfbc54b8f2e766c7c6b31834b5e0bcff91993c62818735c"
+    },
+    {
+      "file": "03-adaptador-odoo-sincronizacion-y-seguridad.md",
+      "words_whitespace": 1475,
+      "sha256": "c4ed7cb7fe51d7ec520773317c79de7541626720f1e71b3d5f346ecc450288cc"
+    },
+    {
+      "file": "04-api-typescript-agentes-y-experiencia.md",
+      "words_whitespace": 1368,
+      "sha256": "8dd9625f893a15e39248e58fce412257dd6a63d5a3e0ddced8199ac2a2bf1bab"
+    },
+    {
+      "file": "05-pruebas-docker-windows-y-operaciones.md",
+      "words_whitespace": 1409,
+      "sha256": "bd8761ae316be76993aef6a731ce95414af4cd713a81592eeb3c161e18589c63"
+    },
+    {
+      "file": "06-futuro-verifactu-capacidades-y-plan-de-entrega.md",
+      "words_whitespace": 1614,
+      "sha256": "479c7523e7c7a4723855daa0f5cfb4f5f7f04c73e142bc37ad2eeebe9d9f56db"
+    }
+  ],
+  "total_words": 8524,
+  "principal_document_count": 6,
+  "new_runtime_tests_executed_for_this_documentation": false,
+  "validation": [
+    "six principal documents >=1000 words",
+    "local relative Markdown links resolve",
+    "original source baseline verified separately"
+  ]
+}

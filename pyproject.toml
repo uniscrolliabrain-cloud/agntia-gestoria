@@ -7,13 +7,14 @@ name = "agntia-gestoria"
 version = "0.1.0"
 description = "Gestoría colaborativa para empresas españolas, humanos y agentes"
 requires-python = ">=3.11"
-dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "python-multipart>=0.0.18,<1", "python-dotenv>=1,<2", "python-pptx>=1,<2", "reportlab>=4,<5"]
+dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "python-multipart>=0.0.18,<1", "python-dotenv>=1,<2", "python-pptx>=1,<2", "reportlab>=4,<5", "httpx>=0.27,<1", "cryptography>=44,<51"]
 
 [project.optional-dependencies]
 dev = ["httpx>=0.27,<1", "pytest>=8,<10", "playwright>=1.49,<2"]
 
 [project.scripts]
 agntia-gestoria = "agntia_gestoria.cli:main"
+agntia-gestoria-odoo-worker = "agntia_gestoria.integrations.odoo.jobs:main"
 
 [tool.setuptools.packages.find]
 include = ["agntia_gestoria*"]

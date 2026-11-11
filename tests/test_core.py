@@ -97,7 +97,7 @@ class Service(unittest.TestCase):
         r=self.client.post(self.root+'/cases',headers=self.agent,json={'title':'Tarea','source_ids':['lsc']})
         self.assertEqual(r.status_code,200,r.text)
         case=r.json();p=self.root+'/cases/'+case['id']
-        self.assertEqual(self.client.post(p+'/close',headers=self.agent,json={'revision':0}).status_code,409)
+        self.assertEqual(self.client.post(p+'/close',headers=self.owner,json={'revision':0}).status_code,409)
         self.assertEqual(self.client.post(p+'/submit-review',headers=self.agent,json={'revision':0}).status_code,200)
         review={'revision':1,'decision':'approve','notes':'Fuente contrastada','verified_source_ids':['lsc']}
         self.assertEqual(self.client.post(p+'/review',headers=self.agent,json=review).status_code,403)
@@ -105,7 +105,7 @@ class Service(unittest.TestCase):
         edited=self.client.put(p,headers=self.agent,json={'revision':2,'title':'Nueva tarea','source_ids':['lsc']})
         self.assertEqual(edited.status_code,200,edited.text)
         self.assertIsNone(edited.json()['review'])
-        self.assertEqual(self.client.post(p+'/close',headers=self.agent,json={'revision':3}).status_code,409)
+        self.assertEqual(self.client.post(p+'/close',headers=self.owner,json={'revision':3}).status_code,409)
         self.assertEqual(self.client.put(p,headers=self.agent,json={'revision':2,'title':'Obsoleto'}).status_code,409)
 
     def test_reviewed_close_and_cross_company_document(self):
@@ -117,7 +117,8 @@ class Service(unittest.TestCase):
         path=self.root+'/cases/'+case['id']
         self.client.post(path+'/submit-review',headers=self.agent,json={'revision':0})
         self.assertEqual(self.client.post(path+'/review',headers=self.owner,json={'revision':1,'decision':'approve','notes':'Revisión interna completada','verified_source_ids':[]}).status_code,200)
-        closed=self.client.post(path+'/close',headers=self.agent,json={'revision':2})
+        self.assertEqual(self.client.post(path+'/close',headers=self.agent,json={'revision':2}).status_code,403)
+        closed=self.client.post(path+'/close',headers=self.owner,json={'revision':2})
         self.assertEqual(closed.status_code,200,closed.text)
         self.assertEqual(closed.json()['outcome'],'internal_complete')
 

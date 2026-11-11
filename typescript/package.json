@@ -17,6 +17,14 @@
     "./agents": {
       "types": "./types/agents.d.ts",
       "default": "./dist/agents.js"
+    },
+    "./odoo": {
+      "types": "./types/odoo.d.ts",
+      "default": "./dist/odoo.js"
+    },
+    "./odoo-agent-tools": {
+      "types": "./types/odoo-agent-tools.d.ts",
+      "default": "./dist/odoo-agent-tools.js"
     }
   },
   "files": [
@@ -37,6 +45,7 @@
   "license": "MIT",
   "scripts": {
     "build": "node scripts/build.mjs",
-    "prepare": "node scripts/build.mjs"
+    "prepare": "node scripts/build.mjs",
+    "test": "node --test tests/*.test.mjs"
   }
 }

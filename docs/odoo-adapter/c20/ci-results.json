@@ -1,0 +1,29 @@
+{
+  "code_sha": "84504053d71c966db58d8de0fdf44b9817ebef82",
+  "pr": "https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/4",
+  "ci_run": "https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42720444812",
+  "ci_job": 129512737755,
+  "python": {
+    "run": 57,
+    "passed": 57,
+    "failed": 0,
+    "seconds": 7.079,
+    "selector_workaround": false
+  },
+  "node": {
+    "tests": 4,
+    "passed": 4,
+    "failed": 0
+  },
+  "browser": {
+    "desktop_dashboard": "PASS",
+    "mobile_dashboard": "PASS",
+    "report_download": "PASS",
+    "record_creation": "PASS"
+  },
+  "source_audit": "https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42720444743",
+  "baseline": "https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42720444747",
+  "runtime_package_install_and_worker_help": "PASS in local .venv; global install was blocked by read-only home",
+  "docker": "NOT VERIFIED",
+  "live_odoo": "NOT VERIFIED"
+}

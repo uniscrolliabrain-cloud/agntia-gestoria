@@ -1,4 +1,5 @@
 import { Hono } from 'hono';
+import { allowedOdooRoute } from './odoo-routes.ts';
 import type { Context } from 'hono';
 import { Gestoria, GestoriaError } from './index.ts';
 /** The host authenticates each request and supplies that actor's client, not a shared owner. */
@@ -6,6 +7,7 @@ export function gestoriaRoutes(forActor: (context: Context) => Promise<Gestoria>
   const router = new Hono();
   router.all('/*', async c => {
     const path = c.req.path;
+    if (path.includes('/integrations/odoo') && !allowedOdooRoute(c.req.method,path)) return c.json({error:'Unsupported Odoo business capability'},404);
     // Mount at /api. Never expose login/logout or service credentials through this adapter.
     if (!/^\/api\/(companies(?:\/|$)|sources$|status$|tax-capabilities$)/.test(path)) return c.json({ error: 'Unsupported path' }, 404);
     if (!['GET', 'POST', 'PUT'].includes(c.req.method)) return c.json({ error: 'Unsupported method' }, 405);

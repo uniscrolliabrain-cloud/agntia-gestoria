@@ -1,0 +1,568 @@
+{
+  "mapping_version": "odoo19-v1",
+  "models": {
+    "CapabilityReport": {
+      "additionalProperties": false,
+      "properties": {
+        "checked_at": {
+          "format": "date-time",
+          "title": "Checked At",
+          "type": "string"
+        },
+        "evidence_hash": {
+          "title": "Evidence Hash",
+          "type": "string"
+        },
+        "provider_version": {
+          "title": "Provider Version",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "supported": {
+          "additionalProperties": {
+            "type": "boolean"
+          },
+          "title": "Supported",
+          "type": "object"
+        },
+        "unsupported": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Unsupported",
+          "type": "array"
+        }
+      },
+      "required": [
+        "provider_version",
+        "checked_at",
+        "supported",
+        "evidence_hash"
+      ],
+      "title": "CapabilityReport",
+      "type": "object"
+    },
+    "Conflict": {
+      "additionalProperties": false,
+      "properties": {
+        "company_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Company Id",
+          "type": "string"
+        },
+        "connection_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Connection Id",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "reason": {
+          "enum": [
+            "remote_changed",
+            "remote_missing",
+            "remote_cancelled",
+            "mapping_blocked",
+            "write_uncertain"
+          ],
+          "title": "Reason",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "open",
+            "resolved"
+          ],
+          "title": "State",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "company_id",
+        "connection_id",
+        "reason",
+        "state"
+      ],
+      "title": "Conflict",
+      "type": "object"
+    },
+    "ExternalObjectLink": {
+      "additionalProperties": false,
+      "properties": {
+        "connection_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Connection Id",
+          "type": "string"
+        },
+        "external_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "title": "External Id",
+          "type": "string"
+        },
+        "gestoria_company_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Gestoria Company Id",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "last_seen_at": {
+          "format": "date-time",
+          "title": "Last Seen At",
+          "type": "string"
+        },
+        "local_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Local Id",
+          "type": "string"
+        },
+        "local_kind": {
+          "title": "Local Kind",
+          "type": "string"
+        },
+        "mapping_version": {
+          "const": "odoo19-v1",
+          "default": "odoo19-v1",
+          "title": "Mapping Version",
+          "type": "string"
+        },
+        "model": {
+          "enum": [
+            "res.partner",
+            "account.move",
+            "account.move.line",
+            "ir.attachment"
+          ],
+          "title": "Model",
+          "type": "string"
+        },
+        "provider": {
+          "const": "odoo_community",
+          "default": "odoo_community",
+          "title": "Provider",
+          "type": "string"
+        },
+        "remote_write_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Write Date"
+        },
+        "source_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Source Hash",
+          "type": "string"
+        },
+        "sync_status": {
+          "default": "linked",
+          "enum": [
+            "linked",
+            "conflict",
+            "missing",
+            "detached"
+          ],
+          "title": "Sync Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "gestoria_company_id",
+        "connection_id",
+        "model",
+        "external_id",
+        "local_kind",
+        "local_id",
+        "source_hash",
+        "last_seen_at"
+      ],
+      "title": "ExternalObjectLink",
+      "type": "object"
+    },
+    "ImportPreview": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "mapping_version": {
+          "const": "odoo19-v1",
+          "default": "odoo19-v1",
+          "title": "Mapping Version",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "source_hash": {
+          "title": "Source Hash",
+          "type": "string"
+        },
+        "state": {
+          "enum": [
+            "staged",
+            "mapping_blocked",
+            "imported",
+            "conflict"
+          ],
+          "title": "State",
+          "type": "string"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "id",
+        "state",
+        "source_hash",
+        "warnings"
+      ],
+      "title": "ImportPreview",
+      "type": "object"
+    },
+    "OperationEnvelope": {
+      "additionalProperties": false,
+      "properties": {
+        "actor_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:@/-]+$",
+          "title": "Actor Id",
+          "type": "string"
+        },
+        "approval_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{32}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Approval Id"
+        },
+        "capability": {
+          "enum": [
+            "partners.propose",
+            "invoices.propose",
+            "writes.commit",
+            "imports.run"
+          ],
+          "title": "Capability",
+          "type": "string"
+        },
+        "causation_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Causation Id"
+        },
+        "company_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Company Id",
+          "type": "string"
+        },
+        "correlation_id": {
+          "title": "Correlation Id",
+          "type": "string"
+        },
+        "dry_run": {
+          "default": true,
+          "title": "Dry Run",
+          "type": "boolean"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "idempotency_key": {
+          "maxLength": 160,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:@/-]+$",
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "payload": {
+          "additionalProperties": true,
+          "title": "Payload",
+          "type": "object"
+        },
+        "schema_version": {
+          "const": 1,
+          "default": 1,
+          "title": "Schema Version",
+          "type": "integer"
+        },
+        "tenant_id": {
+          "maxLength": 160,
+          "minLength": 1,
+          "pattern": "^[a-zA-Z0-9_.:@/-]+$",
+          "title": "Tenant Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "tenant_id",
+        "company_id",
+        "actor_id",
+        "capability",
+        "correlation_id",
+        "idempotency_key",
+        "expected_revision",
+        "payload"
+      ],
+      "title": "OperationEnvelope",
+      "type": "object"
+    },
+    "OperationResult": {
+      "$defs": {
+        "EvidenceRef": {
+          "additionalProperties": false,
+          "properties": {
+            "external_object_id": {
+              "title": "External Object Id",
+              "type": "string"
+            },
+            "id": {
+              "pattern": "^[a-f0-9]{32}$",
+              "title": "Id",
+              "type": "string"
+            },
+            "sha256": {
+              "pattern": "^[a-f0-9]{64}$",
+              "title": "Sha256",
+              "type": "string"
+            },
+            "source_system": {
+              "const": "odoo_community",
+              "default": "odoo_community",
+              "title": "Source System",
+              "type": "string"
+            }
+          },
+          "required": [
+            "id",
+            "sha256",
+            "external_object_id"
+          ],
+          "title": "EvidenceRef",
+          "type": "object"
+        }
+      },
+      "additionalProperties": false,
+      "properties": {
+        "evidence": {
+          "items": {
+            "$ref": "#/$defs/EvidenceRef"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "local_id": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{32}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Local Id"
+        },
+        "mapping_version": {
+          "const": "odoo19-v1",
+          "default": "odoo19-v1",
+          "title": "Mapping Version",
+          "type": "string"
+        },
+        "reconciliation_required": {
+          "default": false,
+          "title": "Reconciliation Required",
+          "type": "boolean"
+        },
+        "remote_id": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Remote Id"
+        },
+        "retryable": {
+          "default": false,
+          "title": "Retryable",
+          "type": "boolean"
+        },
+        "source_hash": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Source Hash"
+        },
+        "status": {
+          "enum": [
+            "proposed",
+            "succeeded",
+            "reconciliation_required",
+            "blocked"
+          ],
+          "title": "Status",
+          "type": "string"
+        },
+        "warnings": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Warnings",
+          "type": "array"
+        }
+      },
+      "required": [
+        "status"
+      ],
+      "title": "OperationResult",
+      "type": "object"
+    },
+    "SyncCursor": {
+      "additionalProperties": false,
+      "properties": {
+        "external_id": {
+          "default": 0,
+          "minimum": 0,
+          "title": "External Id",
+          "type": "integer"
+        },
+        "overlap_seconds": {
+          "default": 5,
+          "maximum": 300,
+          "minimum": 0,
+          "title": "Overlap Seconds",
+          "type": "integer"
+        },
+        "write_date": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Write Date"
+        }
+      },
+      "title": "SyncCursor",
+      "type": "object"
+    },
+    "SyncJob": {
+      "additionalProperties": false,
+      "properties": {
+        "attempts": {
+          "minimum": 0,
+          "title": "Attempts",
+          "type": "integer"
+        },
+        "company_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Company Id",
+          "type": "string"
+        },
+        "connection_id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Connection Id",
+          "type": "string"
+        },
+        "correlation_id": {
+          "title": "Correlation Id",
+          "type": "string"
+        },
+        "id": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Id",
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 0,
+          "title": "Revision",
+          "type": "integer"
+        },
+        "state": {
+          "enum": [
+            "pending",
+            "running",
+            "succeeded",
+            "failed",
+            "reconciliation_required",
+            "blocked"
+          ],
+          "title": "State",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "company_id",
+        "connection_id",
+        "state",
+        "attempts",
+        "revision",
+        "correlation_id"
+      ],
+      "title": "SyncJob",
+      "type": "object"
+    }
+  },
+  "schema_version": 1,
+  "source": "agntia_gestoria.integrations.contracts"
+}

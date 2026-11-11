@@ -1,0 +1,1 @@
+<odoo><record id="group_integration" model="res.groups"><field name="name">Agntia restricted integration</field><field name="implied_ids" eval="[(4,ref('base.group_user'))]"/></record></odoo>

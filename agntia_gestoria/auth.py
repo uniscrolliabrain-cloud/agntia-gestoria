@@ -34,12 +34,16 @@ def actors():
 def authenticate(request: Request):
     configured = actors()
     if not configured:
-        if request.client and request.client.host in ("127.0.0.1", "::1", "testclient"):
+        if os.getenv("GESTORIA_ALLOW_LOCAL_OWNER") == "true" and request.client and request.client.host in ("127.0.0.1", "::1", "testclient"):
             return Actor("local-owner", "owner", ("*",))
         raise HTTPException(403, "Configura credenciales antes del acceso remoto")
-    token = request.headers.get("Authorization", "").removeprefix("Bearer ") or request.cookies.get("gestoria_session", "")
+    from .sessions import fingerprint, resolve
+    token = request.headers.get("Authorization", "").removeprefix("Bearer ")
+    session_hash = None
+    if not token and request.cookies.get("gestoria_session"):
+        session_hash = resolve(request.app.state.db, request.cookies["gestoria_session"])
     for secret, actor in configured:
-        if hmac.compare_digest(secret.encode(), token.encode()):
+        if (token and hmac.compare_digest(secret.encode(), token.encode())) or (session_hash and hmac.compare_digest(fingerprint(secret), session_hash)):
             return actor
     raise HTTPException(401, "Credencial de acceso necesaria")
 
