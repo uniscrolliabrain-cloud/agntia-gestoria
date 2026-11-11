@@ -25,12 +25,17 @@
 | | 6.2 resiliencia, rendimiento y recuperación | medidas con tamaño de muestra |
 | | 6.3 observabilidad, runbooks y piloto | checklist firmada |
 
-## Documentos
+## Ampliación: dominio laboral completo
 
-- `00-decisiones.md`: reparto con `agente`, base de código, convenciones y hallazgos de auditoría que se cierran.
-- `01-fase1.md` a `06-fase6.md`: una fase por documento, con ficheros nuevos, tocados, cableado, tests, scripts y criterios de aceptación.
-- `07-trazabilidad.md`: correspondencia con la campaña del 11 de noviembre, orden de ejecución y riesgos.
+- `08-marco-legal.md`: normas con artículo y fecha (ET, LGSS, RGPD, Reglamento de IA, cotización 2026) y lo que obligan a codificar.
+- `09-metaestructura.md`: ontología, política y reglas por sector como dato; compilación con suelos legales y hash.
+- `10-contratacion.md`: modalidades, validaciones, SEPE, altas y coste con tipos de 2026.
+- `11-jornada-vacaciones.md`: fichaje, correcciones, turnos, nocturnidad, vacaciones, permisos y bajas.
+- `12-extincion-finiquitos.md`: indemnizaciones con dos tramos, finiquito, colectivo, ERTE y FOGASA.
+- `13-talento-formacion.md`: vacantes, CV, supervisión humana, FUNDAE, onboarding y PRL.
 
-## Decisión pendiente antes de empezar
+## Decisiones pendientes antes de empezar
 
-`main` no contiene `agntia_gestoria/integrations/`. El plan propone que las ramas `rrhh/01-laboratorio` y `rrhh/02-middleware` nazcan de `verify/odoo-complete-adapter` (`b34b8ca`) y declaren su SHA base en cada PR.
+1. `main` no contiene `agntia_gestoria/integrations/`: se propone que las ramas `rrhh/01-laboratorio` y `rrhh/02-middleware` nazcan de `verify/odoo-complete-adapter` (`b34b8ca`) y declaren su SHA base.
+2. Revisión de un laboralista de cada regla del pack antes de activarla en una empresa real.
+3. Confirmar los tipos de AT/EP por CNAE con la tarifa vigente antes de dar cifras de coste.
