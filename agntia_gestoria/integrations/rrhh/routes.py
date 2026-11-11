@@ -24,6 +24,7 @@ CAPABILITIES = (
     'rrhh.closure.read',
     'rrhh.closure.approve',
     'rrhh.closure.export',
+    'rrhh.audit.read',
 )
 
 
