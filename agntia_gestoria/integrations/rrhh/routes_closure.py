@@ -12,7 +12,7 @@ from fastapi import APIRouter, Body, Depends
 from ...auth import Actor, authenticate, company_access
 from ...storage import Database, digest, identifier, now, uid
 from ..errors import reject
-from . import approval, engine, export, packs, snapshot
+from . import approval, audit, engine, export, packs, snapshot
 from .config import config_for
 from .routes import load_sector
 
@@ -68,6 +68,7 @@ def close(connection, cid, period, actor):
     if existing:
         return existing, False
     Database.put(connection, cid, CLOSURE, body, unique_key=key)
+    audit.record(connection, cid, actor, 'rrhh.closure.prepare', body['id'], body)
     return body, True
 
 
@@ -111,6 +112,7 @@ def register_closure_routes(app, db):
             if existing:
                 return {'approval': existing, 'created': False}
             Database.put(connection, cid, APPROVAL, record, unique_key=key)
+            audit.record(connection, cid, actor, 'rrhh.closure.approve', record['id'], record)
         return {'approval': record, 'created': True}
 
     @router.post('/companies/{cid}/rrhh/closures/{period}/export')
@@ -127,6 +129,8 @@ def register_closure_routes(app, db):
                 reject('approval_required', 'El cierre necesita aprobación antes de exportarse', 409)
             document, created = export.export_period(
                 connection, cid, body['result'], json.loads(row['body']), actor)
+            if created:
+                audit.record(connection, cid, actor, 'rrhh.closure.export', document['id'], document)
         return {'export': document, 'created': created}
 
     app.include_router(router)
