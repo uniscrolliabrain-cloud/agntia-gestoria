@@ -1,6 +1,6 @@
 import type { Gestoria } from './index.js';
 export type OdooErrorCode = 'auth'|'forbidden'|'not_found'|'validation'|'conflict'|'idempotency_conflict'|'unsupported'|'not_ready'|'timeout'|'provider_unavailable'|'reconciliation_required'|string;
-export interface OdooFailure { code: OdooErrorCode; message: string; correlation_id: string; retryable: boolean; reconciliation_required?: boolean }
+export interface OdooFailure { code: OdooErrorCode; message: string; correlation_id: string; retryable: boolean; reconciliation_required?: boolean; category?: string; next_action?: string }
 export interface Connection { connection_id: string; gestoria_company_id: string; tenant_id: string; provider: 'odoo_community'; provider_version: '19.0'; state: 'pending_validation'|'ready'|'degraded'|'disabled'; revision: number; capabilities: string[]; checked_at?: string; expires_at?: string }
 export interface Health extends Connection { stale: boolean; evidence_hash?: string; unsupported: string[]; remote_publication: false; official_filing: false }
 export interface JobReceipt { job_id: string; state: string }

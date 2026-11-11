@@ -21,6 +21,6 @@ test('Runtime validators reject unknown context before fetch',async()=>{
 });
 test('Scoped operation and normalized errors',async()=>{
  const original=globalThis.fetch;
- globalThis.fetch=async(url)=>{assert.equal(String(url),`http://localhost:8010/api/companies/${cid}/integrations/odoo/health`);return {ok:false,status:424,json:async()=>({code:'unsupported',message:'Not configured',correlation_id:id,retryable:false})}};
- try{const client=new Odoo(new Gestoria('http://localhost:8010','fixture'),cid);await assert.rejects(client.health(),e=>e instanceof OdooError&&e.failure.code==='unsupported');}finally{globalThis.fetch=original}
+ globalThis.fetch=async(url)=>{assert.equal(String(url),`http://localhost:8010/api/companies/${cid}/integrations/odoo/health`);return {ok:false,status:424,json:async()=>({code:'unsupported',message:'Not configured',correlation_id:id,retryable:false,category:'unsupported',next_action:'reduce_scope'})}};
+ try{const client=new Odoo(new Gestoria('http://localhost:8010','fixture'),cid);await assert.rejects(client.health(),e=>e instanceof OdooError&&e.failure.code==='unsupported'&&e.failure.category==='unsupported'&&e.failure.next_action==='reduce_scope');}finally{globalThis.fetch=original}
 });
