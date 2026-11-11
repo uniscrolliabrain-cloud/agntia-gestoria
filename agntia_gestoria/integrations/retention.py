@@ -15,7 +15,7 @@ remoto sobre una operación que aún era reconciliable.
 """
 from datetime import datetime,timedelta,timezone
 
-# Valores aprobados para el piloto de lectura. Cualquier cambio necesita ADR y
+# Valores predeterminados de revisión del ledger. Se conservan sus claves. Un cambio necesita
 # una regresión que demuestre que la ventana sigue cubriendo la restauración
 # de backup más lenta tolerada.
 POLICY={

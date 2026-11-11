@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { allowedOdooRoute } from './odoo-routes.js';
-                                    
+
 import { Gestoria, GestoriaError } from './index.js';
 /** The host authenticates each request and supplies that actor's client, not a shared owner. */
 export function gestoriaRoutes(forActor                                         ) {

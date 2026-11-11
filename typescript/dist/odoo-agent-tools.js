@@ -1,5 +1,5 @@
 import { Odoo } from './odoo.js';
-                                                                
+
 /** No approval, classification, commit, arbitrary method, URL, tenant or credential tools. */
 export function odooAgentTools(client      ) {
  return {

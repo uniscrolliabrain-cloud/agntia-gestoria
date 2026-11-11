@@ -8,6 +8,7 @@ from decimal import Decimal
 from ...storage import canonical,digest,identifier,now,uid
 from ..errors import IntegrationError,reject
 from .evidence import event
+from ..retention import classify
 
 
 class Commands:
@@ -86,7 +87,10 @@ class Commands:
             old=c.execute('SELECT * FROM idempotency_keys WHERE company_id=? AND connection_id=? AND operation=? AND key=?',(cid,connection['id'],'write',body.idempotency_key)).fetchone()
             if old:
                 if old['payload_hash']!=requested_hash:reject('idempotency_conflict','Clave ya vinculada a otra propuesta',409)
-                return json.loads(old['body'])
+                result = json.loads(old['body'])
+                if result.get('created_at'):
+                    result['retention_state'] = classify(result['created_at'])
+                return result
             if c.execute("SELECT 1 FROM idempotency_keys WHERE company_id=? AND connection_id=? AND operation='write' AND json_extract(body,'$.proposal_id')=?",(cid,connection['id'],proposal['id'])).fetchone():reject('conflict','La propuesta ya tiene una ejecución; conciliar su clave original',409)
             if proposal['state']!='proposed' or proposal['revision']!=body.expected_revision or proposal['connection_revision']!=connection['revision']:reject('conflict','Propuesta o conexión modificadas',409)
             if datetime.fromisoformat(proposal['expires_at'])<datetime.now(timezone.utc):reject('expired','Propuesta caducada',409)
@@ -106,7 +110,7 @@ class Commands:
             signing_key=os.getenv(server.approval_signing_key_env,'')
             if len(signing_key)<32:reject('not_configured','Firmante de aprobaciones no configurado',424)
             operation_key=digest({'tenant':connection['tenant_id'],'company':cid,'connection':connection['id'],'key':body.idempotency_key})
-            intent={'status':'reconciliation_required','local_id':proposal['id'],'remote_id':None,'operation_key':operation_key,'proposal_id':proposal['id'],'proposal_hash':proposal['proposal_hash'],'approval_id':approval['id'],'payload_hash':digest(proposal['payload']),'reconciliation_required':True,'retryable':False}
+            intent={'created_at':now(),'status':'reconciliation_required','local_id':proposal['id'],'remote_id':None,'operation_key':operation_key,'proposal_id':proposal['id'],'proposal_hash':proposal['proposal_hash'],'approval_id':approval['id'],'payload_hash':digest(proposal['payload']),'reconciliation_required':True,'retryable':False}
             c.execute('INSERT INTO idempotency_keys VALUES(?,?,?,?,?,?,?)',(cid,connection['id'],'write',body.idempotency_key,requested_hash,'pending',canonical(intent)))
             event(self.db,c,connection,actor,'review.required',{'operation':'write_pending','proposalId':proposal['id'],'operationKey':operation_key},correlation)
         claims={'instance_id':server.expected_instance_id,'company_id':server.odoo_company_id,'operation_key':operation_key,'request_hash':intent['payload_hash'],'approval_id':approval['id'],'approved_by':approval['actor_id'],'expires_at':min(int(datetime.fromisoformat(approval['expires_at']).timestamp()),int(time.time())+300)}
@@ -163,6 +167,7 @@ class Commands:
             intent=json.loads(row['body'])
             if row['state']=='succeeded':return intent
             proposal=self._get_proposal(c,cid,connection['id'],intent['proposal_id'])
+            intent['retention_state'] = classify(intent.get('created_at', proposal['created_at']))
         result=self.client(actor,cid,'writes.commit',connection).call('agntia.bridge','operation_status',{'company_id':server.odoo_company_id,'operation_key':intent['operation_key']})
         if not result:return {**intent,'status':'reconciliation_required','notice':'No se observa confirmación remota. No se reintenta la escritura automáticamente.'}
         return self._finish_write(actor,cid,connection,key,intent,proposal,result,correlation)

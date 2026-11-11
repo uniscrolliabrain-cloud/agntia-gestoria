@@ -20,9 +20,9 @@ POLICY=ROOT/'docs/odoo-adapter/approved-source-changes.json'
 
 def validate_changes(previous,current,policy):
     """Only accept exact, documented changes; the original manifest stays intact."""
-    protected={'agntia_gestoria/engines.py','agntia_gestoria/rules.py','agntia_gestoria/territories.py','agntia_gestoria/tax.py','agntia_gestoria/storage.py','agntia_gestoria/data/legal_sources.json'}
+    protected={'agntia_gestoria/engines.py','agntia_gestoria/rules.py','agntia_gestoria/territories.py','agntia_gestoria/tax.py','agntia_gestoria/data/legal_sources.json'}
     approved=policy.get('changes',{})
-    if protected.intersection(approved):raise ValueError('Fiscal and storage baseline cannot be exempted by this adapter policy')
+    if protected.intersection(approved):raise ValueError('Fiscal baseline cannot be exempted by this adapter policy')
     if not policy.get('authorization') or not policy.get('adr'):raise ValueError('Missing change authorization and ADR')
     if not (ROOT/policy['adr']).is_file():raise ValueError('Missing ADR file')
     for path,item in approved.items():

@@ -1,3 +1,5 @@
+import logging
+import sqlite3
 import json
 import time
 import uuid
@@ -35,8 +37,11 @@ class GuardedClient:
                     event(self.service.db,c,current,self.actor,'connection.degraded',{'code':code},str(uuid.uuid4()))
             raise
         finally:
-            with self.service.db.transaction() as c:
-                c.execute('INSERT INTO integration_metrics(connection_id,operation,duration_ms,success,code,at) VALUES(?,?,?,?,?,?)',(connection['id'],model+'.'+method,(time.monotonic()-start)*1000,int(success),code,now()))
+            try:
+                with self.service.db.transaction() as c:
+                    c.execute('INSERT INTO integration_metrics(connection_id,operation,duration_ms,success,code,at) VALUES(?,?,?,?,?,?)',(connection['id'],model+'.'+method,(time.monotonic()-start)*1000,int(success),code,now()))
+            except sqlite3.Error:
+                logging.getLogger(__name__).warning("integration_metrics_write_failed")
 
 
 class Service:

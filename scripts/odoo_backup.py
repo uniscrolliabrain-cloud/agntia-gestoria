@@ -16,7 +16,9 @@ def binary(state,args,data=None):
     if os.getenv('DOCKER_HOST'):raise SystemExit('Remote Docker selector refused')
     env={**os.environ,'AGNTIA_LAB_STATE_DIR':str(state)}
     result=subprocess.run(['docker','compose','-p','agntia-gestoria-synthetic-lab','-f',str(ROOT/'infra/odoo/compose.yaml'),*args],input=data,stdout=subprocess.PIPE,stderr=subprocess.PIPE,env=env)
-    if result.returncode:raise SystemExit('Private lab backup command failed; no raw output printed')
+    if result.returncode:
+        (state/'private-bootstrap-failure.log').write_bytes(result.stderr or b'')
+        raise SystemExit('Private lab backup command failed; inspect private diagnostics')
     return result.stdout
 
 

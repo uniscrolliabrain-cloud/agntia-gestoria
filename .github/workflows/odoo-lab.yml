@@ -1,7 +1,7 @@
 name: Odoo real synthetic lab (explicit opt-in)
 on:
   pull_request:
-    branches: [feat/odoo-complete-adapter]
+    branches: [feat/odoo-complete-adapter, verify/odoo-complete-adapter, main]
   workflow_dispatch:
     inputs:
       synthetic_confirmation:
@@ -13,7 +13,7 @@ jobs:
       inputs.synthetic_confirmation == 'SYNTHETIC' ||
       (github.event_name == 'pull_request' &&
       github.event.pull_request.head.repo.full_name == github.repository &&
-      github.head_ref == 'verify/odoo-complete-adapter')
+      (github.head_ref == 'verify/odoo-complete-adapter' || github.head_ref == 'freebuff/gestoria-autonomo'))
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:

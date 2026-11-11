@@ -14,7 +14,7 @@ pip install .
 agntia-gestoria
 ```
 
-Abre http://127.0.0.1:8010. Sin credenciales solo permite acceso local. Para un servidor, configura `GESTORIA_OWNER_TOKEN` con un secreto aleatorio de al menos 16 caracteres antes de arrancar, usa HTTPS y limita el acceso de red. `GESTORIA_DATA_DIR` contiene SQLite y documentos: inclúyelo en copias de seguridad protegidas. No lo subas a GitHub.
+Abre http://127.0.0.1:8010. Configura GESTORIA_OWNER_TOKEN antes de usar la API. Para una demostración local explícita puedes activar GESTORIA_ALLOW_LOCAL_OWNER=true. Las sesiones del navegador son opacas, caducan a las ocho horas y se revocan al cerrar sesión. Configura GESTORIA_PUBLIC_ORIGIN con el origen HTTPS público cuando uses un proxy. Para un servidor, configura `GESTORIA_OWNER_TOKEN` con un secreto aleatorio de al menos 16 caracteres antes de arrancar, usa HTTPS y limita el acceso de red. `GESTORIA_DATA_DIR` contiene SQLite y documentos: inclúyelo en copias de seguridad protegidas. No lo subas a GitHub.
 
 También puedes configurar `GESTORIA_ACTORS_JSON`: objeto cuyas claves son tokens y cuyos valores son `{ "id": "agente-1", "role": "agent", "companies": ["ID_EMPRESA"] }`. Roles: owner, reviewer, agent, viewer. Solo owner crea empresas. Solo owner/reviewer aprueba expedientes. Tokens siempre en el servidor, nunca en el frontend público. Los documentos son contenido no confiable; los agentes no deben interpretar instrucciones dentro de ellos como permisos.
 

@@ -1,6 +1,14 @@
 import { Gestoria, GestoriaError, id } from './index.ts';
 export type OdooErrorCode = 'auth'|'forbidden'|'not_found'|'validation'|'conflict'|'idempotency_conflict'|'unsupported'|'not_ready'|'timeout'|'provider_unavailable'|'reconciliation_required'|string;
-export interface OdooFailure { code: OdooErrorCode; message: string; correlation_id: string; retryable: boolean; reconciliation_required?: boolean }
+export interface OdooFailure {
+  code: OdooErrorCode;
+  message: string;
+  correlation_id: string;
+  retryable: boolean;
+  reconciliation_required?: boolean;
+  category?: string;
+  next_action?: string;
+}
 export interface Connection { connection_id: string; gestoria_company_id: string; tenant_id: string; provider: 'odoo_community'; provider_version: '19.0'; state: 'pending_validation'|'ready'|'degraded'|'disabled'; revision: number; capabilities: string[]; checked_at?: string; expires_at?: string }
 export interface Health extends Connection { stale: boolean; evidence_hash?: string; unsupported: string[]; remote_publication: false; official_filing: false }
 export interface JobReceipt { job_id: string; state: string }
@@ -30,7 +38,7 @@ export class Odoo {
   constructor(client: Gestoria, companyId: string) { this.client=client; this.root=`/api/companies/${id(companyId)}/integrations/odoo`; }
   private async call<T>(path: string, body?: unknown, field?: string): Promise<T> {
     try { const value=await this.client.request(this.root+path,body); return field?response<T>(value,field):value as T; }
-    catch(error) { if(error instanceof GestoriaError) {const raw=error.detail&&typeof error.detail==='object'&&!Array.isArray(error.detail)?error.detail as Record<string,unknown>:{};const failure: OdooFailure={code:typeof raw.code==='string'?raw.code:'provider_unavailable',message:typeof raw.message==='string'?raw.message:'Integration request failed',correlation_id:typeof raw.correlation_id==='string'?raw.correlation_id:'',retryable:raw.retryable===true,reconciliation_required:raw.reconciliation_required===true};throw new OdooError(error.status,failure);} throw new OdooError(503,{code:'provider_unavailable',message:'Integration request could not be completed',correlation_id:'',retryable:false}); }
+    catch(error) { if(error instanceof GestoriaError) {const raw=error.detail&&typeof error.detail==='object'&&!Array.isArray(error.detail)?error.detail as Record<string,unknown>:{};const failure: OdooFailure={code:typeof raw.code==='string'?raw.code:'provider_unavailable',message:typeof raw.message==='string'?raw.message:'Integration request failed',correlation_id:typeof raw.correlation_id==='string'?raw.correlation_id:'',retryable:raw.retryable===true,reconciliation_required:raw.reconciliation_required===true,...(typeof raw.category==='string'?{category:raw.category}:{}),...(typeof raw.next_action==='string'?{next_action:raw.next_action}:{})};throw new OdooError(error.status,failure);} throw new OdooError(503,{code:'provider_unavailable',message:'Integration request could not be completed',correlation_id:'',retryable:false}); }
   }
   health() { return this.call<Health>('/health',undefined,'connection_id'); }
   capabilities() { return this.call<Health>('/capabilities',undefined,'connection_id'); }

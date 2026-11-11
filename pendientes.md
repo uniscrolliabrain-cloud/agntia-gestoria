@@ -1,6 +1,6 @@
 # Pendientes · entrega Freebuff del 11 de noviembre de 2026
 
-Rama `freebuff/gestoria-autonomo` (base `b34b8ca`). Todo lo que sigue **no** está cerrado. Se agrupa por motivo, con el primer paso concreto para retomarlo. El detalle por punto está en `docs/odoo-adapter/freebuff-delivery-2026-11-11.md`.
+Rama `freebuff/gestoria-autonomo` (base `b34b8ca`). Todo lo que sigue **no** está cerrado. Se agrupa por motivo, con el primer paso concreto para retomarlo. El detalle por punto está en los cuatro documentos `docs/odoo-adapter/freebuff-ledger-*.md`.
 
 ## 1 · No se puede ejecutar en este entorno (sin Docker, sin Odoo 19, sin PostgreSQL)
 

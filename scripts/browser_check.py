@@ -15,7 +15,7 @@ from playwright.sync_api import sync_playwright
 
 with tempfile.TemporaryDirectory() as directory:
     with socket.socket() as sock:sock.bind(('127.0.0.1',0));port=sock.getsockname()[1]
-    env={**os.environ,'GESTORIA_DATA_DIR':directory,'GESTORIA_OWNER_TOKEN':'','GESTORIA_ACTORS_JSON':'{}'}
+    env={**os.environ,'GESTORIA_DATA_DIR':directory,'GESTORIA_OWNER_TOKEN':'','GESTORIA_ACTORS_JSON':'{}','GESTORIA_ALLOW_LOCAL_OWNER':'true'}
     server=subprocess.Popen([sys.executable,'-m','agntia_gestoria.cli','--port',str(port)],env=env,stdout=subprocess.DEVNULL,stderr=subprocess.PIPE)
     root=f'http://127.0.0.1:{port}'
     try:

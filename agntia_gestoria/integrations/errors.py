@@ -70,6 +70,10 @@ class IntegrationError(Exception):
 
     def public(self, correlation_id=None):
         category,action=contract(self.code)
+        if self.uncertain:
+            action='reconcile_write'
+        elif self.code=='timeout':
+            action='retry_later'
         return {'code':self.code,'message':self.message,'correlation_id':correlation_id or str(uuid.uuid4()),'retryable':self.retryable,'reconciliation_required':self.uncertain,'category':category,'next_action':action}
 
 

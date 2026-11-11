@@ -396,7 +396,7 @@ class ContractTests(BacklogBase):
         root=Path(__file__).resolve().parents[1]
         codes=set()
         for path in root.joinpath('agntia_gestoria').rglob('*.py'):
-            codes.update(re.findall(r"(?:reject|IntegrationError)\('([a-z_]+)'",path.read_text()))
+            codes.update(re.findall(r"(?:reject|IntegrationError)\('([a-z_]+)'",path.read_text(encoding='utf-8')))
         self.assertTrue(codes)
         self.assertEqual(sorted(codes-set(CONTRACT)),[])
 

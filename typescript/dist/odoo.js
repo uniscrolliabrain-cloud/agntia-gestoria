@@ -1,18 +1,26 @@
 import { Gestoria, GestoriaError, id } from './index.js';
-                                                                                                                                                                                                      
-                                                                                                                                                    
-                                                                                                                                                                                                                                                                                                          
-                                                                                                                                                               
-                                                             
-                                                                                                                                                                                                                                                                         
-                                                                                                                                                            
-                                                                                                                                                                         
-                                                                                                                                                                                                
-                                                                                                                                                                              
-                                                                                                                        
-                                                                                                                                                                                                            
-                                                                                                                                                                                                                                                                                               
-                                                                                                                                                                                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export class OdooError extends Error {
   status        ; failure             ;
   constructor(status        , failure             ) { super(failure.message); this.status=status; this.failure=failure; }
@@ -30,7 +38,7 @@ export class Odoo {
   constructor(client          , companyId        ) { this.client=client; this.root=`/api/companies/${id(companyId)}/integrations/odoo`; }
           async call   (path        , body          , field         )             {
     try { const value=await this.client.request(this.root+path,body); return field?response   (value,field):value     ; }
-    catch(error) { if(error instanceof GestoriaError) {const raw=error.detail&&typeof error.detail==='object'&&!Array.isArray(error.detail)?error.detail                          :{};const failure             ={code:typeof raw.code==='string'?raw.code:'provider_unavailable',message:typeof raw.message==='string'?raw.message:'Integration request failed',correlation_id:typeof raw.correlation_id==='string'?raw.correlation_id:'',retryable:raw.retryable===true,reconciliation_required:raw.reconciliation_required===true};throw new OdooError(error.status,failure);} throw new OdooError(503,{code:'provider_unavailable',message:'Integration request could not be completed',correlation_id:'',retryable:false}); }
+    catch(error) { if(error instanceof GestoriaError) {const raw=error.detail&&typeof error.detail==='object'&&!Array.isArray(error.detail)?error.detail                          :{};const failure             ={code:typeof raw.code==='string'?raw.code:'provider_unavailable',message:typeof raw.message==='string'?raw.message:'Integration request failed',correlation_id:typeof raw.correlation_id==='string'?raw.correlation_id:'',retryable:raw.retryable===true,reconciliation_required:raw.reconciliation_required===true,...(typeof raw.category==='string'?{category:raw.category}:{}),...(typeof raw.next_action==='string'?{next_action:raw.next_action}:{})};throw new OdooError(error.status,failure);} throw new OdooError(503,{code:'provider_unavailable',message:'Integration request could not be completed',correlation_id:'',retryable:false}); }
   }
   health() { return this.call        ('/health',undefined,'connection_id'); }
   capabilities() { return this.call        ('/capabilities',undefined,'connection_id'); }
