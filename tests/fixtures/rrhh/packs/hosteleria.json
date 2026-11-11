@@ -1,0 +1,16 @@
+{
+  "sector_id": "hosteleria",
+  "version": "2026.1",
+  "convenio": {"codigo": "REGCON-DEMO-HOSTELERIA", "ambito": "provincial", "vigencia": "2026-2028"},
+  "ontologia": {"roles": ["camarero", "cocinero"], "categorias": [{"id": "G3", "nombre": "Tecnico"}]},
+  "politica": {
+    "vacaciones_dias_naturales": 30,
+    "jornada_semanal_horas_max": 40,
+    "prueba_meses_resto_max": 2,
+    "semanas_nocturnas_consecutivas_max": 2
+  },
+  "reglas": [
+    {"id": "vacaciones.minimo", "cuando": {"eq": "empleado"}, "entonces": {"vacaciones_min": 30}, "base_legal": "art. 38.1 ET"},
+    {"id": "prueba.limite", "cuando": {"eq": "sin_titulacion"}, "entonces": {"prueba_max_meses": 2}, "base_legal": "art. 14.1 ET"}
+  ]
+}
