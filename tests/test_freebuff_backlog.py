@@ -316,6 +316,27 @@ class UncertaintyTests(BacklogBase):
         self.assertEqual(self.provider.writes,0)
 
 
+class PersistedRetentionTests(BacklogBase):
+    def test_expired_key_reports_review_without_repeating_effect(self):
+        proposal = self.partner_proposal()
+        body = self.approved_body(proposal, 'retention-repeat')
+        first = self.client.post(self.api+'/partners/commit', headers=self.owner, json=body)
+        self.assertEqual(first.status_code, 200, first.text)
+        with self.app.state.db.transaction() as connection:
+            row = connection.execute(
+                "SELECT body FROM idempotency_keys WHERE key=?", ('retention-repeat',)
+            ).fetchone()
+            stored = json.loads(row['body'])
+            stored['created_at'] = (datetime.now(timezone.utc)-timedelta(days=50)).isoformat()
+            connection.execute("UPDATE idempotency_keys SET body=? WHERE key=?",
+                               (canonical(stored), 'retention-repeat'))
+        repeated = self.client.post(self.api+'/partners/commit', headers=self.owner, json=body)
+        self.assertEqual(repeated.status_code, 200, repeated.text)
+        self.assertEqual(repeated.json()['retention_state'], 'expired_manual_review')
+        self.assertEqual(repeated.json()['remote_id'], first.json()['remote_id'])
+        self.assertEqual(self.provider.writes, 1)
+
+
 class LedgerRetentionTests(unittest.TestCase):
     def test_27_key_lives_until_the_last_reconcilable_path(self):
         self.assertEqual(retention_days(),max(1,7,35)+7)

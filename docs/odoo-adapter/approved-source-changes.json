@@ -66,6 +66,10 @@
     "typescript/types/agents.d.ts": {
       "old_sha256": "a1720d100b77bfc99409fc843baae2a9e62fc3e3ada3b355433e29a23e0d841f",
       "new_sha256": "36a253477ac370bcaec8ac3af141e8c5cc9e4f3be89fdfb8d14cf6e3269ccedc"
+    },
+    ".env.example": {
+      "old_sha256": "65d25c5bb61ff29a844f4c15b15ffcb7ebb1de0da24d1dd9949f1f25618c1074",
+      "new_sha256": "95a4f72a4a1159b99b93adf1e49dd2d293935ca4334d3ca2a070a9d7b13d5f97"
     }
   }
 }
