@@ -32,6 +32,18 @@ cualquier registro.
 La ventana en memoria es de 500 eventos y se reinicia con el proceso. Es
 deliberado: el rastro permanente y encadenado es el de `rrhh/audit`, no este.
 
+## Patrones
+
+Además de contar, `anomalies()` agrupa lo que suele pasar desapercibido:
+
+| Patrón | Umbral | Qué dice |
+|---|---|---|
+| `auth_burst` | 3 denegaciones del mismo actor | posible fuerza bruta o credencial caducada |
+| `server_errors` | 2 fallos 500 en la ventana | el servicio está fallando, no el cliente |
+| `critical_path` | 1 evento crítico | ruta con travesía u otro intento evidente |
+
+Una sola denegación no es un patrón: se evita convertir ruido normal en alarma.
+
 ## Cómo habla
 
 `GET /api/security/digest` devuelve el resumen sin enviarlo. `POST
@@ -43,6 +55,8 @@ Seguridad · 12 peticiones observadas.
 Por gravedad: info 9, warning 2, high 1, critical 0.
 1 alertas que requieren mirada humana:
  · 2026-11-12T09:14:03+00:00 GET /api/companies/…/rrhh/closures → 500 (812 ms). …
+Patrones:
+ · 3 accesos denegados para el mismo actor.
 Solo lectura: no he modificado ni bloqueado nada.
 ```
 
@@ -50,6 +64,20 @@ Solo lectura: no he modificado ni bloqueado nada.
 propio runtime; si está vacío, los mensajes se guardan en memoria para
 inspección local. El `Notifier` limita a un aviso por minuto para no inundar el
 chat, y un webhook caído devuelve `delivered: false` sin tumbar el servicio.
+`GET /api/security/chat` devuelve el historial de lo enviado cuando el canal es
+local.
+
+## Rastro de auditoría por CLI
+
+El agente no puede arreglar una cadena rota, pero sí señalarla sin arrancar el
+servicio:
+
+```bash
+python -m agntia_gestoria.integrations.security --db .agente --company <hex32>
+```
+
+Devuelve `0` si la cadena es válida, `1` si está rota (con el número de secuencia)
+y `2` si el identificador no es válido. Solo lee.
 
 ## Permisos
 
@@ -60,12 +88,13 @@ nadie le suponga más poder del que tiene.
 ## Pruebas
 
 ```bash
-.venv/bin/python -m pytest -q tests/test_security_watcher.py tests/test_security_agent_api.py
+.venv/bin/python -m pytest -q tests/test_security_watcher.py \
+    tests/test_security_agent_api.py tests/test_security_anomalies.py
 ```
 
 Cubren redacción, clasificación, ventana acotada, middleware con éxito y con
-excepción, contrato de solo lectura, resumen sin credenciales, límite de avisos
-y permisos de las rutas.
+excepción, contrato de solo lectura, patrones, resumen sin credenciales, límite
+de avisos, permisos de las rutas y la CLI.
 
 ## Lo que falta para vigilar de verdad
 
