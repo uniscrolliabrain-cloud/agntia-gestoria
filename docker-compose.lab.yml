@@ -1,0 +1,43 @@
+# Laboratorio mínimo: PostgreSQL siempre, Odoo 19 solo con el perfil "odoo".
+#   docker compose -f docker-compose.lab.yml up -d            # solo base de datos
+#   docker compose -f docker-compose.lab.yml --profile odoo up -d   # Odoo completo
+# Nada de esto toca producción ni usa secretos reales.
+name: agntia-lab
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${LAB_PG_DB:-postgres}
+      POSTGRES_USER: ${LAB_PG_USER:-odoo}
+      POSTGRES_PASSWORD: ${LAB_PG_PASSWORD:-odoo_lab}
+    ports:
+      - "${LAB_PG_PORT:-5433}:5432"
+    volumes:
+      - lab-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${LAB_PG_USER:-odoo} -d ${LAB_PG_DB:-postgres}"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  odoo:
+    profiles: ["odoo"]
+    image: odoo:19.0
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HOST: db
+      USER: ${LAB_PG_USER:-odoo}
+      PASSWORD: ${LAB_PG_PASSWORD:-odoo_lab}
+    ports:
+      - "${LAB_ODOO_PORT:-8069}:8069"
+    volumes:
+      - lab-odoo:/var/lib/odoo
+      - ./addons:/mnt/extra-addons:ro
+    command: ["--without-demo=all", "--db-filter=^lab_.*$$"]
+
+volumes:
+  lab-db:
+  lab-odoo:
