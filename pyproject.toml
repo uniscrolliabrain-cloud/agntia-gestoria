@@ -11,6 +11,15 @@ dependencies = ["fastapi>=0.115,<1", "uvicorn>=0.30,<1", "python-multipart>=0.0.
 
 [project.optional-dependencies]
 dev = ["httpx>=0.27,<1", "pytest>=8,<10", "playwright>=1.49,<2"]
+# Observador y agente de ciberseguridad (solo lectura). Sin dependencias nuevas.
+security = []
+# Laboratorio de Odoo 19: cliente PostgreSQL y utilidades de arranque.
+lab = ["psycopg[binary]>=3.2,<4", "python-dotenv>=1,<2"]
+# Conectores de terceros que se añaden por extra, no en el núcleo.
+connectors = ["httpx>=0.27,<1"]
+
+[project.urls]
+Documentation = "https://github.com/uniscrolliabrain-cloud/agntia-gestoria/tree/recursos-humanos/docs/rrhh"
 
 [project.scripts]
 agntia-gestoria = "agntia_gestoria.cli:main"
