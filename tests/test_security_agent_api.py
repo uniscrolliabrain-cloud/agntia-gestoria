@@ -16,7 +16,8 @@ VIEWER = 'viewer-token-1234567890'
 def test_the_agent_only_reads_and_says_so():
     agent = SecurityAgent(Watcher())
     public = [name for name in dir(agent) if not name.startswith('_')]
-    assert sorted(public) == ['digest', 'events', 'explain', 'mode', 'name', 'watchlist']
+    assert sorted(public) == ['anomalies', 'chat', 'digest', 'events', 'explain', 'mode',
+                              'name', 'watchlist']
     assert agent.mode == 'read_only'
     assert 'bloquear peticiones' in agent.watchlist()['cannot']
 
@@ -59,7 +60,7 @@ def test_routes_are_owner_only(monkeypatch):
     assert watchlist.json()['cannot']
 
 
-def test_report_pushes_one_message_to_the_chat_channel(monkeypatch):
+def test_report_pushes_one_message_and_the_chat_history_shows_it(monkeypatch):
     configure(monkeypatch)
     watcher = Watcher()
     watcher.observe('GET', '/api/x', 401, 4)
@@ -70,6 +71,10 @@ def test_report_pushes_one_message_to_the_chat_channel(monkeypatch):
     with TestClient(app) as client:
         response = client.post('/api/security/report',
                                headers={'Authorization': f'Bearer {OWNER}'})
+        history = client.get('/api/security/chat',
+                             headers={'Authorization': f'Bearer {OWNER}'})
     assert response.status_code == 200
     assert 'Seguridad · 1 peticiones' in channel.last()['text']
     assert channel.last()['severity'] == 'info'
+    assert history.status_code == 200
+    assert history.json()['messages'][0]['text'] == channel.last()['text']
