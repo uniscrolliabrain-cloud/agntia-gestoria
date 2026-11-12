@@ -13,9 +13,9 @@ El monorepo `uniscrolliabrain-cloud/agente` es pnpm + Hono. Dos caminos:
 cp -r integrations/agente ../../agente/packages/integrations/src/gestoria
 
 # O empaquetarlo y añadirlo como dependencia
-pnpm --dir integrations/agente install
-pnpm --dir integrations/agente build
-pnpm --dir integrations/agente pack --pack-destination ../../artifacts
+npm install --prefix integrations/agente
+npm run --prefix integrations/agente build
+npm pack --prefix integrations/agente --pack-destination ../../artifacts
 pnpm add ../../artifacts/agntia-gestoria-agente-0.1.0.tgz
 ```
 
@@ -54,8 +54,12 @@ con rol humano verificado.
 ## Verificación
 
 ```bash
-pnpm --dir integrations/agente typecheck
+npm install
+npm run typecheck   # tsc sin emitir
+npm run build       # genera dist/
 ```
 
-El conector no se ha compilado en este entorno porque no hay `node_modules`
-instalados: el manifiesto y las firmas están revisados, no ejecutados.
+Comprobado en este entorno con Node 26 y TypeScript 5.9: `typecheck` y `build`
+terminan sin errores y generan `dist/index.js` y `dist/index.d.ts`. `node_modules/`
+y `dist/` están ignorados por el `.gitignore` del paquete; el `package-lock.json`
+se conserva para que la comprobación sea reproducible.
