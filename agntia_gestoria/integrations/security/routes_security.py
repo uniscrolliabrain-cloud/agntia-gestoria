@@ -36,6 +36,10 @@ def register_security_routes(app, watcher, agent=None):
     def watchlist(actor: Actor = Depends(owner)):
         return agent.watchlist()
 
+    @router.get('/chat')
+    def chat(limit: int = 20, actor: Actor = Depends(owner)):
+        return agent.chat(max(1, min(limit, 100)))
+
     @router.post('/report')
     def report(actor: Actor = Depends(owner)):
         return agent.digest(notify=True)
