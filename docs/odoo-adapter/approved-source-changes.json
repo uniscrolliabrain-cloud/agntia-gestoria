@@ -1,7 +1,7 @@
 {
   "baseline_tree": "572b06b1ea2bec2307d94136eb742bc5dcb61081",
-  "authorization": "Owner instruction 2026-11-11: apply reviewed fixes on Freebuff branch, execute verification and merge the operational delivery to main.",
-  "adr": "docs/odoo-adapter/adr/0003-freebuff-production-fixes.md",
+  "authorization": "Owner instructions 2026-11-11 (apply reviewed fixes on the Freebuff branch and merge the operational delivery) and 2026-11-14 (consolidate every branch into main, integrating valid work and preserving the rest).",
+  "adr": "docs/odoo-adapter/adr/0004-consolidacion-ramas.md",
   "changes": {
     ".github/workflows/ci.yml": {
       "old_sha256": "2b369e3557e21dc436c0d32617a754ca74144f55776858b5709a0b5d455ec63a",
@@ -9,7 +9,7 @@
     },
     "README.md": {
       "old_sha256": "1e87156f7aabfb5d407fe31083612a2d8eac7bd96823336096e7cff6edbf6c5f",
-      "new_sha256": "5449fc58206c9c63da5f028f952c10216eb6c4a3b66a315dd23fc1897d3c4db3"
+      "new_sha256": "8a618a54020618fc4b8d28df15ed1bcb7e569c56d91b0541dde1450a4ea6783e"
     },
     "agntia_gestoria/app.py": {
       "old_sha256": "dfbbe7b7919166b5dc0e790fecb32d0f46b8c16f12d5773a6d88dd8086109492",
@@ -17,7 +17,7 @@
     },
     "pyproject.toml": {
       "old_sha256": "2bfed2b3a704685510f25c0ade7f4750cca9fd2e115b94baba6b0aef8d22958a",
-      "new_sha256": "a07ac04e12a283b7dc7e4a05129d7737e5df2d770992efa2b60c17898b7cc059"
+      "new_sha256": "fb379e123a411997fe1d8d2822362480ba5195d8d912e3523cda2da8f73e8c36"
     },
     "typescript/dist/hono.js": {
       "old_sha256": "651d7e8faa58e53d22e79443d5c48ca8c0135d21312676d73e4a66b7039d5bf9",

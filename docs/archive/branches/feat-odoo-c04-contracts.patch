@@ -1,0 +1,462 @@
+diff --git a/agntia_gestoria/integrations/__init__.py b/agntia_gestoria/integrations/__init__.py
+new file mode 100644
+index 0000000..ecd2f42
+--- /dev/null
++++ b/agntia_gestoria/integrations/__init__.py
+@@ -0,0 +1 @@
++"""Contracts for the Gestoría integration boundary."""
+diff --git a/agntia_gestoria/integrations/contracts.py b/agntia_gestoria/integrations/contracts.py
+new file mode 100644
+index 0000000..2c5f236
+--- /dev/null
++++ b/agntia_gestoria/integrations/contracts.py
+@@ -0,0 +1,235 @@
++"""Read and staging contracts for Odoo. No transport or authorization here."""
++
++from datetime import datetime
++from typing import Annotated, Literal
++
++from pydantic import AwareDatetime, BeforeValidator, ConfigDict, Field, StringConstraints, TypeAdapter
++
++from agntia_gestoria.models import Model
++
++
++def require_timestamp(value: object) -> object:
++    if not isinstance(value, (str, datetime)):
++        raise ValueError("Use an ISO 8601 timestamp with timezone")
++    if isinstance(value, str) and (
++        len(value) < 20 or value[10] != "T" or value[13] != ":" or value[16] != ":"
++    ):
++        raise ValueError("Use an ISO 8601 timestamp with timezone")
++    return value
++
++
++def require_version(value: object) -> object:
++    if type(value) is not int or value != 1:
++        raise ValueError("Unsupported schema version")
++    return value
++
++
++Timestamp = Annotated[AwareDatetime, BeforeValidator(require_timestamp)]
++SchemaVersion = Annotated[Literal[1], BeforeValidator(require_version)]
++LocalId = Annotated[str, Field(strict=True, pattern=r"^[0-9a-f]{32}$")]
++OpaqueId = Annotated[str, Field(strict=True, pattern=r"^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$")]
++RemoteId = Annotated[int, Field(strict=True, gt=0, le=2_147_483_647)]
++Revision = Annotated[int, Field(strict=True, ge=0, le=2_147_483_647)]
++Digest = Annotated[str, Field(strict=True, pattern=r"^sha256:[0-9a-f]{64}$")]
++PageSize = Annotated[int, Field(strict=True, ge=1, le=200)]
++RemoteModel = Literal["res.partner", "account.move", "account.move.line", "ir.attachment"]
++
++
++class Contract(Model):
++    model_config = ConfigDict(frozen=True)
++
++
++class Scope(Contract):
++    tenant_id: OpaqueId
++    gestoria_company_id: LocalId
++
++
++class PublicConnection(Contract):
++    """Projection safe to serialize after checking authorization for its scope."""
++
++    schema_version: SchemaVersion = 1
++    connection_id: LocalId
++    scope: Scope
++    provider: Literal["odoo_community"] = "odoo_community"
++    provider_version: Literal["19.0"] = "19.0"
++    state: Literal["pending_validation", "active", "disabled"]
++    created_at: Timestamp
++    revision: Revision
++
++
++class OdooBinding(Contract):
++    """Server-side references only. Keep this object out of public projections."""
++
++    scope: Scope
++    connection_id: LocalId
++    endpoint_ref: OpaqueId
++    database_ref: OpaqueId
++    credential_ref: OpaqueId
++    odoo_company_id: RemoteId
++
++
++class CapabilityReport(Contract):
++    schema_version: SchemaVersion = 1
++    connection_id: LocalId
++    checked_at: Timestamp
++    contacts_read: Literal["supported", "unsupported", "denied", "unknown"]
++    invoices_read: Literal["supported", "unsupported", "denied", "unknown"]
++
++
++class SyncCursor(Contract):
++    """Keyset cursor for server-side paging in a single connection and model."""
++
++    connection_id: LocalId
++    model: RemoteModel
++    write_date: Timestamp
++    remote_id: RemoteId
++
++
++class SourceRef(Contract):
++    connection_id: LocalId
++    model: RemoteModel
++    remote_id: RemoteId
++    remote_write_date: Timestamp | None = None
++    observed_at: Timestamp
++    content_hash: Digest
++    mapping_version: OpaqueId
++
++
++class ExternalObjectLink(Contract):
++    scope: Scope
++    source: SourceRef
++    local_kind: Literal["contact", "economic_record", "document"]
++    local_id: LocalId
++    sync_status: Literal["current", "conflict", "missing"]
++
++
++class Money(Contract):
++    """Decimal strings are part of the wire contract, including for zero."""
++
++    amount: Annotated[str, Field(strict=True, pattern=r"^-?(0|[1-9][0-9]{0,14})(\.[0-9]{1,6})?$")]
++    currency: Annotated[str, Field(strict=True, pattern=r"^[A-Z]{3}$")]
++
++
++class InvoiceSourceRef(SourceRef):
++    model: Literal["account.move"]
++
++
++class ImportedEconomicFact(Contract):
++    """ERP staging evidence. Fiscal treatment and eligibility remain unresolved."""
++
++    schema_version: SchemaVersion = 1
++    scope: Scope
++    source: InvoiceSourceRef
++    erp_state: Literal["draft", "posted", "cancel"]
++    gross_total: Money
++    review_status: Literal["unverified"] = "unverified"
++
++
++class ReadRequest(Contract):
++    """Validated parameters only. The server must supply the scope separately."""
++
++    limit: PageSize = 100
++
++
++class ContactRead(ReadRequest):
++    capability: Literal["contacts.read"]
++
++
++class InvoiceRead(ReadRequest):
++    capability: Literal["invoices.read"]
++
++
++ReadCommand = Annotated[ContactRead | InvoiceRead, Field(discriminator="capability")]
++
++
++class OperationContext(Contract):
++    """Trusted server context assembled after authenticating the caller."""
++    schema_version: SchemaVersion = 1
++    scope: Scope
++    actor_id: OpaqueId
++    correlation_id: OpaqueId
++    causation_id: OpaqueId | None = None
++
++
++class OperationEnvelope(OperationContext):
++    command: ReadCommand
++
++
++class ContactCandidate(Contract):
++    name: Annotated[str, StringConstraints(strict=True, strip_whitespace=True, min_length=1, max_length=160)]
++
++
++class ContactPreviewRequest(Contract):
++    """Candidate data only. Scope and connection come from the trusted server."""
++
++    contact: ContactCandidate
++
++
++class ContactPreview(OperationContext):
++    capability: Literal["contacts.create"] = "contacts.create"
++    connection_id: LocalId
++    connection_revision: Revision
++    preview_id: LocalId
++    preview_hash: Digest
++    contact: ContactCandidate
++    expires_at: Timestamp
++
++
++class ApprovedContactWrite(OperationContext):
++    """Execution reference assembled from a stored preview and approval."""
++
++    capability: Literal["contacts.create"] = "contacts.create"
++    preview_id: LocalId
++    preview_hash: Digest
++    approval_id: LocalId
++    connection_revision: Revision
++    idempotency_key: OpaqueId
++
++
++class ResultBase(Contract):
++    schema_version: SchemaVersion = 1
++    correlation_id: OpaqueId
++
++
++class ReadSucceeded(ResultBase):
++    status: Literal["succeeded"]
++    records: Annotated[tuple[SourceRef, ...], Field(max_length=200)]
++    next_cursor: SyncCursor | None = None
++
++
++class ReadUnavailable(ResultBase):
++    status: Literal["unavailable"]
++    reason: Literal["unsupported", "denied", "not_configured"]
++
++
++class ReadFailed(ResultBase):
++    status: Literal["failed"]
++    reason: Literal["timeout", "provider_unavailable", "invalid_response", "invalid_cursor"]
++    retryable: Annotated[bool, Field(strict=True)]
++
++
++ReadResult = Annotated[ReadSucceeded | ReadUnavailable | ReadFailed, Field(discriminator="status")]
++READ_RESULT = TypeAdapter(ReadResult)
++
++
++class ContactWritten(ResultBase):
++    status: Literal["succeeded"]
++    operation_id: LocalId
++    remote_id: RemoteId
++
++
++class ContactWriteRejected(ResultBase):
++    status: Literal["rejected"]
++    reason: Literal["denied", "approval_required", "stale_preview", "idempotency_conflict", "unsupported"]
++
++
++class ContactWriteUncertain(ResultBase):
++    status: Literal["reconciliation_required"]
++    operation_id: LocalId
++
++
++ContactWriteResult = Annotated[
++    ContactWritten | ContactWriteRejected | ContactWriteUncertain,
++    Field(discriminator="status"),
++]
++CONTACT_WRITE_RESULT = TypeAdapter(ContactWriteResult)
+diff --git a/docs/odoo-adapter/c04/README.md b/docs/odoo-adapter/c04/README.md
+new file mode 100644
+index 0000000..dabea7b
+--- /dev/null
++++ b/docs/odoo-adapter/c04/README.md
+@@ -0,0 +1,21 @@
++# C04 · Contratos tipados de lectura, staging y contactos
++
++Estado: primer corte de C04 para revisión, dependiente del cierre de C02/C03. Incluye DTOs y esquemas. La validación de permisos, la persistencia y el transporte corresponden a fases posteriores.
++
++| Contrato | Uso |
++| --- | --- |
++| `PublicConnection`, `OdooBinding` | Proyección de conexión autorizada y binding interno separado. Las referencias de endpoint, base y credencial permanecen en el servidor. |
++| `CapabilityReport` | Resultado por capacidad con estados explícitos para soporte, ausencia, denegación y falta de evidencia. |
++| `SyncCursor`, `SourceRef`, `ExternalObjectLink` | Paginación por fecha/ID y procedencia por conexión, modelo e ID remoto. La pertenencia del cursor y del binding a la empresa se comprueba antes de ejecutar la operación. |
++| `ImportedEconomicFact`, `Money` | Evidencia ERP en staging con importe decimal en texto. Conserva el estado ERP y exige revisión local pendiente. |
++| `OperationEnvelope`, `ReadResult` | Sobre interno creado por el servidor tras resolver identidad y scope. Comandos de lectura cerrados y resultados discriminados, sin dominios, métodos o contexto ORM libre. |
++| `ContactPreviewRequest`, `ContactPreview`, `ApprovedContactWrite` | Candidato editable separado de la ejecución interna, que referencia una previsualización persistida y su hash, la aprobación humana y la clave idempotente. |
++| `ContactWriteResult` | Resultado confirmado, rechazo o reconciliación requerida. El resultado incierto carece de ID remoto y de instrucción de reintento. |
++
++El futuro ejecutor debe verificar que la aprobación existe, pertenece al scope correcto, sigue vigente y corresponde al hash de la previsualización. Persistencia, ejecución, reconciliación y contratos para otras mutaciones quedan pendientes. Los DTOs aún no se usan en la API de Gestoría ni en el SDK TypeScript.
++
++## Comprobaciones
++
++- `python -m unittest discover -s tests -v` ejecuta la suite y los casos de contratos.
++- `python -m scripts.export_odoo_contracts` emite los esquemas JSON del primer corte desde la raíz del repo. Las referencias de credenciales y el binding interno quedan fuera de la exportación.
++- Prueba local del 10 de noviembre de 2026: 30 pruebas Python aprobadas y serialización de un sobre y un hecho económico mediante Python → JSON Node → Python con conservación de `"100.10"`. La prueba de serialización acredita el formato JSON, con el consumo tipado desde el SDK pendiente.
+diff --git a/scripts/export_odoo_contracts.py b/scripts/export_odoo_contracts.py
+new file mode 100644
+index 0000000..af63b39
+--- /dev/null
++++ b/scripts/export_odoo_contracts.py
+@@ -0,0 +1,25 @@
++"""Export the versioned wire contracts without importing the service or its DB."""
++
++import json
++
++from agntia_gestoria.integrations.contracts import (
++    CONTACT_WRITE_RESULT,
++    CapabilityReport,
++    ContactPreviewRequest,
++    ImportedEconomicFact,
++    OperationEnvelope,
++    PublicConnection,
++    READ_RESULT,
++)
++
++
++def main():
++    contracts = (PublicConnection, CapabilityReport, ImportedEconomicFact, OperationEnvelope, ContactPreviewRequest)
++    schemas = {contract.__name__: contract.model_json_schema() for contract in contracts}
++    schemas["ReadResult"] = READ_RESULT.json_schema()
++    schemas["ContactWriteResult"] = CONTACT_WRITE_RESULT.json_schema()
++    print(json.dumps(schemas, indent=2, sort_keys=True))
++
++
++if __name__ == "__main__":
++    main()
+diff --git a/tests/test_integration_contracts.py b/tests/test_integration_contracts.py
+new file mode 100644
+index 0000000..57d46ec
+--- /dev/null
++++ b/tests/test_integration_contracts.py
+@@ -0,0 +1,150 @@
++import json
++import unittest
++
++from pydantic import ValidationError
++
++from agntia_gestoria.integrations.contracts import (
++    ApprovedContactWrite,
++    CONTACT_WRITE_RESULT,
++    ContactPreviewRequest,
++    ImportedEconomicFact,
++    Money,
++    OdooBinding,
++    OperationEnvelope,
++    PublicConnection,
++    READ_RESULT,
++    SourceRef,
++    SyncCursor,
++)
++
++
++LOCAL = "a" * 32
++SCOPE = {"tenant_id": "tenant-demo", "gestoria_company_id": LOCAL}
++NOW = "2026-11-10T12:30:00Z"
++SOURCE = {
++    "connection_id": LOCAL,
++    "model": "account.move",
++    "remote_id": 12,
++    "remote_write_date": NOW,
++    "observed_at": NOW,
++    "content_hash": "sha256:" + "0" * 64,
++    "mapping_version": "v1",
++}
++
++
++class IntegrationContractsTests(unittest.TestCase):
++    def test_public_connection_has_no_credential_references(self):
++        binding = OdooBinding(
++            scope=SCOPE, connection_id=LOCAL, endpoint_ref="endpoint-a", database_ref="db-a",
++            credential_ref="secret-a", odoo_company_id=3,
++        )
++        public = PublicConnection(
++            scope=binding.scope, connection_id=binding.connection_id,
++            state="pending_validation", created_at=NOW, revision=0,
++        )
++        wire = public.model_dump_json()
++        self.assertNotIn("secret-a", wire)
++        self.assertNotIn("credential_ref", PublicConnection.model_json_schema()["properties"])
++        self.assertEqual(PublicConnection.model_validate_json(wire), public)
++        with self.assertRaises(ValidationError):
++            PublicConnection.model_validate({**public.model_dump(), "credential_ref": "secret-a"})
++
++    def test_strict_identifiers_timestamps_and_hash(self):
++        self.assertEqual(SourceRef.model_validate(SOURCE).model_dump(mode="json")["observed_at"], NOW)
++        for field, invalid in [
++            ("connection_id", "Company A"),
++            ("remote_id", True),
++            ("remote_id", "12"),
++            ("remote_id", 0),
++            ("observed_at", 1_794_315_600),
++            ("observed_at", "2026-11-10T12:30:00"),
++            ("observed_at", "2026-11-10 12:30:00Z"),
++            ("content_hash", "sha256:secret"),
++            ("model", "arbitrary.model"),
++        ]:
++            with self.subTest(field=field, invalid=invalid), self.assertRaises(ValidationError):
++                SourceRef.model_validate({**SOURCE, field: invalid})
++        with self.assertRaises(ValidationError):
++            SyncCursor(connection_id=LOCAL, model="res.partner", write_date=NOW, remote_id=False)
++
++    def test_economic_fact_retains_decimal_string_and_unverified_status(self):
++        fixture = {
++            "scope": SCOPE, "source": SOURCE, "erp_state": "draft",
++            "gross_total": {"amount": "100.10", "currency": "EUR"},
++        }
++        fact = ImportedEconomicFact.model_validate_json(json.dumps(fixture))
++        self.assertEqual(fact.review_status, "unverified")
++        self.assertEqual(fact.model_dump(mode="json")["gross_total"]["amount"], "100.10")
++        with self.assertRaises(ValidationError):
++            ImportedEconomicFact.model_validate({**fixture, "review_status": "reviewed"})
++        with self.assertRaises(ValidationError):
++            ImportedEconomicFact.model_validate({**fixture, "source": {**SOURCE, "model": "res.partner"}})
++        for amount in ("NaN", "Infinity", "1e5", "00.50", "1.0000001", 1.1, 1, True):
++            with self.subTest(amount=amount), self.assertRaises(ValidationError):
++                Money(amount=amount, currency="EUR")
++
++    def test_command_has_no_arbitrary_remote_parameters(self):
++        fixture = {"scope": SCOPE, "actor_id": "agent-a", "correlation_id": "req-1"}
++        envelope = OperationEnvelope.model_validate({**fixture, "command": {"capability": "contacts.read"}})
++        self.assertEqual(envelope.command.limit, 100)
++        self.assertEqual(OperationEnvelope.model_validate_json(envelope.model_dump_json()), envelope)
++        for command in [
++            {"capability": "contacts.write"},
++            {"capability": "contacts.read", "limit": 201},
++            {"capability": "contacts.read", "limit": "2"},
++            {"capability": "contacts.read", "scope": SCOPE},
++            {"capability": "contacts.read", "context": {"allowed_company_ids": [2]}},
++            {"capability": "invoices.read", "method": "action_post"},
++        ]:
++            with self.subTest(command=command), self.assertRaises(ValidationError):
++                OperationEnvelope.model_validate({**fixture, "command": command})
++
++    def test_discriminated_results_and_schema(self):
++        values = [
++            {"status": "succeeded", "records": [SOURCE]},
++            {"status": "unavailable", "reason": "denied"},
++            {"status": "failed", "reason": "timeout", "retryable": True},
++        ]
++        for item in values:
++            parsed = READ_RESULT.validate_python({"correlation_id": "req-1", **item})
++            self.assertEqual(READ_RESULT.validate_json(READ_RESULT.dump_json(parsed)), parsed)
++        schema = READ_RESULT.json_schema()
++        self.assertEqual(set(schema["discriminator"]["mapping"]), {"succeeded", "unavailable", "failed"})
++        with self.assertRaises(ValidationError):
++            READ_RESULT.validate_python({"correlation_id": "req-1", "status": "failed", "reason": "timeout"})
++        for version in (True, 1.0, "1", 2):
++            with self.subTest(version=version), self.assertRaises(ValidationError):
++                READ_RESULT.validate_python({"schema_version": version, "correlation_id": "req-1", **values[0]})
++        with self.assertRaises(ValidationError):
++            READ_RESULT.validate_python({
++                "correlation_id": "req-1", "status": "unavailable", "reason": "denied", "detail": "raw traceback",
++            })
++
++    def test_contact_preview_and_approved_write_have_distinct_boundaries(self):
++        self.assertEqual(ContactPreviewRequest(contact={"name": "  Acme sintética  "}).contact.name, "Acme sintética")
++        for extra in ({"scope": SCOPE}, {"approval_id": LOCAL}, {"connection_id": LOCAL}):
++            with self.subTest(extra=extra), self.assertRaises(ValidationError):
++                ContactPreviewRequest.model_validate({"contact": {"name": "Acme"}, **extra})
++        with self.assertRaises(ValidationError):
++            ContactPreviewRequest(contact={"name": " "})
++        approved = {
++            "scope": SCOPE, "actor_id": "owner-a", "correlation_id": "req-1",
++            "preview_id": LOCAL, "preview_hash": SOURCE["content_hash"],
++            "approval_id": LOCAL, "connection_revision": 0, "idempotency_key": "request-a",
++        }
++        self.assertEqual(ApprovedContactWrite.model_validate(approved).idempotency_key, "request-a")
++        for field in ("approval_id", "preview_hash", "idempotency_key"):
++            with self.subTest(field=field), self.assertRaises(ValidationError):
++                ApprovedContactWrite.model_validate({k: v for k, v in approved.items() if k != field})
++        with self.assertRaises(ValidationError):
++            ApprovedContactWrite.model_validate({**approved, "contact": {"name": "Changed payload"}})
++
++    def test_uncertain_contact_write_cannot_signal_retry_or_success(self):
++        response = {"correlation_id": "req-1", "status": "reconciliation_required", "operation_id": LOCAL}
++        result = CONTACT_WRITE_RESULT.validate_python(response)
++        self.assertEqual(CONTACT_WRITE_RESULT.validate_json(CONTACT_WRITE_RESULT.dump_json(result)), result)
++        for extra in ({"retryable": True}, {"remote_id": 10}):
++            with self.subTest(extra=extra), self.assertRaises(ValidationError):
++                CONTACT_WRITE_RESULT.validate_python({**response, **extra})
++        with self.assertRaises(ValidationError):
++            CONTACT_WRITE_RESULT.validate_python({**response, "status": "succeeded"})

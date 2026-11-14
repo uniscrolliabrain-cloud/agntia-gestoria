@@ -1,0 +1,1835 @@
+{
+  "schema_version": 1,
+  "kind": "RECOVERY_DELTA",
+  "repo": "uniscrolliabrain-cloud/agntia-gestoria",
+  "created_on": "2026-11-14",
+  "delivery_scope": "DOCUMENTATION_ONLY",
+  "campaign_count": 24,
+  "task_count": 168,
+  "gate_scenario_count": 48,
+  "implementation_tests_executed_in_this_prep": 0,
+  "campaigns": [
+    {
+      "id": "GST-C01",
+      "sequence": 1,
+      "title": "Baseline HEAD y auditoría-fixes",
+      "objective": "Cerrar delta verificable de baseline head y auditoría-fixes desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [],
+      "document": "docs/campaigns/01-baseline-head-y-auditoria-fixes.md",
+      "implementation_scaffold": "docs/implementation/01-baseline-head-y-auditoria-fixes/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C01-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C01-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C01-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C01-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C01-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C01-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C01-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C01-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C01-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C02",
+      "sequence": 2,
+      "title": "CI y laboratorio sintético",
+      "objective": "Cerrar delta verificable de ci y laboratorio sintético desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C01"
+      ],
+      "document": "docs/campaigns/02-ci-y-laboratorio-sintetico.md",
+      "implementation_scaffold": "docs/implementation/02-ci-y-laboratorio-sintetico/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C02-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C02-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C02-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C02-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C02-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C02-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C02-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C02-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C02-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C03",
+      "sequence": 3,
+      "title": "Auth proxy sesiones revocación",
+      "objective": "Cerrar delta verificable de auth proxy sesiones revocación desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C02"
+      ],
+      "document": "docs/campaigns/03-auth-proxy-sesiones-revocacion.md",
+      "implementation_scaffold": "docs/implementation/03-auth-proxy-sesiones-revocacion/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C03-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C03-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C03-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C03-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C03-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C03-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C03-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C03-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C03-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C04",
+      "sequence": 4,
+      "title": "Upsert y aislamiento empresas",
+      "objective": "Cerrar delta verificable de upsert y aislamiento empresas desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C03"
+      ],
+      "document": "docs/campaigns/04-upsert-y-aislamiento-empresas.md",
+      "implementation_scaffold": "docs/implementation/04-upsert-y-aislamiento-empresas/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C04-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C04-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C04-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C04-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C04-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C04-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C04-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C04-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C04-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C05",
+      "sequence": 5,
+      "title": "Ledger y concurrencia",
+      "objective": "Cerrar delta verificable de ledger y concurrencia desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C04"
+      ],
+      "document": "docs/campaigns/05-ledger-y-concurrencia.md",
+      "implementation_scaffold": "docs/implementation/05-ledger-y-concurrencia/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C05-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C05-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C05-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C05-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C05-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C05-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C05-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C05-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C05-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C06",
+      "sequence": 6,
+      "title": "TOCTOU y staging Odoo",
+      "objective": "Cerrar delta verificable de toctou y staging odoo desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C05"
+      ],
+      "document": "docs/campaigns/06-toctou-y-staging-odoo.md",
+      "implementation_scaffold": "docs/implementation/06-toctou-y-staging-odoo/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C06-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C06-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C06-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C06-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C06-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C06-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C06-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C06-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C06-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C07",
+      "sequence": 7,
+      "title": "Workers y reconciliación",
+      "objective": "Cerrar delta verificable de workers y reconciliación desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C06"
+      ],
+      "document": "docs/campaigns/07-workers-y-reconciliacion.md",
+      "implementation_scaffold": "docs/implementation/07-workers-y-reconciliacion/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C07-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C07-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C07-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C07-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C07-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C07-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C07-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C07-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C07-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C08",
+      "sequence": 8,
+      "title": "Retención y backup cifrado",
+      "objective": "Cerrar delta verificable de retención y backup cifrado desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C07"
+      ],
+      "document": "docs/campaigns/08-retencion-y-backup-cifrado.md",
+      "implementation_scaffold": "docs/implementation/08-retencion-y-backup-cifrado/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C08-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C08-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C08-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C08-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C08-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C08-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C08-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C08-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C08-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C09",
+      "sequence": 9,
+      "title": "Odoo JSON-2 SSRF ACL",
+      "objective": "Cerrar delta verificable de odoo json-2 ssrf acl desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C08"
+      ],
+      "document": "docs/campaigns/09-odoo-json-2-ssrf-acl.md",
+      "implementation_scaffold": "docs/implementation/09-odoo-json-2-ssrf-acl/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C09-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C09-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C09-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C09-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C09-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C09-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C09-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C09-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C09-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C10",
+      "sequence": 10,
+      "title": "Dos DB y escenarios A–E",
+      "objective": "Cerrar delta verificable de dos db y escenarios a–e desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C09"
+      ],
+      "document": "docs/campaigns/10-dos-db-y-escenarios-a-e.md",
+      "implementation_scaffold": "docs/implementation/10-dos-db-y-escenarios-a-e/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C10-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C10-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C10-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C10-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C10-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C10-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C10-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C10-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C10-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C11",
+      "sequence": 11,
+      "title": "92 hallazgos históricos",
+      "objective": "Cerrar delta verificable de 92 hallazgos históricos desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C10"
+      ],
+      "document": "docs/campaigns/11-92-hallazgos-historicos.md",
+      "implementation_scaffold": "docs/implementation/11-92-hallazgos-historicos/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C11-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C11-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C11-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C11-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C11-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C11-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C11-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C11-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C11-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C12",
+      "sequence": 12,
+      "title": "Cobertura y dependencias",
+      "objective": "Cerrar delta verificable de cobertura y dependencias desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C11"
+      ],
+      "document": "docs/campaigns/12-cobertura-y-dependencias.md",
+      "implementation_scaffold": "docs/implementation/12-cobertura-y-dependencias/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C12-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C12-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C12-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C12-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C12-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C12-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C12-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C12-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C12-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C13",
+      "sequence": 13,
+      "title": "Regresión 303/130",
+      "objective": "Cerrar delta verificable de regresión 303/130 desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C12"
+      ],
+      "document": "docs/campaigns/13-regresion-303-130.md",
+      "implementation_scaffold": "docs/implementation/13-regresion-303-130/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C13-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C13-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C13-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C13-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C13-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C13-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C13-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C13-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C13-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C14",
+      "sequence": 14,
+      "title": "VeriFactu aplicabilidad",
+      "objective": "Cerrar delta verificable de verifactu aplicabilidad desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C13"
+      ],
+      "document": "docs/campaigns/14-verifactu-aplicabilidad.md",
+      "implementation_scaffold": "docs/implementation/14-verifactu-aplicabilidad/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C14-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C14-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C14-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C14-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C14-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C14-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C14-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C14-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C14-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C15",
+      "sequence": 15,
+      "title": "IVA IGIC y obligaciones",
+      "objective": "Cerrar delta verificable de iva igic y obligaciones desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C14"
+      ],
+      "document": "docs/campaigns/15-iva-igic-y-obligaciones.md",
+      "implementation_scaffold": "docs/implementation/15-iva-igic-y-obligaciones/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C15-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C15-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C15-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C15-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C15-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C15-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C15-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C15-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C15-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C16",
+      "sequence": 16,
+      "title": "Privacidad y licencias OSS",
+      "objective": "Cerrar delta verificable de privacidad y licencias oss desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C15"
+      ],
+      "document": "docs/campaigns/16-privacidad-y-licencias-oss.md",
+      "implementation_scaffold": "docs/implementation/16-privacidad-y-licencias-oss/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C16-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C16-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C16-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C16-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C16-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C16-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C16-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C16-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C16-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C17",
+      "sequence": 17,
+      "title": "Supabase JWT y membresías",
+      "objective": "Cerrar delta verificable de supabase jwt y membresías desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C16"
+      ],
+      "document": "docs/campaigns/17-supabase-jwt-y-membresias.md",
+      "implementation_scaffold": "docs/implementation/17-supabase-jwt-y-membresias/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C17-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C17-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C17-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C17-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C17-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C17-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C17-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C17-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C17-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C18",
+      "sequence": 18,
+      "title": "Twins y mandato padre",
+      "objective": "Cerrar delta verificable de twins y mandato padre desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C17"
+      ],
+      "document": "docs/campaigns/18-twins-y-mandato-padre.md",
+      "implementation_scaffold": "docs/implementation/18-twins-y-mandato-padre/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C18-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C18-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C18-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C18-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C18-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C18-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C18-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C18-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C18-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C19",
+      "sequence": 19,
+      "title": "SDK TS/Hono y herramientas",
+      "objective": "Cerrar delta verificable de sdk ts/hono y herramientas desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C18"
+      ],
+      "document": "docs/campaigns/19-sdk-ts-hono-y-herramientas.md",
+      "implementation_scaffold": "docs/implementation/19-sdk-ts-hono-y-herramientas/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C19-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C19-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C19-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C19-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C19-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C19-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C19-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C19-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C19-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C20",
+      "sequence": 20,
+      "title": "ADTC y outbox",
+      "objective": "Cerrar delta verificable de adtc y outbox desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C19"
+      ],
+      "document": "docs/campaigns/20-adtc-y-outbox.md",
+      "implementation_scaffold": "docs/implementation/20-adtc-y-outbox/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C20-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C20-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C20-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C20-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C20-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C20-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C20-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C20-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C20-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C21",
+      "sequence": 21,
+      "title": "UI expedientes e informes",
+      "objective": "Cerrar delta verificable de ui expedientes e informes desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C20"
+      ],
+      "document": "docs/campaigns/21-ui-expedientes-e-informes.md",
+      "implementation_scaffold": "docs/implementation/21-ui-expedientes-e-informes/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C21-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C21-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C21-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C21-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C21-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C21-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C21-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C21-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C21-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C22",
+      "sequence": 22,
+      "title": "Dos tenants sintéticos E2E",
+      "objective": "Cerrar delta verificable de dos tenants sintéticos e2e desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C21"
+      ],
+      "document": "docs/campaigns/22-dos-tenants-sinteticos-e2e.md",
+      "implementation_scaffold": "docs/implementation/22-dos-tenants-sinteticos-e2e/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C22-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C22-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C22-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C22-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C22-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C22-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C22-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C22-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C22-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C23",
+      "sequence": 23,
+      "title": "Piloto supervisado",
+      "objective": "Cerrar delta verificable de piloto supervisado desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C22"
+      ],
+      "document": "docs/campaigns/23-piloto-supervisado.md",
+      "implementation_scaffold": "docs/implementation/23-piloto-supervisado/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C23-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C23-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C23-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C23-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C23-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C23-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C23-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C23-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C23-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    },
+    {
+      "id": "GST-C24",
+      "sequence": 24,
+      "title": "Release y aceptación",
+      "objective": "Cerrar delta verificable de release y aceptación desde código y evidencias existentes sin reimplementar capacidades válidas.",
+      "status": "PLANNED_DELTA",
+      "depends_on": [
+        "GST-C23"
+      ],
+      "document": "docs/campaigns/24-release-y-aceptacion.md",
+      "implementation_scaffold": "docs/implementation/24-release-y-aceptacion/README.md",
+      "sources": [
+        "README.md",
+        "docs/odoo-adapter/CAMPAIGN.md",
+        "docs/odoo-adapter/freebuff-operational-2026-11-11.md",
+        "docs/odoo-adapter/pilot-acceptance.md"
+      ],
+      "tasks": [
+        {
+          "id": "GST-C24-T01",
+          "action": "Congelar SHA y verificar código",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C24-T02",
+          "action": "Reconciliar evidencias históricas con HEAD",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C24-T03",
+          "action": "Especificar delta y superficies de escritura",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C24-T04",
+          "action": "Definir contratos y permisos con padre",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C24-T05",
+          "action": "Diseñar pruebas positivas y negativas",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C24-T06",
+          "action": "Recopilar evidencias y rollback",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        },
+        {
+          "id": "GST-C24-T07",
+          "action": "Gate Codex/arquitecto y founder",
+          "acceptance": "Evidencia reproducible SHA y entorno; BLOCKED si no se ejecuta.",
+          "status": "NOT_STARTED"
+        }
+      ],
+      "gate_scenarios": [
+        {
+          "id": "GST-C24-G01",
+          "scenario": "Tenant ajeno o permiso ausente bloquea acceso/efecto.",
+          "status": "NOT_EXECUTED"
+        },
+        {
+          "id": "GST-C24-G02",
+          "scenario": "Fallo o estado incierto evita duplicados y permite rollback.",
+          "status": "NOT_EXECUTED"
+        }
+      ],
+      "rollback": "Deshabilitar capacidad nueva, preservar datos/evidencias y conciliar efectos externos.",
+      "evidence_state": "NOT_VERIFIED_THIS_PREP"
+    }
+  ]
+}
