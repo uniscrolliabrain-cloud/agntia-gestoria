@@ -1,7 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
-compose=(docker compose -p agntia-odoo-lab -f compose.yaml)
+# This standalone lab keeps its own compose file so it does not collide with the
+# bridge/gestoria lab in compose.yaml. Override with ODOO_LAB_COMPOSE if needed.
+compose=(docker compose -p agntia-odoo-lab -f "${ODOO_LAB_COMPOSE:-compose.standalone-lab.yaml}")
 # Git Bash must pass container paths to the native Docker CLI unchanged.
 export MSYS_NO_PATHCONV=1
 

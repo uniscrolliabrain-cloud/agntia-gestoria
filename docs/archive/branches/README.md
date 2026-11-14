@@ -33,7 +33,7 @@ Sin trabajo pendiente: su contenido llegó por PR #1, #2, #4, #11 y #13.
 | `docs/factory-recovery-v1-20261114` | `1c1bb0d` | 62 documentos nuevos: `docs/campaigns/` (24 campañas + manifiesto), `docs/factory/` (10), `docs/implementation/` (25), `docs/prep/` |
 | `recursos-humanos` | `876bc2d` | 15 documentos `docs/rrhh/` (decisiones, fases 1–6, trazabilidad, marco legal, metaestructura, contratación, jornada, extinción, talento) |
 | `rrhh/01-laboratorio` | `60e4267` | Código: `integrations/rrhh/` (31 módulos), `integrations/security/` (7 módulos), 19 tests, `docker-compose.lab.yml`, conector `integrations/agente/`, `Makefile`, `scripts/install.sh`, `docs/INSTALACION.md`, `docs/seguridad/`, `docs/rrhh/ANEXO-42-FASES.md`, `docs/rrhh/integracion-app.md`, fixtures de convenio, extras de `pyproject.toml` |
-| `feat/odoo-c03-lab` | `01ec1c5` | Laboratorio que faltaba en `main`: `infra/odoo/lab.sh`, `smoke.py`, `provenance.py`, `init-role.sh`, `README.md`, `.gitattributes`, `.gitignore` |
+| `feat/odoo-c03-lab` | `01ec1c5` | Laboratorio standalone que faltaba en `main`: `infra/odoo/lab.sh`, `smoke.py`, `provenance.py`, `init-role.sh`, `README.md`, `.gitattributes`, `.gitignore`, y su Compose propio como `infra/odoo/compose.standalone-lab.yaml` con `.env.standalone-lab.example` (el `.env.example` de `main` se conserva intacto). `lab.sh` usa ese fichero por defecto (`ODOO_LAB_COMPOSE` para cambiarlo), porque espera la imagen nightly y el usuario `postgres`, no el laboratorio con bridge de `compose.yaml` |
 | `fix/odoo-adapter-human-case-closure` | `bf05473` | `docs/odoo-adapter/adr/0002-human-case-closure.md`, `docs/odoo-adapter/agente-simulation.md`, `scripts/simulation/` (`run.py`, `probe.mjs`, `runtime-probe.mts`) |
 | `codex/odoo-c02-runtime-verification` | `0e181ac` | `docs/odoo-adapter/c02/WINDOWS-VERIFICATION.md` (evidencia Windows, Docker ausente, criterio de salida) |
 | `docs/campana-integracion-agente` | `cf9f685` | `docs/agente-integration.md` y un enlace desde `README.md`. Su `README.md` era anterior al adaptador; no se revierte el actual |
@@ -51,10 +51,13 @@ revisar o comparar sin haber perdido una sola línea.
 
 | Parche | Rama | Base | Contenido |
 |---|---|---|---|
+| `feat-odoo-c03-lab.patch` | `feat/odoo-c03-lab` (`01ec1c5`) | `1fd25d9` | Variante standalone completa: `.github/workflows/odoo-lab.yml`, `docs/odoo-adapter/c03/EVIDENCE.md` y el `compose.yaml` original con su `.env.example` (hoy en `compose.standalone-lab.yaml` y `.env.standalone-lab.example`) |
 | `feat-odoo-c04-contracts.patch` | `feat/odoo-c04-contracts` (`fd5abc6`) | `1fd25d9` | Contratos de lectura/staging con `Contract`, `AwareDatetime`, versión estricta |
 | `feat-odoo-c05-storage.patch` | `feat/odoo-c05-storage` (`3b35d4d`) | `1fd25d9` | Migraciones aditivas con backup, concurrencia e idempotencia |
 | `feat-odoo-c06-registry.patch` | `feat/odoo-c06-registry` (`f3c40dd`) | `1fd25d9` | Registro de conexiones por tenant, `ServerCatalog`, rotación y desactivación |
 | `fix-human-case-closure.patch` | `fix/human-case-closure` (`78ca93b`) | `1fd25d9` | Cierre de expedientes reservado a roles humanos |
+| `fix-odoo-adapter-human-case-closure.patch` | `fix/odoo-adapter-human-case-closure` (`bf05473`) | `81043b0` | Su `app.py`, `static/app.js`, `tests/test_core.py`, SDK y `approved-source-changes.json` originales; el resto (ADR 0002 y `scripts/simulation/`) sí está integrado |
+| `docs-campana-integracion-agente.patch` | `docs/campana-integracion-agente` (`cf9f685`) | `1fd25d9` | Su `README.md` anterior al adaptador; el enlace y `docs/agente-integration.md` sí están integrados |
 | `rrhh-propuesta-auth-storage.patch` | `rrhh/01-laboratorio` | `main` | Propuesta de `auth.py`/`storage.py` y sus 2 tests |
 
 ### 3.1 · `fix/human-case-closure`: intención ya cubierta
@@ -107,9 +110,31 @@ sus propias pruebas (no se han portado a ciegas):
 
 ## 5 · Estado de verificación
 
-- Los cambios de esta consolidación son aditivos o de espacios de nombres nuevos.
-- La suite completa se ejecuta tras la integración; el resultado se registra en el PR de
-  consolidación, no en este documento.
-- Ninguna capacidad fiscal, laboral o financiera se habilita por integrar código: los
-  paquetes RRHH y seguridad quedan como superficie documentada y probada, no como efecto
-  autorizado.
+Ejecutado sobre la consolidación (PR #15, merge `516ac8d`):
+
+| Comprobación | Resultado |
+|---|---|
+| `scripts/verify_baseline.py` | PASS · 43 ficheros congelados, 45 rutas inventariadas |
+| `pytest -q` | 186 pasados, 6 omitidos (suite live de Odoo, opt-in) |
+| `python -m unittest discover -s tests` | 91 tests, OK |
+| Sintaxis de los dos JS del frontend | OK |
+| Build TypeScript y `node --test` | 4/4, `dist` sin cambios |
+| CI de GitHub sobre `d20f1b9` | `python`, `frozen-source-inventory` y `pinned-community-source` en success; `live` omitido por diseño |
+
+Lo que **no** está verificado: Docker, Odoo 19 real, PostgreSQL, restauración real, scanner de
+adjuntos y el conector Hono contra un host autenticado. El laboratorio standalone integrado no
+se ha arrancado en esta consolidación; sus scripts se han revisado pero no ejecutado.
+
+Ninguna capacidad fiscal, laboral o financiera se habilita por integrar código: los paquetes
+RRHH y seguridad quedan como superficie documentada y probada, no como efecto autorizado.
+
+## 6 · Cómo recuperar una rama cerrada
+
+```sh
+git apply --3way docs/archive/branches/<parche>.patch
+```
+
+Cada parche se generó con `git diff` desde el punto de bifurcación de su rama. Para ver el
+contexto histórico completo de una rama ya cerrada, sus commits siguen accesibles por SHA
+mientras el repositorio no se recolecte (`git show <sha>`), y las PR #3, #5 a #10 conservan su
+conversación.
