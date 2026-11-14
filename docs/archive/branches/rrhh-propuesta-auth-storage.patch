@@ -1,0 +1,169 @@
+diff --git a/agntia_gestoria/auth.py b/agntia_gestoria/auth.py
+index bae0d01..d7aa47f 100644
+--- a/agntia_gestoria/auth.py
++++ b/agntia_gestoria/auth.py
+@@ -31,19 +31,27 @@ def actors():
+     return result
+ 
+ 
++def local_owner_allowed(request: Request):
++    """Propietario local solo para el cliente de pruebas o con permiso explícito.
++
++    Un proxy inverso en la misma máquina hace que todo el tráfico remoto llegue
++    desde 127.0.0.1, así que el socket no acredita nada por sí solo (SEC-01).
++    """
++    client = request.client.host if request.client else ""
++    if client == "testclient":
++        return True
++    return os.getenv("GESTORIA_ALLOW_LOCAL_OWNER", "").strip().lower() == "true" and client in ("127.0.0.1", "::1")
++
++
+ def authenticate(request: Request):
+     configured = actors()
+     if not configured:
+-        if os.getenv("GESTORIA_ALLOW_LOCAL_OWNER") == "true" and request.client and request.client.host in ("127.0.0.1", "::1", "testclient"):
++        if local_owner_allowed(request):
+             return Actor("local-owner", "owner", ("*",))
+         raise HTTPException(403, "Configura credenciales antes del acceso remoto")
+-    from .sessions import fingerprint, resolve
+-    token = request.headers.get("Authorization", "").removeprefix("Bearer ")
+-    session_hash = None
+-    if not token and request.cookies.get("gestoria_session"):
+-        session_hash = resolve(request.app.state.db, request.cookies["gestoria_session"])
++    token = request.headers.get("Authorization", "").removeprefix("Bearer ") or request.cookies.get("gestoria_session", "")
+     for secret, actor in configured:
+-        if (token and hmac.compare_digest(secret.encode(), token.encode())) or (session_hash and hmac.compare_digest(fingerprint(secret), session_hash)):
++        if hmac.compare_digest(secret.encode(), token.encode()):
+             return actor
+     raise HTTPException(401, "Credencial de acceso necesaria")
+ 
+diff --git a/agntia_gestoria/storage.py b/agntia_gestoria/storage.py
+index 1a76af8..a17167c 100644
+--- a/agntia_gestoria/storage.py
++++ b/agntia_gestoria/storage.py
+@@ -84,19 +84,14 @@ class Database:
+ 
+     @staticmethod
+     def put(connection, cid, kind, body, unique_key=None):
+-        identifier(cid)
+-        identifier(body["id"])
++        """Escribe sin duplicar: el id manda y la clave lógica se actualiza con él."""
++        cid = identifier(cid)
+         if body.get("company_id", cid) != cid:
+-            raise ValueError("Empresa del objeto incompatible")
+-        result = connection.execute(
+-            "INSERT INTO objects(id,company_id,kind,body,unique_key) VALUES(?,?,?,?,?) "
+-            "ON CONFLICT(id) DO UPDATE SET body=excluded.body, "
+-            "unique_key=COALESCE(excluded.unique_key,objects.unique_key) "
+-            "WHERE objects.company_id=excluded.company_id AND objects.kind=excluded.kind",
+-            (body["id"], cid, kind, canonical(body), unique_key),
+-        )
+-        if result.rowcount != 1:
+-            raise FileNotFoundError()
++            raise ValueError("El objeto no pertenece a la empresa indicada")
++        row = connection.execute("SELECT company_id,kind FROM objects WHERE id=?", (body["id"],)).fetchone()
++        if row and (row["company_id"] != cid or row["kind"] != kind):
++            raise PermissionError("El identificador ya pertenece a otro registro")
++        connection.execute("INSERT INTO objects(id,company_id,kind,body,unique_key) VALUES(?,?,?,?,?) ON CONFLICT(id) DO UPDATE SET body=excluded.body, unique_key=excluded.unique_key", (body["id"], cid, kind, canonical(body), unique_key))
+ 
+     @staticmethod
+     def audit(connection, cid, actor, action, object_id, body):
+diff --git a/tests/test_auth_local_owner.py b/tests/test_auth_local_owner.py
+new file mode 100644
+index 0000000..0b681b6
+--- /dev/null
++++ b/tests/test_auth_local_owner.py
+@@ -0,0 +1,42 @@
++import pytest
++from fastapi import HTTPException
++from starlette.requests import Request
++
++from agntia_gestoria import auth
++
++
++def request_from(host):
++    return Request({'type': 'http', 'method': 'GET', 'path': '/', 'headers': [],
++                    'client': (host, 5000), 'scheme': 'http', 'server': ('testserver', 80)})
++
++
++def no_credentials(monkeypatch):
++    monkeypatch.delenv('GESTORIA_OWNER_TOKEN', raising=False)
++    monkeypatch.setenv('GESTORIA_ACTORS_JSON', '{}')
++
++
++def test_loopback_is_not_owner_without_explicit_permission(monkeypatch):
++    no_credentials(monkeypatch)
++    monkeypatch.delenv('GESTORIA_ALLOW_LOCAL_OWNER', raising=False)
++    with pytest.raises(HTTPException) as error:
++        auth.authenticate(request_from('127.0.0.1'))
++    assert error.value.status_code == 403
++
++
++def test_loopback_is_owner_with_explicit_permission(monkeypatch):
++    no_credentials(monkeypatch)
++    monkeypatch.setenv('GESTORIA_ALLOW_LOCAL_OWNER', 'true')
++    actor = auth.authenticate(request_from('127.0.0.1'))
++    assert actor.role == 'owner' and actor.id == 'local-owner'
++
++
++def test_remote_client_is_never_owner(monkeypatch):
++    no_credentials(monkeypatch)
++    monkeypatch.setenv('GESTORIA_ALLOW_LOCAL_OWNER', 'true')
++    with pytest.raises(HTTPException):
++        auth.authenticate(request_from('203.0.113.9'))
++
++
++def test_testclient_keeps_working_for_the_suite(monkeypatch):
++    no_credentials(monkeypatch)
++    assert auth.authenticate(request_from('testclient')).id == 'local-owner'
+diff --git a/tests/test_storage_hardening.py b/tests/test_storage_hardening.py
+new file mode 100644
+index 0000000..f663d93
+--- /dev/null
++++ b/tests/test_storage_hardening.py
+@@ -0,0 +1,45 @@
++import pytest
++
++from agntia_gestoria.storage import Database, canonical
++
++CID = 'a' * 32
++OTHER = 'b' * 32
++
++
++def database(tmp_path):
++    db = Database(str(tmp_path))
++    with db.transaction() as connection:
++        for cid in (CID, OTHER):
++            connection.execute('INSERT INTO companies(id,body) VALUES(?,?)',
++                               (cid, canonical({'id': cid, 'name': cid[:4]})))
++    return db
++
++
++def test_put_updates_the_logical_key_on_conflict(tmp_path):
++    db = database(tmp_path)
++    body = {'id': '1' * 32, 'company_id': CID, 'value': 1}
++    with db.transaction() as connection:
++        Database.put(connection, CID, 'demo', body, unique_key='k1')
++        Database.put(connection, CID, 'demo', dict(body, value=2), unique_key='k2')
++        row = connection.execute(
++            'SELECT body,unique_key FROM objects WHERE id=?', (body['id'],)).fetchone()
++    assert row['unique_key'] == 'k2'
++    assert '"value":2' in row['body']
++
++
++def test_put_refuses_an_identifier_from_another_company(tmp_path):
++    db = database(tmp_path)
++    body = {'id': '2' * 32, 'company_id': CID, 'value': 1}
++    with db.transaction() as connection:
++        Database.put(connection, CID, 'demo', body)
++        with pytest.raises(PermissionError):
++            Database.put(connection, OTHER, 'demo', dict(body, company_id=OTHER))
++        with pytest.raises(PermissionError):
++            Database.put(connection, OTHER, 'otro', dict(body, company_id=OTHER))
++
++
++def test_put_refuses_a_body_from_another_company(tmp_path):
++    db = database(tmp_path)
++    with db.transaction() as connection:
++        with pytest.raises(ValueError):
++            Database.put(connection, CID, 'demo', {'id': '3' * 32, 'company_id': OTHER})

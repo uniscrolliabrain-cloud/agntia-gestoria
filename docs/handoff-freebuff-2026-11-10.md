@@ -4,7 +4,7 @@ Fecha de entrega: 10 de noviembre de 2026. Revisión prevista: 11 de noviembre d
 
 ## Punto de partida y ramas
 
-- [PR #4](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/4) contiene el adaptador de referencia, bridge, worker, SDK y laboratorio. Lee primero [su handoff](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/blob/feat/odoo-complete-adapter/ODOO-IMPLEMENTATION-HANDOFF.md), [el runbook](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/blob/verify/odoo-complete-adapter/docs/odoo-adapter/RUNBOOK.md) y [la aceptación del piloto](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/blob/feat/odoo-complete-adapter/docs/odoo-adapter/pilot-acceptance.md). La numeración de este documento identifica tareas de ejecución. C01–C20 sigue identificando las fases de la campaña.
+- [PR #4](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/4) contiene el adaptador de referencia, bridge, worker, SDK y laboratorio. Lee primero [su handoff](../ODOO-IMPLEMENTATION-HANDOFF.md), [el runbook](odoo-adapter/RUNBOOK.md) y [la aceptación del piloto](odoo-adapter/pilot-acceptance.md). La numeración de este documento identifica tareas de ejecución. C01–C20 sigue identificando las fases de la campaña.
 - [PR #11](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/11), rama `verify/odoo-complete-adapter`, es la base técnica. En el corte `b34b8ca2d33e4c87976b518c7816b063a4917a58` se renombró el argumento del bridge a `invoice_ids` porque JSON-2 reserva `ids`. Antes de tocar código, lee el resultado del [run lanzado para ese commit](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/actions/runs/42904254831). Antes de ese cambio pasaron el build, las dos bases y la sonda HTTP. El smoke falló al pedir snapshots de facturas. Comprueba si el nuevo run llegó más lejos.
 - [PR #12](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/12) contiene el cierre de expedientes reservado a personas y un harness reproducible en `scripts/simulation/`. Su ensayo recorrió clases reales de Agente, SDK, Hono y FastAPI con política inyectada y Odoo apagado. Reprodujo dos efectos simulados tras perder el ACK de la primera ejecución. Es el caso de regresión para la futura escritura. La PR está separada de la #11. Si una prueba necesita ambas, usa un commit de integración trazable en una rama desechable y anota ambos SHAs.
 - [PR #7](https://github.com/uniscrolliabrain-cloud/agntia-gestoria/pull/7) aporta evidencia del laboratorio independiente, incluidos módulos con y sin contabilidad, aislamiento de credenciales y recuperación por ORM. Sus resultados acreditan ese laboratorio, con una imagen nightly distinta del build desde código de la #11. Las PR #8–#10 están en pausa por solapamiento con la #4.
@@ -15,14 +15,14 @@ Fecha de entrega: 10 de noviembre de 2026. Revisión prevista: 11 de noviembre d
 Desde un clon limpio de `agntia-gestoria`, ejecuta los siguientes comandos. Si la ruta o la rama ya existe, inspecciónala y reutilízala si corresponde a este encargo. Antes de trabajar, verifica el resultado de `git status -sb` y `git log -1 --oneline`.
 
 ```powershell
-git fetch origin refs/heads/verify/odoo-complete-adapter:refs/remotes/origin/verify/odoo-complete-adapter
-git worktree add -b freebuff/gestoria-autonomo ../agntia-gestoria-freebuff origin/verify/odoo-complete-adapter
+git fetch origin refs/heads/docs/handoff-freebuff:refs/remotes/origin/docs/handoff-freebuff
+git worktree add -b freebuff/gestoria-autonomo ../agntia-gestoria-freebuff origin/docs/handoff-freebuff
 Set-Location ../agntia-gestoria-freebuff
 git status -sb
 git log -1 --oneline
 ```
 
-El handoff vive en `main`. El worktree de ejecución parte de la rama de la PR #11. Si ha avanzado desde el corte descrito arriba, revisa el delta y registra el SHA inicial. Usa `freebuff/gestoria-autonomo` para las primeras entregas y ramas `freebuff/<ola>-<tema>` para cambios grandes que necesiten revisión independiente. Abre PRs borrador contra la rama de la que realmente dependen. Deja commits pequeños y separa correcciones, pruebas y evidencia cuando facilite revisar el diff.
+La rama de documentación desciende del corte de la PR #11 indicado arriba. Compara con la rama remota de la #11 antes de empezar. Si ha avanzado, revisa el delta y documenta cómo incorporas los cambios. Usa `freebuff/gestoria-autonomo` para las primeras entregas y ramas `freebuff/<ola>-<tema>` para cambios grandes que necesiten revisión independiente. Abre PRs borrador contra la rama de la que realmente dependen. Deja commits pequeños y separa correcciones, pruebas y evidencia cuando facilite revisar el diff.
 
 Trabaja con datos sintéticos y credenciales efímeras fuera del repo. Para el ensayo de Agente usa un checkout o worktree desechable. Mantén la instalación definitiva del SDK, los merges, el despliegue y los cambios de producción fuera de esta ejecución. Las decisiones humanas de una prueba deben quedar marcadas como sintéticas. Conserva el inventario congelado y presenta cualquier cambio protegido con hashes, ADR y regresión. Una fuga entre tenants, un bypass de aprobación, un secreto expuesto, un duplicado remoto o un resultado fiscal incorrecto detienen la ola afectada.
 
