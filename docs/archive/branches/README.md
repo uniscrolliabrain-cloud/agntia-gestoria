@@ -94,6 +94,11 @@ Ambos diff están en `rrhh-propuesta-auth-storage.patch`, con sus tests
 (`test_auth_local_owner.py`, `test_storage_hardening.py`) para poder retomarlo con una
 regresión propia.
 
+El `pyproject.toml` de la rama **sí** se integra en lo que aporta: los extras `security`, `lab`
+y `connectors`, más `[project.urls]`. La única diferencia que queda con el fichero de la rama
+es el destino de `Documentation`, que apuntaba a la rama `recursos-humanos`; ahora apunta a la
+documentación de `main`, porque esa rama desaparece. No hay contenido de trabajo perdido.
+
 ## 4 · Candidatos de endurecimiento pendientes de portar
 
 Del linaje c04–c06 hay controles que `main` **no** tiene y que merecen un trabajo aparte, con
