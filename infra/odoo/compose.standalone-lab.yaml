@@ -1,0 +1,42 @@
+name: agntia-odoo-lab
+
+services:
+  db:
+    image: docker.io/library/postgres:16-bookworm@sha256:5264710be20f409750ac6dc4e5706dcef929c87e241605463f0f9aefa932a8d9
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${ODOO_LAB_POSTGRES_PASSWORD:?set a lab-only PostgreSQL password}
+      ODOO_LAB_DB_PASSWORD: ${ODOO_LAB_DB_PASSWORD:?set a lab-only Odoo database password}
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./init-role.sh:/docker-entrypoint-initdb.d/init-role.sh:ro
+    healthcheck:
+      test: [CMD, pg_isready, -h, 127.0.0.1, -U, postgres]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    mem_limit: 1g
+
+  odoo:
+    image: docker.io/library/odoo:19.0-20261102@sha256:08374de09bab5d80851c5709896aa49917e6c6a893b39025d6669db908e238b0
+    platform: linux/amd64
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HOST: db
+      USER: agntia_lab
+      PASSWORD: ${ODOO_LAB_DB_PASSWORD:?set a lab-only Odoo database password}
+    command: ['--no-database-list', '--db-filter=^agntia_test_[ab]$$', '--max-cron-threads=0']
+    volumes:
+      - filestore:/var/lib/odoo
+    healthcheck:
+      test: [CMD, python3, -c, "from urllib.request import urlopen; urlopen('http://127.0.0.1:8069/web/health?db_server_status=1', timeout=3).read()"]
+      interval: 5s
+      timeout: 4s
+      retries: 24
+    mem_limit: 2g
+
+volumes:
+  postgres:
+  filestore:
