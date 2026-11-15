@@ -1,6 +1,7 @@
 import ipaddress
 import json
 import os
+import re
 import socket
 from urllib.parse import urlsplit
 from pydantic import Field,SecretStr,field_validator
@@ -8,6 +9,20 @@ from decimal import Decimal
 from ..models import Model
 from .contracts import HexId,Opaque
 from .errors import reject
+
+# Una credencial se copia literalmente a la cabecera Authorization: nada fuera de
+# ASCII imprimible, ni espacios, ni saltos de línea, ni valores sin acotar.
+_KEY=re.compile(r'[!-~]{16,512}')
+
+
+def _validate_host(host):
+    # Los resolvers aceptan direcciones disfrazadas (2130706433, 0x7f000001,
+    # 017700000001, 127.1). Se acepta el literal canónico y el nombre DNS, y se
+    # rechaza toda forma numérica ambigua antes de que llegue a la política de red.
+    try:ipaddress.ip_address(host);return
+    except ValueError:pass
+    for label in host.split('.'):
+        if not label or len(label)>63 or label[0]=='-' or label[-1]=='-' or not label.replace('-','').isalnum() or label.isdigit() or label[:2].lower()=='0x':raise ValueError()
 
 
 class Server(Model):
@@ -56,6 +71,7 @@ def load_server(ref):
         if ref not in values:reject('not_configured','Servidor Odoo no configurado',424)
         server=Server.model_validate(values[ref]);parts=urlsplit(server.base_url)
         if not parts.hostname or not parts.hostname.isascii() or parts.username or parts.password or parts.query or parts.fragment or parts.path not in ('','/') or not parts.hostname:raise ValueError()
+        _validate_host(parts.hostname)
         if parts.scheme!='https':
             if parts.scheme!='http' or not server.allow_insecure_test or os.getenv('ODOO_TEST_MODE')!='true':raise ValueError()
         if parts.port is not None and not 1<=parts.port<=65535:raise ValueError()
@@ -74,7 +90,7 @@ def load_server(ref):
 
 def credentials(server):
     value=os.getenv(server.api_key_env,'')
-    if len(value)<16:reject('not_configured','Credencial Odoo no disponible',424)
+    if not _KEY.fullmatch(value):reject('not_configured','Credencial Odoo no disponible',424)
     return SecretStr(value)
 
 
