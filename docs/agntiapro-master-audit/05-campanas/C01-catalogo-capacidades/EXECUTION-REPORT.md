@@ -1,23 +1,34 @@
 # C01 — Execution Report
 
-**Estado: NO EJECUTADO.**
+**Estado: EJECUTADO (local). Gate PASS; sin merge a main.**
 
-- Fecha: PENDIENTE
-- Rama de implementación: PENDIENTE
-- SHA inicial: PENDIENTE
-- SHA final: PENDIENTE
-- Patchsets PS01.1, PS01.2, PS02.1, PS02.2, PS03.1, PS03.2: NO EJECUTADOS
-- Archivos creados/modificados: PENDIENTE
-- Dependencias nuevas y licencias: PENDIENTE
-- Tests unitarios/integración/E2E/seguridad/concurrencia: NO EJECUTADOS
-- Tests fallidos/omitidos: PENDIENTE
-- Bugs encontrados y fixes: PENDIENTE
-- Divergencias respecto al plan: PENDIENTE
-- Decisiones técnicas y ADR: PENDIENTE
-- Problemas de integración: PENDIENTE
-- Riesgos residuales: PENDIENTE
-- Evidencia (comando, entorno, SHA, expected/actual, logs sanitizados): PENDIENTE
-- Gate: BLOCKED hasta pruebas y aprobación
-- Recomendaciones siguiente campaña: PENDIENTE
+- Fecha: 2026-11-16
+- SHA inicial: `a523354` · SHA final: `0010afd`
+- Patchsets: PS01.1 lectura de `policy.py` y rutas · PS01.2 contrato v1 del manifiesto · PS02.1 módulo y CLI · PS02.2 pruebas contra openapi · PS03.1 suite · PS03.2 reporte.
 
-No marcar PASS sin ejecutar ni fusionar a main sin autorización.
+## Implementación
+- Nuevo: `agntia_gestoria/capabilities.py`. Deriva el manifiesto de `policy.ALL`, con `kind` (read/propose/human), `mutates`, roles, proveedor, exigencia de aprobación humana y rutas HTTP declaradas. Falla si el manifiesto y la política divergen.
+- CLI: `python -m agntia_gestoria.capabilities`.
+- Nuevo: `tests/test_capability_manifest.py` — 9 pruebas.
+- Sin ruta HTTP nueva: añadirla habría cambiado el inventario congelado de `app.py`.
+
+## Tests ejecutados
+- `pytest tests/test_capability_manifest.py -q` → 9 passed.
+- Contraste con `app.openapi()`: toda ruta declarada existe con su método (60 rutas reales).
+- Reglas verificadas: ninguna lectura muta; ninguna lectura usa método distinto de GET; las capacidades humanas exigen owner/reviewer; totales cuadran con la política; el manifiesto no contiene secretos.
+
+- Entorno: contenedor Linux, Python 3.12.3, Node v26.13.0, FastAPI 0.163.1, sin Docker ni Odoo real.
+- Baseline de referencia: `python scripts/verify_baseline.py` → PASS (43 ficheros congelados, 45 rutas).
+- Suites: `python -m pytest -q`, `python -m unittest discover -s tests`, `node --test integrations/agente/tests/*.test.mjs`, `tsc --noEmit`.
+
+## Bugs y fixes
+- Drift policy↔manifiesto convertido en excepción con prueba (`ghost.capability`).
+
+## Divergencias
+- El plan pedía una prueba «contra rutas reales» con endpoint propio; se resuelve contra `openapi()` sin tocar `app.py`, que es fichero congelado.
+
+## Rollback
+Revertir `0010afd`; el manifiesto es de solo lectura y no persiste nada.
+
+## Gate
+PASS local: manifiesto v1 verificable contra el servicio real. No declara cumplimiento de producto.

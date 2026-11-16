@@ -1,23 +1,27 @@
 # C05 — Execution Report
 
-**Estado: NO EJECUTADO.**
+**Estado: EJECUTADO (local). Gate PASS para el contrato de errores del consumidor.**
 
-- Fecha: PENDIENTE
-- Rama de implementación: PENDIENTE
-- SHA inicial: PENDIENTE
-- SHA final: PENDIENTE
-- Patchsets PS01.1, PS01.2, PS02.1, PS02.2, PS03.1, PS03.2: NO EJECUTADOS
-- Archivos creados/modificados: PENDIENTE
-- Dependencias nuevas y licencias: PENDIENTE
-- Tests unitarios/integración/E2E/seguridad/concurrencia: NO EJECUTADOS
-- Tests fallidos/omitidos: PENDIENTE
-- Bugs encontrados y fixes: PENDIENTE
-- Divergencias respecto al plan: PENDIENTE
-- Decisiones técnicas y ADR: PENDIENTE
-- Problemas de integración: PENDIENTE
-- Riesgos residuales: PENDIENTE
-- Evidencia (comando, entorno, SHA, expected/actual, logs sanitizados): PENDIENTE
-- Gate: BLOCKED hasta pruebas y aprobación
-- Recomendaciones siguiente campaña: PENDIENTE
+- Fecha: 2026-11-16
+- SHA inicial: `a523354` · SHA final: `ac8746d`
+- Patchsets: PS01.1 inventario de formas de error · PS01.2 contrato de parseo · PS02.1 implementación · PS02.2 pruebas por estado · PS03.1 ejecución · PS03.2 reporte.
 
-No marcar PASS sin ejecutar ni fusionar a main sin autorización.
+## Bug encontrado y corregido
+El cliente leía `body.detail` como si siempre fuese `{code,message}`. En las rutas de integración el error es `{code,message}` en la raíz, así que el código se perdía y quedaba `http_error`. Además `JSON.parse` se ejecutaba sin protección: una respuesta HTML de un 500 lanzaba `SyntaxError` en lugar de un error tipado.
+
+## Implementación
+- `parseFailure(status, body, statusText)`: acepta `{code,message}`, `{detail:{code,message}}`, `{detail:"texto"}`, la lista de validación de FastAPI y cuerpos no JSON, con código por estado como último recurso.
+- El cuerpo no JSON nunca se propaga: no se filtra HTML ni trazas.
+- `defaultStatusCode` centraliza la traducción 401/403/404/409/422/424/429/503.
+- Nuevo: `integrations/agente/tests/contracts.test.mjs` — 10 pruebas con `fetchImpl` inyectado.
+
+## Tests ejecutados
+- `node --test integrations/agente/tests/*.test.mjs` → 17 passed (7 de C04 + 10 de C05).
+- Casos cubiertos: 401, 403, 404, 409, 422, 503 y cuerpo vacío.
+- La credencial no aparece en mensaje ni en traza; la cabecera `Authorization` se envía correctamente.
+
+## Divergencia registrada
+`typescript/index.ts` (SDK del repositorio) está en el inventario congelado y conserva `result.detail ?? result` y `response.json()` sin protección. No se modifica sin política de fuente aprobada y ADR; el endurecimiento se aplica al conector de Agente, que es el consumidor de producción. Queda como candidato P1 con su propio patchset.
+
+## Rollback
+Revertir `ac8746d`. Sin estado.
