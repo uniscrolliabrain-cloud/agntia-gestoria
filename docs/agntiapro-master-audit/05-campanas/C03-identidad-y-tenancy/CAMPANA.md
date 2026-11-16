@@ -31,3 +31,7 @@ Unit: invariantes de dominio y formatos; integración: persistencia y API; E2E: 
 
 ## EXECUTION-REPORT — plantilla sin ejecutar
 Fecha: PENDIENTE; rama: PENDIENTE; SHA inicial/final: PENDIENTE; patchsets: NO EJECUTADOS; archivos: PENDIENTE; tests PASS/FAIL/SKIP: PENDIENTE; bugs/fixes: PENDIENTE; divergencias: PENDIENTE; dependencias: PENDIENTE; riesgos: PENDIENTE; integración: NO VERIFICADA; handoff: PENDIENTE.
+
+
+## Addendum P2 — PS03.AUTH
+**PRE:** inspect `agntia_gestoria/auth.py`, `sessions.py`, `integrations/agente/src/index.ts`, existing auth tests. **OP:** introduce separate service-principal authentication adapter (proposed new `agntia_gestoria/integrations/agente_auth.py`) with audience/issuer/expiry/revocation, mapping tenant+actor to company server-side; retain legacy sessions behind flag. Never accept self-declared tenant in request. **TEST:** 401 missing/expired/wrong audience, 404 cross-tenant, agent cannot impersonate reviewer, local-owner flag disabled in non-test. **GATE:** zero cross-tenant. **ROLLBACK:** disable delegated-auth flag and preserve session schema.
