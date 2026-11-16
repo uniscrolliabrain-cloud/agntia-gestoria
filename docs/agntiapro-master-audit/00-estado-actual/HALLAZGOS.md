@@ -1,0 +1,5 @@
+# Hallazgos y procedencia
+
+REUTILIZAR: FastAPI, SDK TS, motores 303/130 acotados, evidencia, Odoo bridge y tests según README/PR #15. REFORZAR: bindings de tenant, SSRF, secretos, approval, recuperación, feed y observabilidad. LEGACY TEMPORAL: interfaces pre-V2 y parches archivados. NO FUSIONAR: linaje alternativo C04-C06 con tablas odoo_connections frente a provider_connections. NO CERTIFICADO: Odoo real, presentación fiscal, banca, nómina productiva. Matriz: Odoo bridge main=presente PR #4; rama alternativa feat/odoo-c04-contracts archivada; acción reforzar sin sustituir. RRHH main=integrado PR #15; auth/storage alternativo archivado; acción preservar semántica actual y probar. Fuente docs/archive/branches/README.md.
+
+**Estado:** planificación basada en evidencia documental; no certificación de ejecución.
