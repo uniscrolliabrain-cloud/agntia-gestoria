@@ -1,0 +1,5 @@
+# Matriz interrepositorio
+
+Agente consume gestoria.capability.v1 y publica actor/policy/approval; Gestoría consume Agente authz/approval verificados, sin importar internals. Odoo produce datos ERP, Gestoría importa unverified y propone escrituras draft; eventos gestoria.job.* y gestoria.record.changed propuestos. Finanzas/banca produce transacciones read-only con consentimiento; RRHH produce eventos laborales sujetos a revisión; Documentos aporta referencias de evidencia; Ciberseguridad puede consumir telemetría sanitizada. Versiones definitivas y contratos de otros 13 repos NO APROBADOS. Adaptadores frontera y contract tests sintéticos; bloqueos: mapeo tenant, idempotencia, schema registry y permisos.
+
+**Estado:** planificación basada en evidencia documental; no certificación de ejecución.

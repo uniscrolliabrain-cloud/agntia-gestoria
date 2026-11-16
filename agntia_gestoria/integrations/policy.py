@@ -15,6 +15,16 @@ def enabled():return os.getenv('ODOO_ADAPTER_ENABLED','false').lower()=='true'
 def authorize(actor,cid,tenant,capability):
     if not enabled():reject('disabled','El adaptador Odoo está desactivado',424)
     company_access(actor,cid)
+    # Principal delegado por Agente: la autoridad viene de la aserción ya
+    # verificada (firma, vigencia, audiencia), nunca de un token local ni del
+    # cuerpo de la petición. No puede ostentar el rol owner.
+    if getattr(actor,'tenant',None):
+        if capability not in ALL:reject('forbidden','Capacidad desconocida',403)
+        if capability not in actor.capabilities:reject('forbidden','La delegación no incluye esta capacidad',403)
+        if tenant!=actor.tenant or cid not in actor.companies:reject('not_found','Recurso no encontrado',404)
+        if capability in HUMAN:require_role(actor,'owner','reviewer')
+        elif capability in PROPOSE:require_role(actor,'owner','reviewer','agent')
+        return
     configured=actors()
     if configured:
         matches=[a for _,a in configured if a.id==actor.id]
@@ -36,6 +46,7 @@ def authorize(actor,cid,tenant,capability):
 
 def tenant_for(actor,cid):
     company_access(actor,cid)
+    if getattr(actor,'tenant',None):return actor.tenant
     if os.getenv('ODOO_IDENTITY_MODE','standalone')=='standalone':return 'standalone:'+cid
     scope=json.loads(os.getenv('ODOO_ACTOR_SCOPES_JSON','{}')).get(actor.id,{})
     if cid not in scope.get('companies',[]) or not scope.get('tenant_id'):reject('not_found','Recurso no encontrado',404)
