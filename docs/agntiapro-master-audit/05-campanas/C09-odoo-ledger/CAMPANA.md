@@ -31,3 +31,7 @@ Unit: invariantes de dominio y formatos; integración: persistencia y API; E2E: 
 
 ## EXECUTION-REPORT — plantilla sin ejecutar
 Fecha: PENDIENTE; rama: PENDIENTE; SHA inicial/final: PENDIENTE; patchsets: NO EJECUTADOS; archivos: PENDIENTE; tests PASS/FAIL/SKIP: PENDIENTE; bugs/fixes: PENDIENTE; divergencias: PENDIENTE; dependencias: PENDIENTE; riesgos: PENDIENTE; integración: NO VERIFICADA; handoff: PENDIENTE.
+
+
+## Addendum P2 — PS09.UNKNOWN-COMMIT
+**PRE:** read `infra/odoo/addons/agntia_bridge/models/bridge.py`, `agntia_gestoria/integrations/odoo/transport.py`, `jobs.py`. **OP:** inspect `execute_approved` ledger transaction and remote operation status, enforce same operation key+hash, different hash conflict; unknown remote commit must enter reconcile. **TEST:** injected network drop before/after commit, concurrent duplicate requests, worker restart and status query. **GATE:** one remote effect for same key, no automatic retry on ambiguous write. **ROLLBACK:** disable writes, reconcile pending; never delete ledger.
