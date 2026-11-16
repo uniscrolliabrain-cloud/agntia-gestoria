@@ -31,3 +31,7 @@ Unit: invariantes de dominio y formatos; integración: persistencia y API; E2E: 
 
 ## EXECUTION-REPORT — plantilla sin ejecutar
 Fecha: PENDIENTE; rama: PENDIENTE; SHA inicial/final: PENDIENTE; patchsets: NO EJECUTADOS; archivos: PENDIENTE; tests PASS/FAIL/SKIP: PENDIENTE; bugs/fixes: PENDIENTE; divergencias: PENDIENTE; dependencias: PENDIENTE; riesgos: PENDIENTE; integración: NO VERIFICADA; handoff: PENDIENTE.
+
+
+## Addendum P2 — PS04.CATALOG
+**PRE:** inspect exact `integrations/agente/src/index.ts` and its consumers. **OP:** `readOnlyTools` currently contains `rrhh.closure.prepare` with `mutates:true`. Separate `readOnlyTools` from `proposalTools`; make readOnly catalog type reject mutates:true; keep `humanOnly` separate. Check whether `rrhh.closure.prepare` writes persistent data and require authz accordingly. **TEST:** TS test asserting `readOnlyTools(client).every(t=>t.mutates===false)`, agent role cannot approve/export, registry rejects mutation when read-only permission. **GATE:** no mutation in read-only catalog; policy unit/integration PASS. **ROLLBACK:** retain old registry behind flag only in test, never bypass server authorization.
