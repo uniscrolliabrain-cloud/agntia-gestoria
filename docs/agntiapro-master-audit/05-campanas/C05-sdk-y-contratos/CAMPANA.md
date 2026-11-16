@@ -31,3 +31,7 @@ Unit: invariantes de dominio y formatos; integración: persistencia y API; E2E: 
 
 ## EXECUTION-REPORT — plantilla sin ejecutar
 Fecha: PENDIENTE; rama: PENDIENTE; SHA inicial/final: PENDIENTE; patchsets: NO EJECUTADOS; archivos: PENDIENTE; tests PASS/FAIL/SKIP: PENDIENTE; bugs/fixes: PENDIENTE; divergencias: PENDIENTE; dependencias: PENDIENTE; riesgos: PENDIENTE; integración: NO VERIFICADA; handoff: PENDIENTE.
+
+
+## Addendum P2 — PS05.ERROR-CONTRACT
+**PRE:** read `integrations/agente/src/index.ts` and `agntia_gestoria/integrations/odoo/routes.py`. **OP:** SDK currently extracts `body.detail.code/message`; Odoo integration errors use top-level `code/message`. Define canonical error envelope with schemaVersion and correlationId, parse both shapes during migration, avoid returning secrets or raw provider errors. Validate companyId path segments (encode and enforce safe ID format) before interpolation. **TEST:** 401/403/404/409/422/429/503 and malformed JSON, timeouts, errors without detail; assert stable error.code. **GATE:** no error code loss and no URL path injection. **ROLLBACK:** additive parser supports legacy shape.
