@@ -1,0 +1,5 @@
+# Contrato Gestoría v1 propuesto
+
+POST /v1/capabilities/{capabilityId}/jobs con Authorization mTLS/service token verificable por gateway y contexto de actor firmado/canjeado en backend, no confiar en tenantId cliente. Request schema: {schemaVersion:'1',tenantId,companyId,actorId,capabilityId,correlationId,causationId,idempotencyKey,approvalRef?,payload}. Response {jobId,status:'accepted|running|blocked|completed|failed|reconcile',evidenceRefs:[],revision,error?}. Agente autentica actor, valida policy y approval; Gestoría verifica identidad de servicio, binding tenant/company y permisos de dominio. 409 por idempotencyKey repetida con distinto hash. Unknown external commit => reconcile sin retry ciego. Evento {eventId,schemaVersion,type,source,tenantId,companyId,correlationId,causationId,sequence,occurredAt,evidenceRefs}; feed cursor por secuencia por empresa, outbox transaccional. Timeout por capacidad medido; retries acotados solo idempotentes; revoke token/approval; health live y ready; métricas y logs redactados. Este contrato es PROPUESTA, no endpoint existente.
+
+**Estado:** planificación basada en evidencia documental; no certificación de ejecución.
