@@ -1,4 +1,4 @@
-# HANDOFF MAESTRO PARA CODEX EN WINDOWS / POWERSHELL
+legacy. este archivo ya no aplica. # HANDOFF MAESTRO PARA CODEX EN WINDOWS / POWERSHELL
 
 **Proyecto:** Agntia Gestoría × Odoo Community × futura AgntiaPro  
 **Propietario GitHub:** `uniscrolliabrain-cloud`  
