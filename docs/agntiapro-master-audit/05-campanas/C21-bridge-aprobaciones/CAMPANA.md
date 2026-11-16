@@ -22,3 +22,7 @@ PS03.2: documentar SHA inicial/final, archivos, tests PASS/FAIL/SKIP, bugs/fixes
 
 ## Execution report
 Fecha PENDIENTE; rama PENDIENTE; SHAs PENDIENTE; patchsets NO EJECUTADOS; pruebas NO EJECUTADAS; bugs y decisiones PENDIENTES; rollback NO ENSAYADO.
+
+
+## Addendum P2 — PS21.APPROVAL
+**PRE:** inspect `agntia_gestoria/integrations/odoo/routes.py` approve/commit and `bridge.py` HMAC. **OP:** adapt Agente's signed approval to existing Gestoría proposal hash and Odoo bridge authorization; verify actor, role, tenant, company, payload hash, expiry, revocation and one-time use. **TEST:** altered proposal hash, replay, expired/revoked approval, agent impersonation, wrong company, duplicate operation. **GATE:** no remote effect without fresh valid human approval. **ROLLBACK:** disable commit capability; retain proposals and ledger for reconciliation.
