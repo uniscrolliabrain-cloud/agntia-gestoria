@@ -11,6 +11,7 @@ from ...models import Model
 from ...storage import canonical,digest,identifier,now
 from ...tax import TaxRecord
 from .. import policy
+from ..delegation import principal_from_request
 from ..contracts import ConnectionCreate,BindingValidation,Revision,PreviewRequest,ImportRequest,PartnerChange,DraftInvoiceRequest,ApprovalRequest,CommitRequest,Opaque,HexId
 from ..errors import IntegrationError,reject
 from ..migrations import migrate
@@ -54,9 +55,14 @@ class Classification(Model):
     issued_evidence_confirmed:bool=False
 
 
+def principal(request:Request):
+    """Identidad efectiva: aserción de Agente verificada o token local."""
+    return principal_from_request(request)
+
+
 def audit_failed_attempt(request,code,correlation_id):
     try:
-        actor=authenticate(request);cid=request.path_params.get('cid','');company_access(actor,cid);identifier(cid)
+        actor=principal_from_request(request);cid=request.path_params.get('cid','');company_access(actor,cid);identifier(cid)
         db=request.app.state.db
         with db.transaction() as c:
             db.company(c,cid);db.audit(c,cid,actor,'integration.attempt.failed',cid,{'code':code,'correlation_id':correlation_id})
@@ -98,57 +104,57 @@ def register_odoo_routes(app,db):
         # Record denied/failing mutation attempts without storing URL parameters or body/credentials.
         if request.method in ('POST','PUT','DELETE'):
             try:
-                actor=authenticate(request);cid=request.path_params.get('cid','');company_access(actor,cid);identifier(cid)
+                actor=principal_from_request(request);cid=request.path_params.get('cid','');company_access(actor,cid);identifier(cid)
                 with db.transaction() as c:
                     db.company(c,cid);db.audit(c,cid,actor,'integration.attempt.failed',cid,{'code':exc.code,'correlation_id':corr})
             except Exception:pass
         return JSONResponse(exc.public(corr),status_code=exc.status)
 
     @router.post('/connections')
-    def connect(cid:str,body:ConnectionCreate,request:Request,actor:Actor=Depends(authenticate)):return service(request).create_connection(actor,cid,body,correlation(request))
+    def connect(cid:str,body:ConnectionCreate,request:Request,actor:Actor=Depends(principal)):return service(request).create_connection(actor,cid,body,correlation(request))
     @router.post('/connections/validate')
-    def validate(cid:str,body:BindingValidation,request:Request,actor:Actor=Depends(authenticate)):return service(request).validate(actor,cid,body,correlation(request))
+    def validate(cid:str,body:BindingValidation,request:Request,actor:Actor=Depends(principal)):return service(request).validate(actor,cid,body,correlation(request))
     @router.post('/connections/disable')
-    def disable(cid:str,body:Revision,request:Request,actor:Actor=Depends(authenticate)):return service(request).disable(actor,cid,body.revision,correlation(request))
+    def disable(cid:str,body:Revision,request:Request,actor:Actor=Depends(principal)):return service(request).disable(actor,cid,body.revision,correlation(request))
     @router.get('/health')
     @router.get('/capabilities')
-    def health(cid:str,request:Request,actor:Actor=Depends(authenticate)):return service(request).capabilities(actor,cid)
+    def health(cid:str,request:Request,actor:Actor=Depends(principal)):return service(request).capabilities(actor,cid)
     @router.post('/imports/preview',status_code=202)
-    def preview(cid:str,body:PreviewJob,request:Request,actor:Actor=Depends(authenticate)):return service(request).enqueue(actor,cid,'preview',body.model_dump(mode='json',exclude={'idempotency_key'}),body.idempotency_key,correlation(request))
+    def preview(cid:str,body:PreviewJob,request:Request,actor:Actor=Depends(principal)):return service(request).enqueue(actor,cid,'preview',body.model_dump(mode='json',exclude={'idempotency_key'}),body.idempotency_key,correlation(request))
     @router.post('/imports',status_code=202)
-    def import_data(cid:str,body:ImportRequest,request:Request,actor:Actor=Depends(authenticate)):return service(request).enqueue(actor,cid,'import',{'staging_ids':body.staging_ids},body.idempotency_key,correlation(request))
+    def import_data(cid:str,body:ImportRequest,request:Request,actor:Actor=Depends(principal)):return service(request).enqueue(actor,cid,'import',{'staging_ids':body.staging_ids},body.idempotency_key,correlation(request))
     @router.get('/jobs/{job_id}')
-    def job(cid:str,job_id:str,request:Request,actor:Actor=Depends(authenticate)):return service(request).job(actor,cid,job_id)
+    def job(cid:str,job_id:str,request:Request,actor:Actor=Depends(principal)):return service(request).job(actor,cid,job_id)
     @router.get('/staging')
-    def stages(cid:str,request:Request,actor:Actor=Depends(authenticate)):return service(request).list_scoped(actor,cid,'integration_staging','imports.run')
+    def stages(cid:str,request:Request,actor:Actor=Depends(principal)):return service(request).list_scoped(actor,cid,'integration_staging','imports.run')
     @router.get('/conflicts')
-    def conflicts(cid:str,request:Request,actor:Actor=Depends(authenticate)):return service(request).list_scoped(actor,cid,'integration_conflicts','conflicts.read')
+    def conflicts(cid:str,request:Request,actor:Actor=Depends(principal)):return service(request).list_scoped(actor,cid,'integration_conflicts','conflicts.read')
     @router.post('/conflicts/{conflict_id}/resolve')
-    def resolve(cid:str,conflict_id:str,body:Resolution,request:Request,actor:Actor=Depends(authenticate)):return service(request).resolve_conflict(actor,cid,conflict_id,body.revision,body.decision,body.notes,correlation(request))
+    def resolve(cid:str,conflict_id:str,body:Resolution,request:Request,actor:Actor=Depends(principal)):return service(request).resolve_conflict(actor,cid,conflict_id,body.revision,body.decision,body.notes,correlation(request))
     @router.get('/invoice-drafts/{draft_id}/projection-input')
-    def projection(cid:str,draft_id:str,request:Request,actor:Actor=Depends(authenticate)):return service(request).projection_input(actor,cid,draft_id)
+    def projection(cid:str,draft_id:str,request:Request,actor:Actor=Depends(principal)):return service(request).projection_input(actor,cid,draft_id)
     @router.post('/partners/dry-run')
-    def partner(cid:str,body:PartnerChange,request:Request,actor:Actor=Depends(authenticate)):return service(request).propose_partner(actor,cid,body,correlation(request))
+    def partner(cid:str,body:PartnerChange,request:Request,actor:Actor=Depends(principal)):return service(request).propose_partner(actor,cid,body,correlation(request))
     @router.post('/invoice-drafts/dry-run')
-    def invoice(cid:str,body:DraftInvoiceRequest,request:Request,actor:Actor=Depends(authenticate)):return service(request).propose_invoice(actor,cid,body,correlation(request))
+    def invoice(cid:str,body:DraftInvoiceRequest,request:Request,actor:Actor=Depends(principal)):return service(request).propose_invoice(actor,cid,body,correlation(request))
     @router.post('/proposals/{proposal_id}/approve')
-    def approve(cid:str,proposal_id:str,body:ApprovalRequest,request:Request,actor:Actor=Depends(authenticate)):return service(request).approve(actor,cid,proposal_id,body,correlation(request))
+    def approve(cid:str,proposal_id:str,body:ApprovalRequest,request:Request,actor:Actor=Depends(principal)):return service(request).approve(actor,cid,proposal_id,body,correlation(request))
     @router.post('/partners/commit')
     @router.post('/invoice-drafts/commit')
-    def commit(cid:str,body:CommitRequest,request:Request,actor:Actor=Depends(authenticate)):
+    def commit(cid:str,body:CommitRequest,request:Request,actor:Actor=Depends(principal)):
         adapter=service(request);connection,_=adapter.scope(actor,cid,'writes.commit')
         with db.connection() as c:proposal=adapter._get_proposal(c,cid,connection['id'],body.proposal_id)
         expected='partner' if request.url.path.endswith('/partners/commit') else 'invoice_draft'
         if proposal['payload']['kind']!=expected:reject('validation','Tipo de propuesta incompatible con la capacidad',422)
         return adapter.commit_write(actor,cid,body,correlation(request))
     @router.post('/writes/reconcile')
-    def reconcile(cid:str,body:ReconcileRequest,request:Request,actor:Actor=Depends(authenticate)):return service(request).reconcile_write(actor,cid,body.idempotency_key,correlation(request))
+    def reconcile(cid:str,body:ReconcileRequest,request:Request,actor:Actor=Depends(principal)):return service(request).reconcile_write(actor,cid,body.idempotency_key,correlation(request))
     @router.get('/invoices/{invoice_id}/attachments')
-    def attachments(cid:str,invoice_id:int,request:Request,actor:Actor=Depends(authenticate)):return service(request).attachment_metadata(actor,cid,invoice_id)
+    def attachments(cid:str,invoice_id:int,request:Request,actor:Actor=Depends(principal)):return service(request).attachment_metadata(actor,cid,invoice_id)
     @router.post('/invoices/{invoice_id}/attachments/download')
-    def download(cid:str,invoice_id:int,body:DocumentDownload,request:Request,actor:Actor=Depends(authenticate)):return service(request).download_attachment(actor,cid,invoice_id,body.attachment_id,correlation(request))
+    def download(cid:str,invoice_id:int,body:DocumentDownload,request:Request,actor:Actor=Depends(principal)):return service(request).download_attachment(actor,cid,invoice_id,body.attachment_id,correlation(request))
     @router.post('/records/{record_id}/classification')
-    def classify(cid:str,record_id:str,body:Classification,request:Request,actor:Actor=Depends(authenticate)):
+    def classify(cid:str,record_id:str,body:Classification,request:Request,actor:Actor=Depends(principal)):
         adapter=service(request);connection,_=adapter.scope(actor,cid,'records.classify')
         with db.transaction() as c:
             record=db.get(c,cid,record_id,'tax_record')
@@ -164,15 +170,15 @@ def register_odoo_routes(app,db):
             db.put(c,cid,'tax_record',record);db.audit(c,cid,actor,'integration.record.classified',record_id,record)
         return record
     @router.get('/audit-integrity')
-    def integrity(cid:str,request:Request,actor:Actor=Depends(authenticate)):return service(request).audit_integrity(actor,cid)
+    def integrity(cid:str,request:Request,actor:Actor=Depends(principal)):return service(request).audit_integrity(actor,cid)
     @router.get('/metrics')
-    def metrics(cid:str,request:Request,actor:Actor=Depends(authenticate)):return service(request).metrics(actor,cid)
+    def metrics(cid:str,request:Request,actor:Actor=Depends(principal)):return service(request).metrics(actor,cid)
     @router.get('/events')
-    def events(cid:str,request:Request,actor:Actor=Depends(authenticate)):
+    def events(cid:str,request:Request,actor:Actor=Depends(principal)):
         adapter=service(request);connection,_=adapter.scope(actor,cid,'events.read',ready=False)
         with db.connection() as c:return [json.loads(row['body']) for row in c.execute("SELECT body FROM integration_outbox WHERE company_id=? AND connection_id=? AND state='pending' ORDER BY rowid LIMIT 500",(cid,connection['id']))]
     @router.post('/events/ack')
-    def acknowledge(cid:str,body:Acknowledge,request:Request,actor:Actor=Depends(authenticate)):
+    def acknowledge(cid:str,body:Acknowledge,request:Request,actor:Actor=Depends(principal)):
         adapter=service(request);connection,_=adapter.scope(actor,cid,'events.ack',ready=False)
         from ...storage import uid
         with db.transaction() as c:
@@ -185,7 +191,7 @@ def register_odoo_routes(app,db):
                 c.execute('UPDATE integration_outbox SET state=? WHERE id=?',('delivered',eid));db.audit(c,cid,actor,'integration.event.acked',eid,ack)
         return {'acknowledged':len(body.event_ids)}
     @router.get('/briefing')
-    def briefing(cid:str,request:Request,actor:Actor=Depends(authenticate)):
+    def briefing(cid:str,request:Request,actor:Actor=Depends(principal)):
         adapter=service(request);connection,_=adapter.scope(actor,cid,'health',ready=False)
         with db.connection() as c:
             conflicts=c.execute("SELECT count(*) FROM integration_conflicts WHERE company_id=? AND state='open'",(cid,)).fetchone()[0]
