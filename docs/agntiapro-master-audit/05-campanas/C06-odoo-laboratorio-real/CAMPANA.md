@@ -31,3 +31,7 @@ Unit: invariantes de dominio y formatos; integración: persistencia y API; E2E: 
 
 ## EXECUTION-REPORT — plantilla sin ejecutar
 Fecha: PENDIENTE; rama: PENDIENTE; SHA inicial/final: PENDIENTE; patchsets: NO EJECUTADOS; archivos: PENDIENTE; tests PASS/FAIL/SKIP: PENDIENTE; bugs/fixes: PENDIENTE; divergencias: PENDIENTE; dependencias: PENDIENTE; riesgos: PENDIENTE; integración: NO VERIFICADA; handoff: PENDIENTE.
+
+
+## Addendum P2 — PS06.LIVE
+**PRE:** inspect `infra/odoo/lab.sh`, `compose.standalone-lab.yaml`, `infra/odoo/README.md`. **OP:** run standalone lab separately from bridge lab; provision two synthetic databases, module matrix with/without account, verify version and ACL; capture container image digest and addon SHA. **TEST:** `bash -n infra/odoo/lab.sh`, `docker compose -f infra/odoo/compose.standalone-lab.yaml config`, actual smoke.py with documented environment. **GATE:** real Odoo/PG tests PASS, not mocked. **ROLLBACK:** stop synthetic lab, preserve sanitized logs and backup.
