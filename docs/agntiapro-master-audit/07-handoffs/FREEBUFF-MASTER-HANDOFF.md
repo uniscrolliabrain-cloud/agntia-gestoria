@@ -1,0 +1,5 @@
+# Handoff Freebuff
+
+Clonar repo, fetch origin docs/master-audit-campaigns-20261116, checkout rama documental, registrar SHA, crear feat/gestoria-C00 y seguir C00–C23. Para cada campaña: leer CAMPANA.md, inspeccionar rutas, ejecutar PS01.1/01.2/02.1/02.2/03.1/03.2, registrar execution report con fecha, rama, SHAs, archivos, tests, fallos, bugs, fixes, divergencias, dependencias, decisiones, riesgos y próximo handoff. Un commit por patchset o bloque atómico; PR revisable; NO merge main, NO deploy, NO presentación fiscal, NO pagos. Si Docker falta, marcar BLOCKED y continuar campañas independientes; no falsificar resultados. Feature flags OFF por defecto. Pedir fundador solo secretos/proveedores/aprobación final.
+
+**Estado:** planificación basada en evidencia documental; no certificación de ejecución.
